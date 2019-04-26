@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col text-center">
+<button type="button" class="btn btn-primary" (click)="openCreateUser()">Mitglied/Gast erstellen</button>
+</div>
+</div>
+<div class="row">
+<div class="col text-center">
+  <h1>Mitglieder</h1>
+</div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Vorname</th>
+      <th scope="col">Nachname</th>
+      <th scope="col">Anschrift</th>
+      <th scope="col">Telefon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let member of memberList">
+      <th>{{member.firstname}}</th>
+      <td>{{member.lastname}}</td>
+      <td>{{member.street}} {{member.housenumber}} {{member.city}} {{member.postcode}}</td>
+      <td>{{member.phone}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row">
+<div class="col text-center">
+  <h1>Gäste</h1>
+</div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Vorname</th>
+      <th scope="col">Nachname</th>
+      <th scope="col">Anschrift</th>
+      <th scope="col">Telefon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let guest of guestList">
+      <th>{{guest.firstname}}</th>
+      <td>{{guest.lastname}}</td>
+      <td>{{guest.street}} {{guest.housenumber}} {{guest.city}} {{guest.postcode}}</td>
+      <td>{{guest.phone}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="form-group">
+  <input type="file" (change)="changeListener($event)">
+</div>
