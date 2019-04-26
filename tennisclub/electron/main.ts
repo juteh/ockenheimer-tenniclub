@@ -15,7 +15,7 @@ app.on('activate', () => {
 
 function createWindow() {
   win = new BrowserWindow(
-      {width: 800, height: 600, webPreferences: {nodeIntegration: true}});
+      {width: 1280, height: 800, webPreferences: {nodeIntegration: true}});
 
   win.loadURL(url.format({
     pathname: path.join(__dirname, `/../../dist/angular-electron/index.html`),
@@ -36,7 +36,7 @@ ipcMain.on('getFiles', (event, arg) => {
 });
 
 ipcMain.on('getFile', (event, path: string) => {
-  fs.readFile(__dirname + path, function(err, data) {
+  fs.readFile(__dirname + path, 'utf8', function(err, data) {
     if (err) {
       win.webContents.send('getFileResponse', err);
     }
@@ -52,3 +52,5 @@ ipcMain.on('updateFile', (event, path: string, fileText: string) => {
     win.webContents.send('updateFileResponse', 'Failed to save the file !');
   }
 });
+
+

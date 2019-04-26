@@ -1,0 +1,167 @@
+1,,ATC,,,,,,,,,,Ok
+2,,"Barnewold,Jürgen",Povegliarostr.3,55437 Ockenheim,11.01.1952,067251654,01.04.1995,………………………………………………………………,Passiv,67,23,Ok
+3,,"Augustin,Dietmar",Im Schneebäcker 1,55471 Keidelheim,23.02.1964,,07.03.2017,männlich,Aktiv,54,01,Ok
+4,,"Barth,Thomas",Gaulsheimerstr.21a,55437 Ockenheim,20.01.1973,067254800,01.10.1992,männlich,Aktiv,46,26,Ok
+5,,"Becker,Julian",Steckerweg 5,55437 Horrweiler,14.03.1992,,01.05.2014,männlich,,,,Ok
+6,,"Bellenbaum,Alois",Mainzerstr.88a,55437 Ockenheim,11.06.1953,067253906,01.08.1992,männlich,Aktiv,65,26,Ok
+7,,"Bellenbaum,Annique",Hindenburgstr.35,55270 Bubenheim,24.03.2002,06130918930,01.11.2010,weiblich,Aktiv,16,08,Ok
+8,,"Bellenbaum,Janis",Hindenburgstr.35,55270 Bubenheim,26.07.1996,06130918930,01.01.2001,männlich,Aktiv,22,18,Ok
+9,,"Bellenbaum,Jessica",Friedlandstr. 10,55437 Ockenheim,12.05.1984,,23.04.2007,weiblich,Aktiv,34,11,Ok
+10,,"Bellenbaum,Julian",Hindenburgstr.35,55270 Bubenheim,22.06.1995,06130918930,01.01.2001,männlich,Aktiv,23,18,Ok
+11,,"Bellenbaum,Karsten",Friedlandstr. 10,55437 Ockenheim,22.05.1973,06725935681,01.08.1992,männlich,Aktiv,45,26,Ok
+12,,"Bellenbaum,Oscar",Friedlandstr. 10a,55437 Ockenheim,30.03.2013,,30.03.2013,männlich,Aktiv,05,05,Ok
+13,,"Bellenbaum,Roswita",Mainzerstr.88a,55437 Ockenheim,12.06.1954,067253906,01.09.1992,weiblich,Aktiv,64,26,Ok
+14,,"Bellenbaum,Stephanie",Friedlandstr. 10a,55437 Ockenheim,21.09.1985,06725307672,24.08.2007,weiblich,Aktiv,33,11,Ok
+15,,"Bellenbaum,Sven",Friedlandstr. 10a,55437 Ockenheim,27.05.1974,06725307672,01.09.1992,männlich,Aktiv,44,26,Ok
+16,,"Berfuß,Kevin",Am Riesling 9,55437 Ockenheim,08.12.1997,,26.03.2013,männlich,Aktiv,21,05,Ok
+17,,"Berg,Leonardo",Bahnhofstr.40,55437 Ockenheim,10.04.2002,06725302147,12.05.2011,männlich,Aktiv,16,07,Ok
+18,,"Biller,Frederic",Berlinstraße 8,55411 Bingen,16.03.1988,,11.03.2017,männlich,Aktiv,30,01,Ok
+19,,"Binzel,Anja",Bergstr.74,55437 Ockenheim,15.03.1966,0672595757,01.03.2002,weiblich,Aktiv,52,16,Ok
+20,,"Binzel,Milena",Bergstr. 74,55437 Ockenheim,08.02.1996,0672595757,01.05.2003,weiblich,Aktiv,23,15,Ok
+21,,"Böhle,Lydia",Palmenflecken 22,55437 Ockenheim,19.07.2002,06725302152,22.05.2011,weiblich,Aktiv,16,07,Ok
+22,,"Böhle,Sophia",Palmenflecken 22,55437 Ockenheim,19.07.2000,06725302152,22.05.2011,weiblich,Aktiv,18,07,Ok
+23,,"Bytomski,Christoph",Ortsstraße 30-32,55411 Bingen,07.01.1988,,28.03.2017,männlich,Aktiv,31,01,Ok
+24,,"Claus,Marius",,55437 Ockenheim,,,,männlich,Aktiv,19,19,Ok
+25,,"Crass,Stefan",Poveglianosta.9,55437 Ockenheim,24.10.1960,067254633,01.08.1995,männlich,Passiv,58,23,Ok
+26,,"D`Alpaos,Christine",In der Tiefgewann14,55411 Bingen,25.03.1950,0672117070,01.07.1992,weiblich,Aktiv,68,26,Ok
+27,,"D`Alpaos,Dario",In der Tiefgewann14,55411 Bingen,18.08.1949,0672117070,01.07.1992,männlich,Aktiv,69,26,Ok
+28,,"Decker,Tim",Christopherusweg 15,55437 Ockenheim,06.12.2004,,04.08.2011,männlich,Aktiv,14,07,Ok
+29,,"Decker,Tina",Christopherusweg 15,55437 Ockenheim,,,,weiblich,Aktiv,19,19,Ok
+30,,"Erdmann,Anne",Ernst-Ludwig Str. 66a,55437 Ockenheim,25.05.1997,067256246,14.04.2011,männlich,Aktiv,21,07,Ok
+31,,"Färber,Jonathan",Bergstr. 56,55437 Ockenheim,08.05.1995,06725300119,01.04.2004,männlich,Aktiv,23,14,Ok
+32,,"Färber,Victoria",Bergstr. 56,55437 Ockenheim,13.12.1997,06725300119,01.04.2004,weiblich,Aktiv,21,14,Ok
+33,,"Faust,Mika",Schlesierstr. 6,55437 Ockenheim,30.11.2001,,06.05.2013,männlich,Aktiv,17,05,Ok
+34,,"Fauth,Christiane",,,,,,weiblich,Aktiv,19,19,Ok
+35,,"Feser,Simon",Bahnhofstr. 16,55437 Ockenheim,12.12.1988,,21.07.2012,männlich,Aktiv,30,00,Ok
+36,,"Fischer,Dennis",Im Schießgraben,55411 Bingen,20.06.1987,,26.02.2013,männlich,Aktiv,31,00,Ok
+37,,"Fischer-Reckert,Aletta",Binger Weg 12,55437 Ockenheim,12.09.1961,06725963240,01.07.1992,weiblich,Passiv,57,00,Ok
+38,,"Fleischer,Andreas",Ellenbogenstraße 4a,55124 Mainz,31.12.1982,,11.03.2017,männlich,Aktiv,36,01,Ok
+39,,"Fleischer,Eva",Im Damm 4,55437 Ockenheim,24.10.1991,06725308054,01.01.2003,weiblich,Aktiv,27,16,Ok
+40,,"Fomsgaard,Elias",Am Zollstock 12,55437 Ockenheim,21.03.2004,06725300964,09.04.2011,männlich,Aktiv,14,07,Ok
+41,,"Fomsgaard,Lotte",Am Zollstock 12,55437 Ockenheim,16.04.1971,06725300964,09.04.2011,weiblich,Aktiv,47,07,Ok
+42,,"Fomsgaard,Lucas",Am Zollstock 12,55437 Ockenheim,02.06.2001,06725300964,09.04.2011,männlich,Aktiv,17,07,Ok
+43,,"Fomsgaard,Ole",Am Zollstock 12,55437 Ockenheim,21.07.1970,06725300964,09.04.2011,männlich,Aktiv,48,07,Ok
+44,,"Franz,Evi",Bergstr.21,55437 Ockenheim,13.08.1949,067256366,01.07.1992,weiblich,Aktiv,69,26,Ok
+45,,"Franz,Klaus",Bergstr.21,55437 Ockenheim,08.10.1949,067256366,01.01.1961,männlich,Aktiv,69,58,Ok
+46,,"Frey,Alfons",Mainzerstr.96,55437 Ockenheim,05.02.1948,067254880,01.01.1978,männlich,Aktiv,71,41,Ok
+47,,"Frey,Ursula",Mainzerstr.96,55437 Ockenheim,25.03.1954,067254880,01.07.1992,weiblich,Aktiv,64,26,Ok
+48,,"Fuchs,Yannik",Römerstraße 26c,55437 Ockenheim,24.10.1998,,26.03.2013,männlich,Aktiv,20,05,Ok
+49,,"Furtwängler,Clara",Helmerichstr. 18,55437 Ockenheim,22.10.1996,06725300375,01.09.2007,weiblich,Aktiv,22,11,Ok
+50,,"Furtwängler,Frederic",Helmerichstr. 17,55437 Ockenheim,20.03.1995,06725300375,01.09.2007,männlich,Aktiv,23,11,Ok
+51,,"Gaß,Melissa",,55437 Ockenheim,,,,weiblich,Aktiv,19,19,Ok
+52,,"Göbel,Claudia",Poveglianostr.5,55437 Ockenheim,24.02.1961,067253475,01.08.1995,männlich,Aktiv,57,23,Ok
+53,,"Göbel,Stefan",Poveglianostr.5,55437 Ockenheim,06.10.1961,067253475,01.08.1995,männlich,Aktiv,57,23,Ok
+54,,"Göbel,Yannick",Poveglianostr.5,55437 Ockenheim,13.03.1991,067253475,01.08.1995,männlich,Aktiv,27,23,Ok
+55,,"Grunwald,Felix",Ockenheimer Str. 43,55437 Ockenheim,14.06.1991,067254316,01.01.2004,männlich,Aktiv,27,15,Ok
+56,,"Grunwald,Theresia",Ockenheimer Str. 43,55437 Ockenheim,18.09.1993,067254316,01.01.2004,weiblich,Aktiv,25,15,Ok
+57,,"Gühne,Marianne",Rheinstr.58,55437 Ockenheim,24.12.1946,06725963557,01.08.1997,weiblich,Aktiv,72,21,Ok
+58,,"Gühne,Michael",Rheinstr.58,55437 Ockenheim,26.12.1944,06725963557,01.08.1997,männlich,Aktiv,74,21,Ok
+59,,"Haara,Oliver",Salzgasse 2,55437 Ockenheim,19.01.1969,01708125574,21.07.2008,männlich,Aktiv,50,10,Ok
+60,,"Habig,Fintan",Breiteweg 11,55286 Sulzheim,30.06.1997,,19.02.2013,männlich,Aktiv,21,06,Ok
+61,,"Hassemer,Judith",Grabenstr.36,55437 Ockenheim,19.08.1964,067255022,01.09.1992,weiblich,Aktiv,54,26,Ok
+62,,"Hassemer,Nicolas",Mainzerstr. 39,55437 Ockenheim,02.07.1994,067253325,01.05.1999,männlich,Aktiv,24,19,Ok
+63,,"Hassemer,Philipp",Mainzerstr.39,55437 Ockenheim,29.09.1992,067253325,05.04.2011,männlich,Aktiv,26,07,Ok
+64,,"Hassemer,Thomas",Grabenstr.36,55437 Ockenheim,15.09.1958,067255022,01.01.1966,männlich,Aktiv,60,53,Ok
+65,,"Heinrich-Nols,Jutta",Taunusstr. 7,55437 Ockenheim,27.02.1963,06725300531,01.02.2007,weiblich,Aktiv,55,12,Ok
+66,,"Iserhardt,Rita",Rosenweg. 6,55437 Ockenheim,28.07.1988,067255483,01.08.2000,weiblich,Aktiv,30,18,Ok
+67,,"Iserhardt,Sylvia",Rosenweg. 6,55437 Ockenheim,05.03.1961,067255483,26.03.1997,weiblich,Aktiv,57,21,Ok
+68,,"Kazmiersky,Magdalena",Rheinstr.27,55437 Ockenheim,16.01.1953,067254436,01.10.1994,weiblich,Passiv,66,24,Ok
+69,,"Kübler,Hartmut",Taunusstr.2,55437 Ockenheim,22.07.1954,067252162,01.08.1992,männlich,Aktiv,64,26,Ok
+70,,"Kübler,Jamila",Taunusstr.2,55437 Ockenheim,28.07.1997,067252162,01.05.1999,weiblich,Aktiv,21,19,Ok
+71,,"Kübler,Jessica",Taunusstr.2,55437 Ockenheim,15.05.1993,067252162,01.01.1999,weiblich,Aktiv,25,20,Ok
+72,,"Kübler,Michaela",Taunusstr.2,55437 Ockenheim,01.03.1960,067252162,01.08.1992,weiblich,Aktiv,58,26,Ok
+73,,"Kunz,Detlev",Poveglianostr.4,55437 Ockenheim,09.01.1962,067251074,13.02.2000,männlich,Aktiv,57,19,Ok
+74,,"Kunz,Maximilian",Poveglianostr.4,55437 Ockenheim,14.08.1992,067251074,13.02.2000,männlich,Aktiv,26,19,Ok
+75,,"Kunz,Michelle",Poveglianostr.4,55437 Ockenheim,22.10.1994,067251074,13.02.2000,weiblich,Aktiv,24,19,Ok
+76,,"Kunz,Susanne",Poveglianostr.4,55437 Ockenheim,18.11.1964,067251074,13.02.2000,weiblich,Aktiv,54,19,Ok
+77,,"Kürbis,Louis",Fährstr. 14.a,55424 Münster ,26.03.2001,,30.04.2013,männlich,Aktiv,17,05,Ok
+78,,"Leonard,Joachim",Taunusstr. 7,55437 Ockenheim,28.03.1953,06725300531,01.02.2007,männlich,Aktiv,65,12,Ok
+79,,"Liebelt,Carola",Im Damm 5,55437 Ockenheim,12.05.1948,067253813,01.08.1992,weiblich,Aktiv,08,00,Ok
+80,,"Liebelt,Hans Dieter",Im Damm 5,55437 Ockenheim,12.11.1946,067253813,13.12.1986,männlich,Aktiv,72,32,Ok
+81,,"Liebelt,Mike",Poveglianostr. 23a,55439 Ockenheim,21.08.1970,067256457,01.10.1993,männlich,Passiv,48,25,Ok
+82,,"Lieser,Magnus",Rheinstr. 28,55437 Ockenheim,22.09.2002,067256974,10.05.2011,männlich,Aktiv,16,07,Ok
+83,,"Lieser,Thea",Rheinstr. 28,55437 Ockenheim,11.09.2000,067256974,10.05.2011,weiblich,Aktiv,18,07,Ok
+84,,"Link,Roswitha",Ernst-Ludwig Str. 15,55411 Bingen,29.02.1956,0672116809,01.06.2010,weiblich,Aktiv,62,08,Ok
+85,,"Maidhof,Christian",Bahnhofstr. 46,55437 Ockenheim,01.06.2005,,22.04.2013,männlich,Aktiv,13,05,Ok
+86,,"Maidhof,Sabine",Bahnhofstr. 47,55437 Ockenheim,08.06.1973,,22.04.2013,weiblich,Aktiv,45,05,Ok
+87,,"Mathes,Justus",Rheinstraße 17,55437 Ockenheim,02.05.2001,067252330,29.04.2011,männlich,Aktiv,17,07,Ok
+88,,"May,Marius",Kurmainzerstr. 49,55411 Dromersheim,15.01.1994,067254700,01.06.2006,männlich,Aktiv,25,12,Ok
+89,,"Memmesheimer,Martin",Gaulsheimerstr. 36,55437 Ockenheim,24.05.2001,067256280,23.02.2011,männlich,Aktiv,17,07,Ok
+90,,"Mika,Patrick",An der Phillipschanze 20,55131 Mainz,07.11.1989,,23.10.2017,männlich,Aktv,29,01,Ok
+91,,"Möbius,Michelle",Am Bahnhof 1a,55437 Ockenheim,01.11.1996,067253188,18.05.2011,weiblich,Aktiv,22,07,Ok
+92,,"Möbius,Tim",Bergstr. 15,55411 Dromersheim,23.04.1997,067254212,01.08.2008,männlich,Aktiv,21,10,Ok
+93,,"Müller,Adelheid Eva",Hindenburgplatz 9,55440 Ockenheim,13.12.1933,067252503,01.07.1992,weiblich,Passiv,85,26,Ok
+94,,"Müller,Daniel",Bahnhofstr.43,55437 Ockenheim,23.04.1986,067252503,01.01.1993,männlich,Aktiv,32,26,Ok
+95,,"Müller,Margareta",Rheinstr.44,55437 Ockenheim,12.03.1956,067254942,01.07.1992,weiblich,Aktiv,62,26,Ok
+96,,"Neßbach,Friedel",Helmerichstr.38,55437 Ockenheim,10.12.1954,067255539,01.07.1979,männlich,Passiv,64,39,Ok
+97,,"Neßbach,Karin",Helmerichstr.38,55437 Ockenheim,07.07.1959,067255539,01.07.1992,weiblich,Passiv,59,26,Ok
+98,,"Nols,Maximilian",Taunusstr. 7,55437 Ockenheim,05.12.1987,06725300531,01.02.2007,männlich,Aktiv,31,12,Ok
+99,,"Nols,Tilmann",Taunusstr. 7,55437 Ockenheim,05.12.1997,06725300531,01.02.2007,männlich,Aktiv,21,12,Ok
+100,,"Nürnberger,Franz",Poveglianostr.6,55437 Ockenheim,14.08.1992,06725307111,01.06.2001,männlich,Aktiv,26,17,Ok
+101,,"Nürnberger,Martin",Poveglianostr.6,55437 Ockenheim,21.08.1963,06725307111,01.06.2001,männlich,Aktiv,55,17,Ok
+102,,"Nürnberger,Michael",Poveglianostr.6,55437 Ockenheim,04.04.1994,06725307111,01.06.2001,weiblich,Aktiv,24,17,Ok
+103,,"Nürnberger,Sonja",Poveglianostr.6,55437 Ockenheim,23.12.1964,06725307111,01.06.2001,weiblich,Aktiv,54,17,Ok
+104,,"Ober,Marina",Mainzerstr.93,55437 Ockenheim,03.05.1955,067251777,01.05.2000,weiblich,Aktiv,63,18,Ok
+105,,"Ochs,Georg",Bahnweg9,55437 Ockenheim,12.05.1953,067254844,01.01.1963,männlich,Aktiv,65,56,Ok
+106,,"Ochs,Gerhard",Grabenstr.34,55437 Ockenheim,19.09.1946,067254844,01.11.1993,männlich,Aktiv,72,25,Ok
+107,,"Ochs,Ingrid",Grabenstr.34,55437 Ockenheim,03.04.1948,067254844,01.11.1993,weiblich,Passiv,70,25,Ok
+108,,"Ochs,Johannes",Bahnweg8-10,55437 Ockenheim,15.11.1950,067253789,01.01.1995,männlich,Aktiv,68,24,Ok
+109,,"Ochs,Klara",Bahnweg9,55437 Ockenheim,01.01.1952,067253972,01.07.1992,weiblich,Aktiv,67,26,Ok
+110,,"Ochs,Lore",Bahnweg8-10,55437 Ockenheim,17.12.1951,067253789,01.01.1995,weiblich,Aktiv,67,24,Ok
+111,,"Petters,Wolfgang",Am St. Jakobsberg 10,55437 Ockenheim,02.11.1946,06725999333,01.07.2009,männlich,Aktiv,72,09,Ok
+112,,"Pontier,Christa",Birkenweg 4,55437 Ockenheim,29.06.1956,067255033,01.03.1997,weiblich,Aktiv,62,21,Ok
+113,,"Pontier,Dorottheè",Birkenweg 4,55437 Ockenheim,01.08.1988,,24.06.2013,weiblich,Aktiv,30,05,Ok
+114,,"Posselt,Helen",Caprio-Veronese-Str. 15,55435 Gau-Algesheim,08.02.1997,067251418,13.05.2011,weiblich,Aktiv,22,07,Ok
+115,,"Reckert,Hans Peter",Binger Weg 12,55437 Ockenheim,14.04.1959,06725963240,01.09.1991,männlich,Aktiv,59,27,Ok
+116,,"Reinhard,Martin",Mainzerstr.92,55437 Ockenheim,29.01.1964,067255087,01.01.1978,männlich,Passiv,55,41,Ok
+117,,"Reinhard,Raffael",Mainzerstr.92,55437 Ockenheim,31.12.1992,067255087,25.07.2000,männlich,Aktiv,26,18,Ok
+118,,"Reisch,Birgit",Kurfürstenstr. 15,55411 Bingen,22.07.1953,0672115036,01.06.2010,weiblich,Aktiv,65,08,Ok
+119,,"Ribbe,Christoph",Am Sportfeld 14a,55437 Ockenheim,10.12.1998,06725993515,01.09.2006,männlich,Aktiv,20,12,Ok
+120,,"Ribbe,Jan Philipp",Am Sportfeld 14a,55437 Ockenheim,27.06.1996,06725993515,01.09.2003,männlich,Aktiv,22,15,Ok
+121,,"Roos,Hendrik",Rosenweg 10,55437 Ockenheim,04.10.1996,067255141,01.06.2010,männlich,Aktiv,22,08,Ok
+122,,"Rüger,Sascha",,,,,,männlich,Aktiv,19,19,Ok
+123,,"Sayed,Julia",Frankenstr.8,55437 Ockenheim,02.04.1982,067253444,10.04.2011,weiblich,Aktiv,29,00,Ok
+124,,"Sayed,Sascha",Frankenstr.8,55437 Ockenheim,20.06.1975,067253444,10.04.2011,männlich,Aktiv,43,07,Ok
+125,,"Schäfer,Finn",Gaulsheimerstr.3a,55437 Ockenheim,22.11.2003,067255663,28.03.2011,männlich,Aktiv,07,00,Ok
+126,,"Schäfer,Jannik",Gaulsheimerstr.3a,55437 Ockenheim,12.10.2001,067255663,28.03.2011,männlich,Aktiv,17,07,Ok
+127,,"Schieferdecker,Frank",Poveglianostr.11a,55437 Ockenheim,24.10.1950,06725308789,01.01.1974,männlich,Aktiv,68,45,Ok
+128,,"Schieferdecker,Mechthil",Poveglianostr.11a,55437 Ockenheim,14.06.1949,06725308789,01.07.1993,weiblich,Aktiv,69,25,Ok
+129,,"Schmitt,Edeltraud",Poveglianostr.11,55437 Ockenheim,06.10.1954,067254745,01.07.1992,weiblich,Aktiv,64,26,Ok
+130,,"Schmitt,Karl Heinz",Poveglianostr.11,55437 Ockenheim,10.08.1954,067254745,01.01.1965,männlich,Aktiv,64,54,Ok
+131,,"Schmitt,Marius",Allestr. 7,55437 Ockenheim,10.08.1993,067254470,01.07.2003,männlich,Aktiv,25,15,Ok
+132,,"Schöck,Sebastian",Bergstr. 42,55437 Ockenheim,15.04.1994,067255354,01.04.2008,männlich,Aktiv,24,10,Ok
+133,,"Schommer,Aron",Nahestr. 41,55437 Ockenheim,01.11.2001,,06.05.2013,männlich,Passiv,17,05,Ok
+134,,"Schreck,Dieter",Bergstr. 58,55437 Ockenheim,01.08.1948,0672595914,01.07.1992,männlich,Passiv,70,26,Ok
+135,,"Schumacher,Heribert",Friedlandstr. 5,55437 Ockenheim,10.08.1959,067255251,01.07.1992,männlich,Aktiv,59,26,Ok
+136,,"Schumacher,Marion",Friedlandstr. 5,55437 Ockenheim,23.12.1960,067255251,01.07.1992,weiblich,Aktiv,58,26,Ok
+137,,"Schwab,Stefanie",Hauptstraße 45,55270 Bubenheim,26.01.1987,,31.03.2017,weiblich,Aktiv,32,01,Ok
+138,,"Schweikhard,Lena",Schloßstr. 14,53457 Gensingen,01.11.2001,,06.05.2013,männlich,Aktiv,17,05,Ok
+139,,"Seemer,Elisabeth",Poveglianostr.19,55437 Ockenheim,27.06.1959,067256450,28.02.1997,weiblich,Aktiv,59,21,Ok
+140,,"Seemer,Hugo",Poveglianostr.19,55437 Ockenheim,12.03.1957,067256450,28.02.1997,männlich,Aktiv,61,21,Ok
+141,,"Seemer,Johanna",Poveglianostr.19,55437 Ockenheim,10.01.1993,067256450,28.02.1997,weiblich,Aktiv,26,21,Ok
+142,,"Sonneck,Björn",Rheinstr. 5,55437 Ockenheim,24.03.1982,067251037,01.07.2007,männlich,Passiv,36,11,Ok
+143,,"Sorge,Anna",Bergstr. 56,55437 Ockenheim,01.01.1965,06725300119,01.04.2008,weiblich,Aktiv,54,10,Ok
+144,,"Sorge,Michael",Bergstr. 56,55437 Ockenheim,07.04.1957,06725300119,01.04.2008,männlich,Aktiv,61,10,Ok
+145,,"Spiekermann,Monika",Im Damm 1,55437 Ockenheim,10.01.1949,067255241,01.07.1992,männlich,Aktiv,70,26,Ok
+146,,"Spiekermann,Rolf",Im Damm 1,55437 Ockenheim,10.01.1949,,01.07.1992,männlich,Aktiv,70,26,Ok
+147,,"Steffan,Laura",Bahnweg 8,55437 Ockenheim,02.05.2000,06725307809,03.05.2011,weiblich,Aktiv,18,07,Ok
+148,,"Von Kaminietz,Adrian",Am Riesling 12,55437 Ockenheim,22.04.1998,,25.03.2013,männlich,Aktiv,20,05,Ok
+149,,"Walter,Nicole",Eichenweg 18,55425 Waldalgesheim,29.04.1972,,19.04.2017,weiblich,Aktiv,46,01,Ok
+150,,"Weingärtner,Birgit",Bergstr.48a,55437 Ockenheim,25.07.1968,067254168,28.03.2003,weiblich,Aktiv,50,15,Ok
+151,,"Weingärtner,Larissa",Bergstr.48a,55437 Ockenheim,17.01.1995,067254168,01.06.2003,weiblich,Aktiv,24,15,Ok
+152,,"Weingärtner,Stefan",Bergstr.48a,55437 Ockenheim,18.09.1963,067254168,01.01.1979,männlich,Aktiv,55,40,Ok
+153,,"Wild,Gebhard",Am St.Jakobsberg 9,55437 Ockenheim,14.09.1946,06725993530,01.10.1992,männlich,Aktiv,72,26,Ok
+154,,"Wild,Gisela",Am St.Jakobsberg 9,55437 Ockenheim,31.10.1952,06725993530,01.11.2010,weiblich,Passiv,66,08,Ok
+155,,"Weise,Sebastian",Ingelheimer Straße 30,55435 Gau-Algesheim,28.07.1993,,08.03.2017,männlich,Aktiv,25,01,Ok
+156,,"Salomon,Michael",,,,,,,,19,,Ok
+157,,"Grünewald,Christoph",,,,,,,,19,,Ok
+158,,"Neßbach,Johannes",,,,,,,,19,19,Ok
+159,,Kovacs(ATC),,,,,,,,19,19,Ok
+160,,Koczwara,,,,,,,,19,19,Ok
+161,,"Ochs,Gerhard",,,,,,,,19,19,Ok
+162,,"Reisch,Birgit",,,,,,,,19,19,Ok
+163,,"Shah,Florian",,,,,,,,19,19,Ok
+164,,"Hinck,Sophie",,,,,,,,19,19,Ok
+165,,"Zeimet,Lennox",,,,,,,,19,19,Ok
+166,,"Al Hamad,Hamudi",,,,,,,,19,19,Ok
+167,,asasa,,,,,,,,19,19,

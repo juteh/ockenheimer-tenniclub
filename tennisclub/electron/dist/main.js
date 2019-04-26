@@ -12,7 +12,7 @@ electron_1.app.on('activate', function () {
     }
 });
 function createWindow() {
-    win = new electron_1.BrowserWindow({ width: 800, height: 600, webPreferences: { nodeIntegration: true } });
+    win = new electron_1.BrowserWindow({ width: 1280, height: 800, webPreferences: { nodeIntegration: true } });
     win.loadURL(url.format({
         pathname: path.join(__dirname, "/../../dist/angular-electron/index.html"),
         protocol: 'file:',
@@ -28,7 +28,7 @@ electron_1.ipcMain.on('getFiles', function (event, arg) {
     win.webContents.send('getFilesResponse', files);
 });
 electron_1.ipcMain.on('getFile', function (event, path) {
-    fs.readFile(__dirname + path, function (err, data) {
+    fs.readFile(__dirname + path, 'utf8', function (err, data) {
         if (err) {
             win.webContents.send('getFileResponse', err);
         }

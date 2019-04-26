@@ -6,14 +6,14 @@ export class Member {
   public firstname: string;
   public lastname: string;
   public street: string;
-  public housenumber: number;
+  public housenumber: string;
   public postcode: string;
   public city: string;
-  public birthdate: Date;
+  public birthdate: string;
   public phone: string;
   public salutation: Salutation;
   public age: number;
-  public startMembership: Date;
+  public startMembership: string;
   public membershipYears: number;
   public active: boolean;
   public guest: boolean;

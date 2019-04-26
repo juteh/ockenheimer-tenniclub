@@ -9,18 +9,12 @@ import {FileService} from './file.service';
 export class AppComponent {
   title = 'ockenheimer-tennisclub';
 
-  constructor(private fileService: FileService) {
-    fileService.getFile('/test.txt')
-        .then((result) => {
-          console.log('result: ', result);
-          fileService.updateFile('/test.txt', 'test the shit').then((res) => {
-            console.log(result);
-          }).catch((err) => {
-            console.log(err);
-          });
-        })
-        .catch((err) => {
-          console.log('error: ', err);
-        });
+  public memberListingTemplate = false;
+
+  constructor() {
+  }
+
+  openMemberListing(): void {
+    this.memberListingTemplate = true;
   }
 }
