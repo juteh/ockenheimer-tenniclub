@@ -49,14 +49,14 @@
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <button ngbDropdownItem (click)="setSalutation('OTHER');">Keine Angabe</button>
               <button ngbDropdownItem (click)="setSalutation('MALE');">Herr</button>
-              <button ngbDropdownItem (click)="setSalutation('FEMALE');">FRAU</button>
+              <button ngbDropdownItem (click)="setSalutation('FEMALE');">Frau</button>
             </div>
           </div>
     </div>
     <div class="card-footer">
       <div class="row">
         <div class="col-6 text-left">
-          <button (click)="activeModal.close('cancel');" type="button" class="btn btn-secondary">Abbrechen</button>
+          <button (click)="activeModal.dismiss('cancel');" type="button" class="btn btn-secondary">Abbrechen</button>
         </div>
         <div class="col-6 text-right">
           <button (click)="save();" type="submit" class="btn btn-primary">Speichern</button>

@@ -15,14 +15,19 @@
       <th scope="col">Nachname</th>
       <th scope="col">Anschrift</th>
       <th scope="col">Telefon</th>
+      <th style="width: 100px;" scope="col"></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor = "let member of memberList">
+    <tr *ngFor = "let member of memberList; let i = index">
       <th>{{member.firstname}}</th>
       <td>{{member.lastname}}</td>
       <td>{{member.street}} {{member.housenumber}} {{member.city}} {{member.postcode}}</td>
       <td>{{member.phone}}</td>
+      <td style="width: 100px;" class="text-center">
+        <button (click)="openEditUser(member, i)" class="btn btn-outline-secondary"><i class="icon ion-md-create"></i></button>
+        <button (click)="deleteMember(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -42,7 +47,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor = "let guest of guestList">
+    <tr *ngFor = "let guest of guestList; let i = index">
       <th>{{guest.firstname}}</th>
       <td>{{guest.lastname}}</td>
       <td>{{guest.street}} {{guest.housenumber}} {{guest.city}} {{guest.postcode}}</td>
