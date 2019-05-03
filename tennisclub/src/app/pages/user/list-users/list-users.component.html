@@ -1,12 +1,13 @@
+<!-- Mitglieder -->
 <div class="row">
   <div class="col text-center">
-<button type="button" class="btn btn-primary" (click)="openCreateUser()">Mitglied/Gast erstellen</button>
-</div>
+    <button type="button" class="btn btn-primary" (click)="openCreateMember()">Mitglied erstellen</button>
+  </div>
 </div>
 <div class="row">
-<div class="col text-center">
-  <h1>Mitglieder</h1>
-</div>
+  <div class="col text-center">
+    <h1>Mitglieder</h1>
+  </div>
 </div>
 <table class="table">
   <thead>
@@ -18,24 +19,34 @@
       <th style="width: 100px;" scope="col"></th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor = "let member of memberList; let i = index">
+  <tbody *ngIf="memberList.length > 0">
+    <tr *ngFor="let member of memberList; let i = index">
       <th>{{member.firstname}}</th>
       <td>{{member.lastname}}</td>
       <td>{{member.street}} {{member.housenumber}} {{member.city}} {{member.postcode}}</td>
       <td>{{member.phone}}</td>
       <td style="width: 100px;" class="text-center">
-        <button (click)="openEditUser(member, i)" class="btn btn-outline-secondary"><i class="icon ion-md-create"></i></button>
+        <button (click)="openEditMember(member, i)" class="btn btn-outline-secondary"><i
+            class="icon ion-md-create"></i></button>
         <button (click)="deleteMember(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
       </td>
     </tr>
   </tbody>
 </table>
-
-<div class="row">
-<div class="col text-center">
-  <h1>Gäste</h1>
+<div class="text-center" *ngIf="memberList.length === 0">
+  <h3>Liste ist leer</h3>
 </div>
+
+<!-- Gäste -->
+<div class="row">
+  <div class="col text-center">
+    <button type="button" class="btn btn-primary" (click)="openCreateGuest()">Gast erstellen</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col text-center">
+    <h1>Gäste</h1>
+  </div>
 </div>
 <table class="table">
   <thead>
@@ -44,18 +55,23 @@
       <th scope="col">Nachname</th>
       <th scope="col">Anschrift</th>
       <th scope="col">Telefon</th>
+      <th style="width: 100px;" scope="col"></th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor = "let guest of guestList; let i = index">
+  <tbody *ngIf="guestList.length > 0">
+    <tr *ngFor="let guest of guestList; let i = index">
       <th>{{guest.firstname}}</th>
       <td>{{guest.lastname}}</td>
       <td>{{guest.street}} {{guest.housenumber}} {{guest.city}} {{guest.postcode}}</td>
       <td>{{guest.phone}}</td>
+      <td style="width: 100px;" class="text-center">
+        <button (click)="openEditGuest(guest, i)" class="btn btn-outline-secondary"><i
+            class="icon ion-md-create"></i></button>
+        <button (click)="deleteGuest(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
+      </td>
     </tr>
   </tbody>
 </table>
-
-<div class="form-group">
-  <input type="file" (change)="changeListener($event)">
+<div *ngIf="guestList.length === 0" class="text-center">
+  <h3>Liste ist leer</h3>
 </div>

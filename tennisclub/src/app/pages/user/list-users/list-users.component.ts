@@ -1,4 +1,3 @@
-import { RemoveUserComponent } from './remove-user/remove-user.component';
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Member} from 'src/app/models/member/member.model';
@@ -6,6 +5,9 @@ import {Salutation} from 'src/app/models/member/salutation.enum';
 
 import {FileService} from './../../../file.service';
 import {EditUserComponent} from './edit-user/edit-user.component';
+import {RemoveUserComponent} from './remove-user/remove-user.component';
+
+
 
 @Component({
   selector: 'app-list-users',
@@ -18,42 +20,25 @@ export class ListUsersComponent implements OnInit {
 
   constructor(
       private modalService: NgbModal, private fileService: FileService) {
-    fileService.getFile('/Mitglieder.txt')
-        .then((result) => {
-          this.textConverter(result, 'member');
+
+    fileService.getFile("/mitglieder.json")
+        .then((memberList) => {
+          this.memberList = JSON.parse(memberList);
+          return fileService.getFile("/gaeste.json");
         })
-        .catch((err) => {
-
-        });
-
-    // fileService.getFile('/Gaeste.txt')
-    //     .then((result) => {
-    //       this.textConverter(result, 'guest');
-    //     })
-    //     .catch((err) => {
-    //       console.log('error: ', err);
-    //     });
-  }
-
-  ngOnInit(): void {
-  }
-
-  openCreateUser() {
-    const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
-    modalRef.componentInstance.createMode = true;
-
-    modalRef.result.then(
-        (member: Member) => {
-          member.id = this.memberList[this.memberList.length - 1].id + 1;
-          this.memberList.push(member);
-          this.updateUserFile();
-        },
-        (reason) => {
-
+        .then((guestList) => {
+          console.log("Gäste: ", guestList);
+          this.guestList = JSON.parse(guestList);
+        })
+        .catch(
+            (err) => {
+              console.log(err);
         });
   }
 
-  openEditUser(member: Member, index: number) {
+  ngOnInit(): void {}
+
+  openEditMember(member: Member, index: number) {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.member = member;
@@ -61,7 +46,62 @@ export class ListUsersComponent implements OnInit {
     modalRef.result.then(
         (updatedMember: Member) => {
           this.memberList[index] = updatedMember;
-          this.updateUserFile();
+          this.updateUserFile('/mitglieder.json', true);
+        },
+        (reason) => {
+
+        });
+  }
+
+  openEditGuest(member: Member, index: number) {
+    const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
+    modalRef.componentInstance.createMode = false;
+    modalRef.componentInstance.member = member;
+
+    modalRef.result.then(
+        (updatedGuest: Member) => {
+          this.guestList[index] = updatedGuest;
+          this.updateUserFile('/gaeste.json', false);
+        },
+        (reason) => {
+
+        });
+  }
+
+  openCreateMember(): void {
+    const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
+    modalRef.componentInstance.createMode = true;
+    modalRef.componentInstance.isGuest = false;
+
+    modalRef.result.then(
+        (member: Member) => {
+          if (this.guestList.length === 0) {
+            member.id = 1;
+          } else {
+            member.id = this.memberList[this.memberList.length - 1].id + 1;
+          }
+          this.memberList.push(member);
+          this.updateUserFile('/mitglieder.json', true);
+        },
+        (reason) => {
+
+        });
+  }
+
+  openCreateGuest(): void {
+    const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
+    modalRef.componentInstance.createMode = true;
+    modalRef.componentInstance.isGuest = true;
+
+    modalRef.result.then(
+        (guest: Member) => {
+          if (this.guestList.length === 0) {
+            guest.id = 1;
+          } else {
+            guest.id = this.guestList[this.guestList.length - 1].id + 1;
+          }
+          this.guestList.push(guest);
+          this.updateUserFile('/gaeste.json', false);
         },
         (reason) => {
 
@@ -72,13 +112,41 @@ export class ListUsersComponent implements OnInit {
     const modalRef = this.modalService.open(RemoveUserComponent);
 
     modalRef.result.then(
-      (result) => {
-        this.memberList.splice(index, 1);
-        this.updateUserFile();
-      },
-      (reason) => {
+        (result) => {
+          this.memberList.splice(index, 1);
+          this.updateUserFile('/mitglieder.json', true);
+        },
+        (reason) => {
 
-      });
+        });
+  }
+
+  deleteGuest(index: number): void {
+    const modalRef = this.modalService.open(RemoveUserComponent);
+
+    modalRef.result.then(
+        (result) => {
+          this.guestList.splice(index, 1);
+          this.updateUserFile('/gaeste.json', false);
+        },
+        (reason) => {
+
+        });
+  }
+
+  updateUserFile(path, isMember): void {
+    let userListAsString = '';
+    if (isMember) {
+      for (const member of this.memberList) {
+        userListAsString += JSON.stringify(member) + ',\n';
+      }
+    } else {
+      for (const guest of this.guestList) {
+        userListAsString += JSON.stringify(guest) + ',\n';
+      }
+    }
+
+    this.fileService.updateFile(path, userListAsString);
   }
 
   /**
@@ -87,6 +155,7 @@ export class ListUsersComponent implements OnInit {
    * member = konvertiere in Mitglieder-Objekt
    * guest = konvertiere in Gast-Objekt
    * drink = konvertiere in Getränk-Objekt
+   * Diese Methode muss nur einmalig initial gemacht werden!
    */
   textConverter(text, key): void {
     for (const entry of text.split('\n')) {
@@ -135,15 +204,5 @@ export class ListUsersComponent implements OnInit {
         }
       }
     }
-  }
-
-  updateUserFile(): void {
-    let memberListAsString = '';
-
-    for (const member of this.memberList) {
-      memberListAsString += JSON.stringify(member) + '\n';
-    }
-
-    this.fileService.updateFile('/test.txt', memberListAsString);
   }
 }

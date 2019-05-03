@@ -27,6 +27,7 @@ export class FileService {
   }
 
   async getFile(path: string) {
+    console.log(path);
     return new Promise<string>((resolve, reject) => {
       this.ipc.once('getFileResponse', (event, arg) => {
         resolve(arg);
@@ -35,12 +36,12 @@ export class FileService {
     });
   }
 
-  async updateFile(path: string, fileText: string) {
+  async updateFile(path: string, fileAsText: string) {
     return new Promise<string>((resolve, reject) => {
       this.ipc.once('updateFileResponse', (event, arg) => {
         resolve(arg);
       });
-      this.ipc.send('updateFile', path, fileText);
+      this.ipc.send('updateFile', path, fileAsText);
     });
   }
 }

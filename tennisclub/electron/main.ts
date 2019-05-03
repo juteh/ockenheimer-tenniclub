@@ -36,6 +36,7 @@ ipcMain.on('getFiles', (event, arg) => {
 });
 
 ipcMain.on('getFile', (event, path: string) => {
+  console.log(__dirname + path);
   fs.readFile(__dirname + path, 'utf8', function(err, data) {
     if (err) {
       win.webContents.send('getFileResponse', err);

@@ -2,6 +2,25 @@
   "name": "angular-electron",
   "version": "0.0.0",
   "main": "electron/dist/main.js",
+  "build": {
+    "appId": "tennisclub",
+    "mac": {
+      "category": "private"
+    },
+    "windows": {
+      "category": "private"
+    }
+  },
+  "watch": {
+    "run_electron": {
+      "patterns": [
+        "src",
+        "electron"
+      ],
+      "extensions": "ts,html,css",
+      "quiet": false
+    }
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,8 +28,13 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build --base-href ./ && tsc --p electron && electron ."
+    "electron": "ng build --base-href ./ && tsc --p electron && electron .",
+    "watch": "npm-watch run_electron",
+    "run_electron": "ng build --base-href ./ && tsc --p electron && electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
+  "postinstall": "electron-builder install-app-deps",
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.0.0",
@@ -39,6 +63,7 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
     "electron": "^5.0.0",
+    "electron-builder": "^20.39.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",
@@ -46,6 +71,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "npm-watch": "^0.6.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",

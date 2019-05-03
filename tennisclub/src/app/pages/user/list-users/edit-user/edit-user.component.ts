@@ -16,6 +16,7 @@ export class EditUserComponent implements OnInit {
 
   @Input() createMode: boolean;
   @Input() member: Member;
+  @Input() isGuest: boolean;
 
   constructor(
       public activeModal: NgbActiveModal, private formBuilder: FormBuilder) {
@@ -55,6 +56,10 @@ export class EditUserComponent implements OnInit {
   }
 
   save(): void {
+    if (this.createMode) {
+      this.member = new Member;
+      this.member.guest = this.isGuest;
+    }
 
     this.member.firstname = this.userForm.value.firstname;
     this.member.lastname = this.userForm.value.lastname;
