@@ -20,19 +20,16 @@ export class ListUsersComponent implements OnInit {
 
   constructor(
       private modalService: NgbModal, private fileService: FileService) {
-
-    fileService.getFile("/mitglieder.json")
+    fileService.getFile('/mitglieder.json')
         .then((memberList) => {
           this.memberList = JSON.parse(memberList);
-          return fileService.getFile("/gaeste.json");
+          return fileService.getFile('/gaeste.json');
         })
         .then((guestList) => {
-          console.log("Gäste: ", guestList);
           this.guestList = JSON.parse(guestList);
         })
-        .catch(
-            (err) => {
-              console.log(err);
+        .catch((err) => {
+          console.log(err);
         });
   }
 
@@ -48,8 +45,8 @@ export class ListUsersComponent implements OnInit {
           this.memberList[index] = updatedMember;
           this.updateUserFile('/mitglieder.json', true);
         },
-        (reason) => {
-
+        (err) => {
+          console.log(err);
         });
   }
 
@@ -63,8 +60,8 @@ export class ListUsersComponent implements OnInit {
           this.guestList[index] = updatedGuest;
           this.updateUserFile('/gaeste.json', false);
         },
-        (reason) => {
-
+        (err) => {
+          console.log(err);
         });
   }
 
@@ -78,13 +75,14 @@ export class ListUsersComponent implements OnInit {
           if (this.guestList.length === 0) {
             member.id = 1;
           } else {
+            // Hat immer die nächste höhere ID zum letzten User
             member.id = this.memberList[this.memberList.length - 1].id + 1;
           }
           this.memberList.push(member);
           this.updateUserFile('/mitglieder.json', true);
         },
-        (reason) => {
-
+        (err) => {
+          console.log(err);
         });
   }
 
@@ -103,8 +101,8 @@ export class ListUsersComponent implements OnInit {
           this.guestList.push(guest);
           this.updateUserFile('/gaeste.json', false);
         },
-        (reason) => {
-
+        (err) => {
+          console.log(err);
         });
   }
 
@@ -116,8 +114,8 @@ export class ListUsersComponent implements OnInit {
           this.memberList.splice(index, 1);
           this.updateUserFile('/mitglieder.json', true);
         },
-        (reason) => {
-
+        (err) => {
+          console.log(err);
         });
   }
 
@@ -129,24 +127,17 @@ export class ListUsersComponent implements OnInit {
           this.guestList.splice(index, 1);
           this.updateUserFile('/gaeste.json', false);
         },
-        (reason) => {
-
+        (err) => {
+          console.log(err);
         });
   }
 
   updateUserFile(path, isMember): void {
-    let userListAsString = '';
     if (isMember) {
-      for (const member of this.memberList) {
-        userListAsString += JSON.stringify(member) + ',\n';
-      }
+      this.fileService.updateFile(path, JSON.stringify(this.memberList));
     } else {
-      for (const guest of this.guestList) {
-        userListAsString += JSON.stringify(guest) + ',\n';
-      }
+      this.fileService.updateFile(path, JSON.stringify(this.guestList));
     }
-
-    this.fileService.updateFile(path, userListAsString);
   }
 
   /**

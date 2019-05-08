@@ -12,6 +12,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">ID</th>
       <th scope="col">Vorname</th>
       <th scope="col">Nachname</th>
       <th scope="col">Anschrift</th>
@@ -21,6 +22,7 @@
   </thead>
   <tbody *ngIf="memberList.length > 0">
     <tr *ngFor="let member of memberList; let i = index">
+      <th>{{member.id}}</th>
       <th>{{member.firstname}}</th>
       <td>{{member.lastname}}</td>
       <td>{{member.street}} {{member.housenumber}} {{member.city}} {{member.postcode}}</td>
@@ -51,6 +53,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">ID</th>
       <th scope="col">Vorname</th>
       <th scope="col">Nachname</th>
       <th scope="col">Anschrift</th>
@@ -60,6 +63,7 @@
   </thead>
   <tbody *ngIf="guestList.length > 0">
     <tr *ngFor="let guest of guestList; let i = index">
+      <th>{{guest.id}}</th>
       <th>{{guest.firstname}}</th>
       <td>{{guest.lastname}}</td>
       <td>{{guest.street}} {{guest.housenumber}} {{guest.city}} {{guest.postcode}}</td>

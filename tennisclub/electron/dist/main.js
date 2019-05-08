@@ -28,7 +28,6 @@ electron_1.ipcMain.on('getFiles', function (event, arg) {
     win.webContents.send('getFilesResponse', files);
 });
 electron_1.ipcMain.on('getFile', function (event, path) {
-    console.log(__dirname + path);
     fs.readFile(__dirname + path, 'utf8', function (err, data) {
         if (err) {
             win.webContents.send('getFileResponse', err);

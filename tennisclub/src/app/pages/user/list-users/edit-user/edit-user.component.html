@@ -45,11 +45,12 @@
           <label class="form-check-label">Aktives Mitglied</label>
         </div>
         <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Anrede</button>
+            <button *ngIf="userForm.value.salutation" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{userForm.value.salutation}}</button>
+            <button *ngIf="!userForm.value.salutation" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Keine Angabe</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem (click)="setSalutation('OTHER');">Keine Angabe</button>
-              <button ngbDropdownItem (click)="setSalutation('MALE');">Herr</button>
-              <button ngbDropdownItem (click)="setSalutation('FEMALE');">Frau</button>
+              <button ngbDropdownItem (click)="setSalutation('Keine Angabe');">Keine Angabe</button>
+              <button ngbDropdownItem (click)="setSalutation('Herr');">Herr</button>
+              <button ngbDropdownItem (click)="setSalutation('Frau');">Frau</button>
             </div>
           </div>
     </div>
