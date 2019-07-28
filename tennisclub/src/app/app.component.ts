@@ -11,17 +11,34 @@ export class AppComponent {
 
   public memberListingTemplate = false;
   public drinkListingTemplate = false;
+  public drinkEditor = false;
+  public drinkListsEditor = false;
 
-  constructor() {
-  }
+  constructor() {}
 
-  openMemberListing(): void {
-    this.memberListingTemplate = true;
-    this.drinkListingTemplate = false;
-  }
-
-  openDrinkListing(): void {
+  openTemplate(name: String): void {
     this.memberListingTemplate = false;
-    this.drinkListingTemplate = true;
+    this.drinkListingTemplate = false;
+    this.drinkEditor = false;
+    this.drinkListsEditor = false;
+    switch (name) {
+      case 'MEMBER': {
+        this.memberListingTemplate = true;
+        break;
+      }
+      case 'DRINKSLISTS': {
+        this.drinkListingTemplate = true;
+        break;
+      }
+      case 'DRINKS': {
+        this.drinkEditor = true;
+        break;
+      }
+      case 'CEATEDRINKSLIST': {
+        this.drinkListsEditor = true;
+        break;
+      }
+      default: { break; }
+    }
   }
 }

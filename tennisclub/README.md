@@ -3,6 +3,6 @@
 
 Lokale Webanwendung zum Verwalten von Mitgliedern, Gästen und Getränke-Rechnungen
 
-Wenn Dateien erstellt dann:
+Anwendung starten nach checkout
 1. npm install
 2. npm run electron

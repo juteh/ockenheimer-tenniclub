@@ -1,0 +1,18 @@
+<div class="card text-center">
+    <div class="card-header">
+      <h3>{{headline}}</h3>
+    </div>
+    <div class="card-body text-left">
+      <label>{{description}}</label>
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <div class="col-6 text-left">
+          <button (click)="activeModal.dismiss('cancel');" type="button" class="btn btn-secondary">Abbrechen</button>
+        </div>
+        <div class="col-6 text-right">
+          <button (click)="activeModal.close('delete User');" type="submit" class="btn btn-primary">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>

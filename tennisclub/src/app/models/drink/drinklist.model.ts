@@ -5,7 +5,7 @@ export class Drinklist {
   public users: Member[];
   public drink: Drink[];
   public startDate: string;
-  public endtDate: string;
+  public endDate: string;
   public creator: Member;
   public totalCost: string;
 }

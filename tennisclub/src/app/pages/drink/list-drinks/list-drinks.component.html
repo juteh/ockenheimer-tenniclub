@@ -1,7 +1,7 @@
 <!-- Getränkelisten -->
 <div class="row">
     <div class="col text-center">
-      <button type="button" class="btn btn-primary" (click)="openCreateTemplateDrinklist()">Trinkliste Einstellungen</button>
+      <button type="button" class="btn btn-primary" (click)="openCreateTemplateDrinklist()">Trinkliste erstellen</button>
     </div>
   </div>
   <div class="row">
@@ -20,18 +20,16 @@
       </tr>
     </thead>
     <tbody *ngIf="drinklistings && drinklistings.length > 0">
-      <!-- <tr *ngFor="let drinklisting of drinklistings; let i = index">
-        <th>{{guest.id}}</th>
-        <th>{{guest.firstname}}</th>
-        <td>{{guest.lastname}}</td>
-        <td>{{guest.street}} {{guest.housenumber}} {{guest.city}} {{guest.postcode}}</td>
-        <td>{{guest.phone}}</td>
-        <td style="width: 100px;" class="text-center">
-          <button (click)="openEditGuest(guest, i)" class="btn btn-outline-secondary"><i
-              class="icon ion-md-create"></i></button>
-          <button (click)="deleteGuest(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
-        </td>
-      </tr> -->
+        <tr *ngFor="let drinklist of drinklistings; let i = index">
+            <th>{{drinklist.creator}}</th>
+            <td>{{drinklist.startDate}}</td>
+            <td>{{drinklist.endDate}}</td>
+            <td style="width: 100px;" class="text-center">
+              <button (click)="openEditDrinkList(drinklist, i)" class="btn btn-outline-secondary"><i
+                  class="icon ion-md-create"></i></button>
+              <button (click)="deleteDrinkList(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
+            </td>
+          </tr>
     </tbody>
   </table>
   <div *ngIf="!drinklistings || drinklistings.length === 0" class="text-center">

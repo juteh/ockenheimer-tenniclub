@@ -3,11 +3,9 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Member} from 'src/app/models/member/member.model';
 import {Salutation} from 'src/app/models/member/salutation.enum';
 
+import {NotificationComponent} from './../../../components/notification/notification.component';
 import {FileService} from './../../../file.service';
 import {EditUserComponent} from './edit-user/edit-user.component';
-import {RemoveUserComponent} from './remove-user/remove-user.component';
-
-
 
 @Component({
   selector: 'app-list-users',
@@ -107,7 +105,12 @@ export class ListUsersComponent implements OnInit {
   }
 
   deleteMember(index: number): void {
-    const modalRef = this.modalService.open(RemoveUserComponent);
+    const modalRef =
+        this.modalService.open(NotificationComponent, {size: 'lg'});
+
+    modalRef.componentInstance.headline = 'Mitglied löschen';
+    modalRef.componentInstance.description =
+        'Wollen Sie wirklich dieses Mietglied löschen?';
 
     modalRef.result.then(
         (result) => {
@@ -120,7 +123,13 @@ export class ListUsersComponent implements OnInit {
   }
 
   deleteGuest(index: number): void {
-    const modalRef = this.modalService.open(RemoveUserComponent);
+    const modalRef =
+        this.modalService.open(NotificationComponent, {size: 'lg'});
+
+    modalRef.componentInstance.headline = 'Gast löschen';
+    modalRef.componentInstance.description =
+        'Wollen Sie wirklich diesen Gast löschen?';
+
 
     modalRef.result.then(
         (result) => {

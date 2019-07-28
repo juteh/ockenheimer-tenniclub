@@ -4,10 +4,16 @@
       <img src="assets/images/logo.jpeg" />
       <div class="row">
         <div class="col">
-          <button (click)="openMemberListing();" class="btn btn-primary">Mitglieder</button>
+          <button (click)="openTemplate('MEMBER');" class="btn btn-primary">Mitglieder</button>
         </div>
         <div class="col">
-          <button (click)="openDrinkListing();" class="btn btn-primary">Getränkelisten</button>
+          <button (click)="openTemplate('DRINKSLISTS');" class="btn btn-primary">Getränkelisten</button>
+        </div>
+        <div class="col">
+          <button (click)="openTemplate('DRINKS');" class="btn btn-primary">Getränke</button>
+        </div>
+        <div class="col">
+          <button (click)="openTemplate('CEATEDRINKSLIST');" class="btn btn-primary">Getränkeliste erstellen</button>
         </div>
       </div>
     </div>
@@ -15,4 +21,6 @@
 </div>
 <app-list-users *ngIf="memberListingTemplate"></app-list-users>
 <app-list-drinks *ngIf="drinkListingTemplate"></app-list-drinks>
+<app-drink-editor *ngIf="drinkEditor"></app-drink-editor>
+<app-edit-list-drink *ngIf="drinkListsEditor"></app-edit-list-drink>
 <router-outlet></router-outlet>

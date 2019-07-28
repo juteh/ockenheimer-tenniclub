@@ -1,0 +1,66 @@
+<div class="card text-center">
+  <div class="card-header">
+    <div class="row">
+      <h3 class="col">Einstellungen Getränkelisten</h3>
+    </div>
+  </div>
+  <div class="card-body text-left">
+    <div class="row">
+      <div class="col">
+        <label *ngIf="creator">Vorname: {{creator.firstname}}</label>
+        <label *ngIf="creator">Nachname: {{creator.lastname}}</label>
+
+        <!-- <ng-select [items]="simpleItems" [(ngModel)]="selectedSimpleItem">
+        </ng-select> -->
+
+        <ng-select [multiple]="true" [(ngModel)]="selectedCars">
+            <ng-option *ngFor="let car of cars" [value]="car.id" [disabled]="car.disabled">{{car.name}}</ng-option>
+            <ng-option [value]="'custom'">Custom</ng-option>
+        </ng-select>
+
+        <button *ngIf="!creator" (click)="addCreator();" type="button" class="btn btn-primary">Ersteller
+          OK</button>
+      </div>
+      <div class="col">
+        <label *ngIf="startDate">Von: {{startDate}}</label>
+        <button *ngIf="!startDate" (click)="addStartDate();" type="button" class="btn btn-primary">Start
+          hinzufügen</button>
+      </div>
+      <div class="col">
+        <label *ngIf="endDate">Bis: {{endDate}}</label>
+        <button *ngIf="!endDate" (click)="addEndDate();" type="button" class="btn btn-primary">Ende
+          hinzufügen</button>
+      </div>
+    </div>
+  </div>
+  <table class="table table-stripe">
+    <thead>
+      <tr>
+        <th class="column-format">
+          #
+        </th>
+        <th class="column-format">
+          <button (click)="addPerson();" type="button" class="btn btn-primary">+</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="column-format">
+          <button (click)="addDrink();" type="button" class="btn btn-primary">+</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-6 text-left">
+        <button (click)="delete();" type="button" class="btn btn-secondary">Löschen</button>
+      </div>
+      <div class="col-6 text-right">
+        <button (click)="save();" type="submit" class="btn btn-primary">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="card text-center">
+  <form [formGroup]="drinkForm" >
+
+    <div class="card-header">
+      <h3 *ngIf="createMode">Getränk erstellen</h3>
+      <h3 *ngIf="!createMode">Getränk bearbeiten</h3>
+    </div>
+
+    <div class="card-body text-left">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+          <input formControlName="name" type="text" class="form-control" required>
+          <label *ngIf="drinkForm.valid && submit">Bitte Namen angeben</label>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Beschreibung</label>
+        <div class="col-sm-10">
+          <input formControlName="description" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Liter</label>
+        <div class="col-sm-10">
+          <input formControlName="litres" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Preis</label>
+        <div class="col-sm-10">
+          <input formControlName="price" type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="row">
+        <div class="col-6 text-left">
+          <button (click)="activeModal.dismiss('cancel');" type="button" class="btn btn-secondary">Abbrechen</button>
+        </div>
+        <div class="col-6 text-right">
+          <button (click)="save();" type="submit" class="btn btn-primary">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

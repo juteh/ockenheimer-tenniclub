@@ -1,43 +1,39 @@
-import { ListDrinksComponent } from './pages/drink/list-drinks/list-drinks.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PapaParseModule } from 'ngx-papaparse';
-import { EditUserComponent } from './pages/user/list-users/edit-user/edit-user.component';
-import { RouterModule, Routes } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import { ListUsersComponent } from './pages/user/list-users/list-users.component';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule, Routes} from '@angular/router';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {SelectModule} from 'ng2-select';
+import {PapaParseModule} from 'ngx-papaparse';
 
-import { ReactiveFormsModule } from '@angular/forms';
-import { RemoveUserComponent } from './pages/user/list-users/remove-user/remove-user.component';
-import { EditTemplateComponent } from './pages/drink/edit-template/edit-template.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import {AppComponent} from './app.component';
+import {NotificationComponent} from './components/notification/notification.component';
+import {DrinkEditorComponent} from './pages/drink/drink-editor/drink-editor.component';
+import {EditDrinkComponent} from './pages/drink/drink-editor/edit-drink/edit-drink.component';
+import {EditListDrinkComponent} from './pages/drink/edit-list-drink/edit-list-drink.component';
+import {ListDrinksComponent} from './pages/drink/list-drinks/list-drinks.component';
+import {EditUserComponent} from './pages/user/list-users/edit-user/edit-user.component';
+import {ListUsersComponent} from './pages/user/list-users/list-users.component';
 
-const routes: Routes = [
-  { path: 'user', component: ListUsersComponent }
-];
+const routes: Routes = [{path: 'user', component: ListUsersComponent}];
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ListUsersComponent,
-    EditUserComponent,
-    RemoveUserComponent,
-    ListDrinksComponent,
-    EditTemplateComponent
+    AppComponent, ListUsersComponent, EditUserComponent, ListDrinksComponent,
+    EditListDrinkComponent, DrinkEditorComponent, EditDrinkComponent,
+    NotificationComponent
   ],
   imports: [
-    BrowserModule,
-    RouterModule.forRoot(routes),
-    PapaParseModule,
-    NgbModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    FormsModule
+    BrowserModule, RouterModule.forRoot(routes), PapaParseModule, NgbModule,
+    ReactiveFormsModule, FormsModule, SelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [EditUserComponent, RemoveUserComponent, ListDrinksComponent, EditTemplateComponent]
+  entryComponents: [
+    EditUserComponent, ListDrinksComponent, EditDrinkComponent,
+    NotificationComponent
+  ], schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {
+}
