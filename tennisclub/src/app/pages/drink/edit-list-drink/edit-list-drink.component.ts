@@ -21,27 +21,18 @@ export class EditListDrinkComponent implements OnInit {
   public startDate: Date;
   public endDate: Date;
   public drinks: Drink[];
+  public selectedDrink: Drink;
   public members: Member[];
   public guests: Member[];
+  // Beinhaltet Mitglieder und Gäste und den vollen Namen der Person. Notwendig für ng-select
+  public persons: Array<{person: Member, fullname: string}> = [];
+  public selectedPerson: {person: Member, fullname: string};
 
-  selectedSimpleItem = 'Two';
-  simpleItems = [];
+  public loading = true;
 
-  selectedCars = [3];
-  cars = [
-      { id: 1, name: 'Volvo' },
-      { id: 2, name: 'Saab', disabled: true },
-      { id: 3, name: 'Opel' },
-      { id: 4, name: 'Audi' },
-  ];
-
-  constructor(
-      private fileService: FileService) {
-      }
+  constructor(private fileService: FileService) {}
 
   ngOnInit(): void {
-
-    this.simpleItems = [true, 'Two', 3];
     this.fileService.getFile('/mitglieder.json')
         .then((memberList) => {
           this.members = JSON.parse(memberList);
@@ -50,18 +41,47 @@ export class EditListDrinkComponent implements OnInit {
         .then((guestList) => {
           this.guests = JSON.parse(guestList);
           return this.fileService.getFile('/getraenke.json');
-        }).then((drinks) => {
+        })
+        .then((drinks) => {
           this.drinks = JSON.parse(drinks);
+          this.createPersonsList();
+          this.loading = false;
         })
         .catch((err) => {
+          this.loading = false;
           console.log(err);
         });
   }
 
+  // Erstellt Liste aus Mitglieder und Gästen mit ihren vollem Namen
+  createPersonsList(): void {
+    this.members.forEach((member: Member) => {
+      let fullname = '';
+      if (member.firstname && !member.lastname) {
+        fullname = member.firstname;
+      } else if (!member.firstname && member.lastname) {
+        fullname = member.lastname;
+      } else if (member.firstname && member.lastname) {
+        fullname = member.firstname + ' ' + member.lastname;
+      }
+      this.persons.push({person: member, fullname: fullname});
+    });
+    this.guests.forEach((guest: Member) => {
+      let fullname = '';
+      if (guest.firstname && !guest.lastname) {
+        fullname = guest.firstname;
+      } else if (!guest.firstname && guest.lastname) {
+        fullname = guest.lastname;
+      } else if (guest.firstname && guest.lastname) {
+        fullname = guest.firstname + ' ' + guest.lastname;
+      }
+      this.persons.push({person: guest, fullname: fullname + " (Gast)"});
+    });
+  }
+
   save(): void {}
 
-  delete(): void {
-  }
+  delete(): void {}
 
   addDrink(): void {}
 

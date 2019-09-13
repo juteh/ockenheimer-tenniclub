@@ -1,31 +1,56 @@
-<div class="row">
+<div class="row mt-5 mb-5">
   <div class="col text-center">
-    <button type="button" class="btn btn-secondary mt-5" (click)="openCreateDrink()">
+    <button type="button" class="btn btn-secondary" (click)="openCreateDrink()">
       Getränk erstellen
     </button>
   </div>
 </div>
 
-<table *ngIf="drinks.length > 0" class="custom-table">
+<div class="row text-center mt-5 mb-5">
+  <div class="col-12">
+    <input
+      [(ngModel)]="searchText"
+      placeholder="Suche"
+    />
+  </div>
+</div>
+<table *ngIf="drinks.length > 0 && !loading" class="custom-table">
   <thead>
     <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Beschreibung</th>
-        <th scope="col">Liter</th>
-        <th scope="col">Preis</th>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Beschreibung</th>
+      <th scope="col">Liter</th>
+      <th scope="col">Preis</th>
     </tr>
   </thead>
   <tbody>
-    <tr class="custom-table-card" *ngFor="let drink of drinks; let i = index">
+    <tr
+      class="custom-table-card"
+      *ngFor="
+        let drink of drinks
+          | filter
+            : {
+                id: searchText,
+                name: searchText,
+                description: searchText,
+                litres: searchText,
+                price: searchText
+              };
+        let i = index
+      "
+    >
       <td class="pt-0 pb-0">
-          <a (click)="openEditDrink(drink, i)"><i class="icon ion-md-create create"></i></a>
-        <a (click)="deleteDrink(i)"><i class="icon ion-md-close delete"></i></a></td>
-      <td data-label="ID">{{drink.id}}</td>
-      <td data-label="Name">{{drink.name}}</td>
-      <td data-label="Beschreibung">{{drink.description}}</td>
-      <td data-label="Liter">{{drink.litres}}</td>
-      <td data-label="Preis">{{drink.price}}</td>
+        <a (click)="openEditDrink(drink, i)"
+          ><i class="icon ion-md-create create"></i
+        ></a>
+        <a (click)="deleteDrink(i)"><i class="icon ion-md-close delete"></i></a>
+      </td>
+      <td data-label="ID">{{ drink.id }}</td>
+      <td data-label="Name">{{ drink.name }}</td>
+      <td data-label="Beschreibung">{{ drink.description }}</td>
+      <td data-label="Liter">{{ drink.litres }}</td>
+      <td data-label="Preis">{{ drink.price }}</td>
     </tr>
   </tbody>
 </table>

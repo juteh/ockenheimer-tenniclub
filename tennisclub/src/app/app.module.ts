@@ -1,3 +1,4 @@
+import { FilterPipe } from './pipes/filter.pipe';
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FormsModule} from '@angular/forms';
@@ -14,6 +15,7 @@ import {EditListDrinkComponent} from './pages/drink/edit-list-drink/edit-list-dr
 import {ListDrinksComponent} from './pages/drink/list-drinks/list-drinks.component';
 import {EditUserComponent} from './pages/user/list-users/edit-user/edit-user.component';
 import {ListUsersComponent} from './pages/user/list-users/list-users.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const routes: Routes = [{path: 'user', component: ListUsersComponent}];
 
@@ -21,17 +23,17 @@ const routes: Routes = [{path: 'user', component: ListUsersComponent}];
   declarations: [
     AppComponent, ListUsersComponent, EditUserComponent, ListDrinksComponent,
     EditListDrinkComponent, DrinkEditorComponent, EditDrinkComponent,
-    NotificationComponent
+    NotificationComponent, FilterPipe
   ],
   imports: [
     BrowserModule, RouterModule.forRoot(routes), PapaParseModule, NgbModule,
-    ReactiveFormsModule, FormsModule
+    ReactiveFormsModule, FormsModule, NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
     EditUserComponent, ListDrinksComponent, EditDrinkComponent,
-    NotificationComponent
+    NotificationComponent, EditListDrinkComponent
   ], schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {

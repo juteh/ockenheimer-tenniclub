@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {BrowserWindow} from 'electron';
 
 import {NotificationComponent} from './../../../components/notification/notification.component';
 import {FileService} from './../../../file.service';
@@ -14,14 +15,19 @@ import {EditDrinkComponent} from './edit-drink/edit-drink.component';
 export class DrinkEditorComponent implements OnInit {
   public drinks: Drink[] = [];
 
+  public searchText: string;
+  // Das Reload braucht der Filter damit er neue ergebnisse bekommt TODO: Lösung finden ohne reload
+  public loading = true;
+
   constructor(
       private fileService: FileService, private modalService: NgbModal) {
     this.fileService.getFile('/getraenke.json')
         .then((drinks) => {
           this.drinks = JSON.parse(drinks);
-          console.log('drinks: ', this.drinks);
+          this.loading = false;
         })
         .catch((err) => {
+          this.loading = false;
           console.log(err);
         });
   }
@@ -31,7 +37,7 @@ export class DrinkEditorComponent implements OnInit {
   openCreateDrink(): void {
     const modalRef = this.modalService.open(EditDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = true;
-
+    this.loading = true;
     modalRef.result.then(
         (drink: Drink) => {
           if (this.drinks.length === 0) {
@@ -42,8 +48,10 @@ export class DrinkEditorComponent implements OnInit {
           this.drinks.push(drink);
           this.fileService.updateFile(
               '/getraenke.json', JSON.stringify(this.drinks));
+          this.loading = false;
         },
         (err) => {
+          this.loading = false;
           console.log(err);
         });
   }
@@ -52,16 +60,19 @@ export class DrinkEditorComponent implements OnInit {
     const modalRef = this.modalService.open(EditDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.drink = drink;
+    this.loading = true;
     modalRef.result.then(
-        (drink: Drink) => {
-          this.drinks[index].name = drink.name;
-          this.drinks[index].description = drink.description;
-          this.drinks[index].litres = drink.litres;
-          this.drinks[index].price = drink.price;
+        (editDrink: Drink) => {
+          this.drinks[index].name = editDrink.name;
+          this.drinks[index].description = editDrink.description;
+          this.drinks[index].litres = editDrink.litres;
+          this.drinks[index].price = editDrink.price;
           this.fileService.updateFile(
               '/getraenke.json', JSON.stringify(this.drinks));
+          this.loading = false;
         },
         (err) => {
+          this.loading = false;
           console.log(err);
         });
   }
@@ -73,13 +84,16 @@ export class DrinkEditorComponent implements OnInit {
     modalRef.componentInstance.description =
         'Wollen Sie wirklich das Getränk aus der Liste entfernen?';
 
+    this.loading = true;
     modalRef.result.then(
         (result: any) => {
           this.drinks.splice(index, 1);
           this.fileService.updateFile(
               '/getraenke.json', JSON.stringify(this.drinks));
+          this.loading = false;
         },
         (err) => {
+          this.loading = false;
           console.log(err);
         });
   }

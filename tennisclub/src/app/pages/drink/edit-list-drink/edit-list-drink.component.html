@@ -1,4 +1,4 @@
-<div class="card text-center">
+<!-- <div class="card text-center">
   <div class="card-header">
     <div class="row">
       <h3 class="col">Einstellungen Getränkelisten</h3>
@@ -10,8 +10,7 @@
         <label *ngIf="creator">Vorname: {{creator.firstname}}</label>
         <label *ngIf="creator">Nachname: {{creator.lastname}}</label>
 
-        <!-- <ng-select [items]="simpleItems" [(ngModel)]="selectedSimpleItem">
-        </ng-select> -->
+
 
         <ng-select [multiple]="true" [(ngModel)]="selectedCars">
             <ng-option *ngFor="let car of cars" [value]="car.id" [disabled]="car.disabled">{{car.name}}</ng-option>
@@ -61,6 +60,40 @@
       <div class="col-6 text-right">
         <button (click)="save();" type="submit" class="btn btn-primary">Speichern</button>
       </div>
+    </div>
+  </div>
+</div> -->
+<div class="card text-center">
+  <div class="card-header">
+    <div class="row">
+      <h3 class="col">Einstellungen Getränkelisten</h3>
+    </div>
+  </div>
+</div>
+<div *ngIf="!loading" class="card-body">
+  <div class="row">
+    <div class="col-12">
+      <ng-select
+        [items]="persons"
+        bindLabel="fullname"
+        placeholder="Wähle Person"
+        [(ngModel)]="selectedPerson"
+      >
+      </ng-select>
+      <a
+          ><i class="icon ion-md-add add"></i
+        ></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <ng-select
+        [items]="drinks"
+        bindLabel="name"
+        placeholder="Wähle Getränk"
+        [(ngModel)]="selectedDrink"
+      >
+      </ng-select>
     </div>
   </div>
 </div>

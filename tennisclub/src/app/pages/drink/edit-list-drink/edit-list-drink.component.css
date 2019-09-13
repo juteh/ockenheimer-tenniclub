@@ -1,3 +1,6 @@
-.column-format {
-  max-width: 300px;
+.add {
+  cursor: pointer;
+  color: green;
+  font-size: 2rem;
 }
+

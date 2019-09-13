@@ -1,3 +1,4 @@
+import { EditListDrinkComponent } from './../edit-list-drink/edit-list-drink.component';
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -29,18 +30,18 @@ export class ListDrinksComponent implements OnInit {
   ngOnInit(): void {}
 
   openCreateTemplateDrinklist(): void {
-    // const modalRef =
-    //     this.modalService.open(EditTemplateComponent, {size: 'lg'});
+    const modalRef =
+        this.modalService.open(EditListDrinkComponent, {size: 'lg'});
 
-    // modalRef.result.then(
-    //     (drinklistSetting: DrinklistSetting) => {
-    //       this.fileService.updateFile(
-    //           '/getraenkeliste-settings.json',
-    //           JSON.stringify(drinklistSetting));
-    //     },
-    //     (err) => {
-    //       console.log(err);
-    //     });
+    modalRef.result.then(
+        (drinklistSetting: DrinklistSetting) => {
+          this.fileService.updateFile(
+              '/getraenkeliste-settings.json',
+              JSON.stringify(drinklistSetting));
+        },
+        (err) => {
+          console.log(err);
+        });
   }
 
   openEditDrinkList(drinkList: Drinklist, index: number): void {

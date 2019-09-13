@@ -1,7 +1,19 @@
 <!-- Mitglieder -->
-<div class="row">
+<div class="row mt-5 mb-5">
   <div class="col text-center">
-    <button type="button" class="btn btn-primary" (click)="openCreateMember()">Mitglied erstellen</button>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="openCreateMember()"
+    >
+      Mitglied erstellen
+    </button>
+  </div>
+</div>
+
+<div class="row text-center mt-5 mb-5">
+  <div class="col-12">
+    <input [(ngModel)]="searchText" placeholder="Suche" />
   </div>
 </div>
 <div class="row">
@@ -9,7 +21,7 @@
     <h1>Mitglieder</h1>
   </div>
 </div>
-<table class="table">
+<table *ngIf="memberList.length > 0 && !loading" class="custom-table">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -17,21 +29,40 @@
       <th scope="col">Nachname</th>
       <th scope="col">Anschrift</th>
       <th scope="col">Telefon</th>
-      <th style="width: 100px;" scope="col"></th>
     </tr>
   </thead>
-  <tbody *ngIf="memberList.length > 0">
-    <tr *ngFor="let member of memberList; let i = index">
-      <th>{{member.id}}</th>
-      <th>{{member.firstname}}</th>
-      <td>{{member.lastname}}</td>
-      <td>{{member.street}} {{member.housenumber}} {{member.city}} {{member.postcode}}</td>
-      <td>{{member.phone}}</td>
-      <td style="width: 100px;" class="text-center">
-        <button (click)="openEditMember(member, i)" class="btn btn-outline-secondary"><i
-            class="icon ion-md-create"></i></button>
-        <button (click)="deleteMember(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
+  <tbody>
+    <tr
+      *ngFor="
+        let member of memberList
+          | filter
+            : {
+                id: searchText,
+                firstname: searchText,
+                lastname: searchText,
+                street: searchText,
+                phone: searchText
+              };
+        let i = index
+      "
+      class="custom-table-card"
+    >
+      <td class="pt-0 pb-0">
+        <a (click)="openEditMember(member, i)"
+          ><i class="icon ion-md-create create"></i
+        ></a>
+        <a (click)="deleteMember(i)"
+          ><i class="icon ion-md-close delete"></i
+        ></a>
       </td>
+      <td data-label="ID">{{ member?.id }}</td>
+      <td data-label="Vorname">{{ member?.firstname }}</td>
+      <td data-label="Nachname">{{ member?.lastname }}</td>
+      <td data-label="Anschrift">
+        {{ member?.street }} {{ member?.housenumber }} {{ member.city }}
+        {{ member.postcode }}
+      </td>
+      <td data-label="Telefon">{{ member?.phone }}</td>
     </tr>
   </tbody>
 </table>
@@ -40,9 +71,11 @@
 </div>
 
 <!-- Gäste -->
-<div class="row">
+<div class="row mt-5 mb-5">
   <div class="col text-center">
-    <button type="button" class="btn btn-primary" (click)="openCreateGuest()">Gast erstellen</button>
+    <button type="button" class="btn btn-secondary" (click)="openCreateGuest()">
+      Gast erstellen
+    </button>
   </div>
 </div>
 <div class="row">
@@ -50,7 +83,7 @@
     <h1>Gäste</h1>
   </div>
 </div>
-<table class="table">
+<table class="custom-table" *ngIf="guestList.length > 0 && !loading">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -58,21 +91,38 @@
       <th scope="col">Nachname</th>
       <th scope="col">Anschrift</th>
       <th scope="col">Telefon</th>
-      <th style="width: 100px;" scope="col"></th>
     </tr>
   </thead>
   <tbody *ngIf="guestList.length > 0">
-    <tr *ngFor="let guest of guestList; let i = index">
-      <th>{{guest.id}}</th>
-      <th>{{guest.firstname}}</th>
-      <td>{{guest.lastname}}</td>
-      <td>{{guest.street}} {{guest.housenumber}} {{guest.city}} {{guest.postcode}}</td>
-      <td>{{guest.phone}}</td>
-      <td style="width: 100px;" class="text-center">
-        <button (click)="openEditGuest(guest, i)" class="btn btn-outline-secondary"><i
-            class="icon ion-md-create"></i></button>
-        <button (click)="deleteGuest(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
+    <tr
+      *ngFor="
+        let guest of guestList
+          | filter
+            : {
+                id: searchText,
+                firstname: searchText,
+                lastname: searchText,
+                street: searchText,
+                phone: searchText
+              };
+        let i = index
+      "
+      class="custom-table-card"
+    >
+      <td class="pt-0 pb-0">
+        <a (click)="openEditGuest(guest, i)"
+          ><i class="icon ion-md-create create"></i
+        ></a>
+        <a (click)="deleteGuest(i)"><i class="icon ion-md-close delete"></i></a>
       </td>
+      <td data-label="ID">{{ guest.id }}</td>
+      <td data-label="Vorname">{{ guest.firstname }}</td>
+      <td data-label="Nachname">{{ guest.lastname }}</td>
+      <td data-label="Anschrift">
+        {{ guest.street }} {{ guest.housenumber }} {{ guest.city }}
+        {{ guest.postcode }}
+      </td>
+      <td data-label="Telefon">{{ guest.phone }}</td>
     </tr>
   </tbody>
 </table>

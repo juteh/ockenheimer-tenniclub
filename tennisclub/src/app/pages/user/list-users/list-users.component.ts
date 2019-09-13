@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {TouchSequence} from 'selenium-webdriver';
 import {Member} from 'src/app/models/member/member.model';
 import {Salutation} from 'src/app/models/member/salutation.enum';
 
@@ -16,6 +17,11 @@ export class ListUsersComponent implements OnInit {
   public memberList: Member[] = new Array<Member>();
   public guestList: Member[] = new Array<Member>();
 
+  public searchText: string;
+  // Das Reload braucht der Filter damit er neue ergebnisse bekommt TODO: Lösung
+  // finden ohne reload
+  public loading = true;
+
   constructor(
       private modalService: NgbModal, private fileService: FileService) {
     fileService.getFile('/mitglieder.json')
@@ -25,9 +31,10 @@ export class ListUsersComponent implements OnInit {
         })
         .then((guestList) => {
           this.guestList = JSON.parse(guestList);
+          this.loading = false;
         })
         .catch((err) => {
-          console.log(err);
+          this.loading = false;
         });
   }
 
@@ -37,14 +44,16 @@ export class ListUsersComponent implements OnInit {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.member = member;
+    this.loading = true;
 
     modalRef.result.then(
         (updatedMember: Member) => {
           this.memberList[index] = updatedMember;
           this.updateUserFile('/mitglieder.json', true);
+          this.loading = false;
         },
         (err) => {
-          console.log(err);
+          this.loading = false;
         });
   }
 
@@ -52,14 +61,16 @@ export class ListUsersComponent implements OnInit {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.member = member;
+    this.loading = true;
 
     modalRef.result.then(
         (updatedGuest: Member) => {
           this.guestList[index] = updatedGuest;
           this.updateUserFile('/gaeste.json', false);
+          this.loading = false;
         },
         (err) => {
-          console.log(err);
+          this.loading = false;
         });
   }
 
@@ -67,20 +78,22 @@ export class ListUsersComponent implements OnInit {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = true;
     modalRef.componentInstance.isGuest = false;
+    this.loading = true;
 
     modalRef.result.then(
         (member: Member) => {
-          if (this.guestList.length === 0) {
-            member.id = 1;
+          if (this.memberList.length === 0) {
+            member.id = 0;
           } else {
             // Hat immer die nächste höhere ID zum letzten User
             member.id = this.memberList[this.memberList.length - 1].id + 1;
           }
           this.memberList.push(member);
           this.updateUserFile('/mitglieder.json', true);
+          this.loading = false;
         },
         (err) => {
-          console.log(err);
+          this.loading = false;
         });
   }
 
@@ -88,6 +101,7 @@ export class ListUsersComponent implements OnInit {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = true;
     modalRef.componentInstance.isGuest = true;
+    this.loading = true;
 
     modalRef.result.then(
         (guest: Member) => {
@@ -98,9 +112,10 @@ export class ListUsersComponent implements OnInit {
           }
           this.guestList.push(guest);
           this.updateUserFile('/gaeste.json', false);
+          this.loading = false;
         },
         (err) => {
-          console.log(err);
+          this.loading = false;
         });
   }
 
@@ -111,14 +126,16 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.headline = 'Mitglied löschen';
     modalRef.componentInstance.description =
         'Wollen Sie wirklich dieses Mietglied löschen?';
+    this.loading = true;
 
     modalRef.result.then(
         (result) => {
           this.memberList.splice(index, 1);
           this.updateUserFile('/mitglieder.json', true);
+          this.loading = false;
         },
         (err) => {
-          console.log(err);
+          this.loading = false;
         });
   }
 
@@ -129,15 +146,16 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.headline = 'Gast löschen';
     modalRef.componentInstance.description =
         'Wollen Sie wirklich diesen Gast löschen?';
-
+    this.loading = true;
 
     modalRef.result.then(
         (result) => {
           this.guestList.splice(index, 1);
           this.updateUserFile('/gaeste.json', false);
+          this.loading = false;
         },
         (err) => {
-          console.log(err);
+          this.loading = false;
         });
   }
 
@@ -150,14 +168,14 @@ export class ListUsersComponent implements OnInit {
   }
 
   /**
-   * Konvertiert das importierte Text-File in passendes ObjektListing
+   * Konvertiert das importierte csv-Files in passendes ObjektListing
    * key entscheidet welches Objekt erzeugt wird
    * member = konvertiere in Mitglieder-Objekt
    * guest = konvertiere in Gast-Objekt
    * drink = konvertiere in Getränk-Objekt
    * Diese Methode muss nur einmalig initial gemacht werden!
    */
-  textConverter(text, key): void {
+  csvConverter(text, key): void {
     for (const entry of text.split('\n')) {
       if (entry && entry.length > 0) {
         if (key === 'member') {
@@ -204,5 +222,20 @@ export class ListUsersComponent implements OnInit {
         }
       }
     }
+  }
+
+  /**
+   * Konvertiert die mitglieder.txt in passende memberList
+   */
+  txtConverter(): void {
+    this.fileService.getFile('/mitglieder.txt').then((text) => {
+      for (const entry of text.split('\n')) {
+        if (entry) {
+          this.memberList.push(JSON.parse(entry));
+        }
+      }
+      this.updateUserFile('/mitglieder.json', true);
+      this.loading = false;
+    });
   }
 }
