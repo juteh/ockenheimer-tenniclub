@@ -1,13 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {FormsModule} from '@angular/forms';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {SelectModule} from 'ng2-select';
-import {forkJoin, Observable} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
 import {Drink} from 'src/app/models/drink/drink.model';
 import {DrinklistSetting} from 'src/app/models/drink/drinklistSetting.model';
 import {Member} from 'src/app/models/member/member.model';
-import {runInThisContext} from 'vm';
 
 import {FileService} from '../../../file.service';
 
