@@ -1,39 +1,34 @@
 <div class="row">
   <div class="col text-center">
-    <button type="button" class="btn btn-primary" (click)="openCreateDrink()">Getränk erstellen</button>
+    <button type="button" class="btn btn-secondary mt-5" (click)="openCreateDrink()">
+      Getränk erstellen
+    </button>
   </div>
 </div>
-<div class="row">
-    <div class="col text-center">
-      <h1>Getränke</h1>
-    </div>
-  </div>
-  <table class="table">
-    <thead>
-      <tr>
+
+<table *ngIf="drinks.length > 0" class="custom-table">
+  <thead>
+    <tr>
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Beschreibung</th>
         <th scope="col">Liter</th>
         <th scope="col">Preis</th>
-        <th style="width: 100px;" scope="col"></th>
-      </tr>
-    </thead>
-    <tbody *ngIf="drinks.length > 0">
-      <tr *ngFor="let drink of drinks; let i = index">
-        <th>{{drink.id}}</th>
-        <th>{{drink.name}}</th>
-        <td>{{drink.description}}</td>
-        <td>{{drink.litres}}</td>
-        <td>{{drink.price}}</td>
-        <td style="width: 100px;" class="text-center">
-          <button (click)="openEditDrink(drink, i)" class="btn btn-outline-secondary"><i
-              class="icon ion-md-create"></i></button>
-          <button (click)="deleteDrink(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="text-center" *ngIf="drinks.length === 0">
-    <h3>Liste ist leer</h3>
-  </div>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="custom-table-card" *ngFor="let drink of drinks; let i = index">
+      <td class="pt-0 pb-0">
+          <a (click)="openEditDrink(drink, i)"><i class="icon ion-md-create create"></i></a>
+        <a (click)="deleteDrink(i)"><i class="icon ion-md-close delete"></i></a></td>
+      <td data-label="ID">{{drink.id}}</td>
+      <td data-label="Name">{{drink.name}}</td>
+      <td data-label="Beschreibung">{{drink.description}}</td>
+      <td data-label="Liter">{{drink.litres}}</td>
+      <td data-label="Preis">{{drink.price}}</td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-center" *ngIf="drinks.length === 0">
+  <h3>Liste ist leer</h3>
+</div>

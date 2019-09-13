@@ -4,7 +4,6 @@ import {FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule, Routes} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {SelectModule} from 'ng2-select';
 import {PapaParseModule} from 'ngx-papaparse';
 
 import {AppComponent} from './app.component';
@@ -26,7 +25,7 @@ const routes: Routes = [{path: 'user', component: ListUsersComponent}];
   ],
   imports: [
     BrowserModule, RouterModule.forRoot(routes), PapaParseModule, NgbModule,
-    ReactiveFormsModule, FormsModule, SelectModule
+    ReactiveFormsModule, FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
