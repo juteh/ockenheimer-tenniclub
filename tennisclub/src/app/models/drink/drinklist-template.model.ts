@@ -1,24 +1,19 @@
-import {Member} from './../member/member.model';
+import {Member} from 'src/app/models/member/member.model';
 import {Drink} from './drink.model';
-
-export class Drinklist {
-  public id: number;
+export class DrinklistTemplate {
   public creator: Member;
   public startDate: Date;
   public endDate: Date;
   public users: Member[];
   public drinks: Drink[];
-  public totalCost: number;
 
   constructor(
-      id = null, creator = null, startDate = null, endDate = null, users = [],
-      drinks = [], totalcost = 0) {
-    this.id = id;
+      creator = null, startDate = null, endDate = null, users = [],
+      drinks = []) {
     this.creator = creator;
     this.startDate = startDate;
     this.endDate = endDate;
     this.users = users;
     this.drinks = drinks;
-    this.totalCost = totalcost;
   }
 }

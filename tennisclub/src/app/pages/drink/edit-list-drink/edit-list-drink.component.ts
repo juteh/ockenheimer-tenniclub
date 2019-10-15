@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Drinklist } from './../../../models/drink/drinklist.model';
+import {Component, OnInit, Input} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Drink} from 'src/app/models/drink/drink.model';
-import {DrinklistSetting} from 'src/app/models/drink/drinklistSetting.model';
 import {Member} from 'src/app/models/member/member.model';
-
 import {FileService} from '../../../file.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
+import {DrinklistTemplate} from '../../../models/drink/drinklist-template.model';
 
 @Component({
   selector: 'app-edit-list-drink',
@@ -13,7 +12,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./edit-list-drink.component.css']
 })
 export class EditListDrinkComponent implements OnInit {
-  public creator: Member;
   public startDate: Date;
   public endDate: Date;
   public drinks: Drink[];
@@ -31,12 +29,19 @@ export class EditListDrinkComponent implements OnInit {
   public selectableDrinks: Array<{drink: Drink, fullname: string}> = [];
   public selectedDrink: {drink: Drink, fullname: string};
   public addedDrinks: Array<{drink: Drink, fullname: string}> = [];
-
   public loading = true;
+  // private drinklistTemplate: DrinklistTemplate = new DrinklistTemplate();
+  // Enthält die vom voreingestellten Einstellungen des Templates
+  // private drinklistSettings: DrinklistTemplate = new DrinklistTemplate();
+  private drinklist: Drinklist = new Drinklist();
 
-  constructor(private fileService: FileService, public activeModal: NgbActiveModal) {}
+  @Input() isTemplate = false;
 
-  // TODO: Daten in Zwischenspeicher legen, damit beim ausversehen schließen die daten noch da sind
+  constructor(
+      private fileService: FileService, public activeModal: NgbActiveModal) {}
+
+  // TODO: Daten in Zwischenspeicher legen, damit beim ausversehen schließen die
+  // daten noch da sind
   ngOnInit(): void {
     this.fileService.getFile('/mitglieder.json')
         .then((memberList) => {
@@ -49,6 +54,17 @@ export class EditListDrinkComponent implements OnInit {
         })
         .then((drinks) => {
           this.drinks = JSON.parse(drinks);
+          return this.fileService.getFile('/getraenkeliste-template.json');
+        })
+        .then((drinklistTemplate) => {
+          // if (drinklistTemplate) {
+            // this.drinklistSettings = JSON.parse(drinklistTemplate);
+          // }
+          // this.selectedCreator = this.drinklistSettings.creator;
+
+          // this.startDate = this.drinklistSettings.startDate;
+
+          // this.endDate = this.drinklistSettings.endDate;
           this.createSelectableLists();
           this.loading = false;
         })
@@ -91,9 +107,57 @@ export class EditListDrinkComponent implements OnInit {
       });
     });
     this.selectableCreators = this.selectablePersons;
+
+    // console.log(this.drinklistTemplate);
+    // if (this.drinklistTemplate && !this.isTemplate) {
+      // this.drinklist.creator = this.drinklistTemplate.creator;
+      // this.drinklist.startDate = this.drinklistTemplate.startDate;
+      // this.drinklist.endDate = this.drinklistTemplate.endDate;
+      // if (this.drinklist.users && this.drinklist.users.length > 0) {
+        // this.drinklist.users = this.drinklistTemplate.users;
+      // }
+      // if (this.drinklist.drinks && this.drinklist.drinks.length > 0) {
+        // this.drinklist.drinks = this.drinklistTemplate.drinks;
+      // }
+    // }
   }
 
-  save(): void {}
+  saveDrinkList(): void {
+    this.drinklist.creator = this.selectedCreator.person;
+    this.drinklist.startDate = this.startDate;
+    this.drinklist.endDate = this.endDate;
+    const selectedPerson = [];
+    this.addedPersons.forEach(person => {
+      selectedPerson.push(person.person);
+    });
+    this.drinklist.users = selectedPerson;
+    const selectedDrinks = [];
+    this.addedDrinks.forEach(drink => {
+      selectedDrinks.push(drink.drink);
+    });
+    this.drinklist.drinks = selectedDrinks;
+    this.activeModal.close(this.drinklist);
+  }
+
+  // saveTemplate(): void {
+  //   if (this.selectedCreator) {
+  //     this.drinklistTemplate.creator = this.selectedCreator.person;
+  //   }
+  //   this.drinklistTemplate.startDate = this.startDate;
+  //   this.drinklistTemplate.endDate = this.endDate;
+  //   const selectedPerson = [];
+  //   this.addedPersons.forEach(person => {
+  //     selectedPerson.push(person.person);
+  //   });
+  //   this.drinklistTemplate.users = selectedPerson;
+  //   const selectedDrinks = [];
+  //   this.addedDrinks.forEach(drink => {
+  //     selectedDrinks.push(drink.drink);
+  //   });
+  //   this.drinklistTemplate.drinks = selectedDrinks;
+
+  //   this.activeModal.close(this.drinklistTemplate);
+  // }
 
   addDrink($event): void {
     if (this.selectedDrink) {
@@ -135,7 +199,9 @@ export class EditListDrinkComponent implements OnInit {
     this.addedPersons.splice(index, 1);
   }
 
-  addCreator($event): void {}
+  addCreator($event): void {
+    console.log($event);
+  }
 
   deleteCreator(): void {
     this.selectedCreator = null;

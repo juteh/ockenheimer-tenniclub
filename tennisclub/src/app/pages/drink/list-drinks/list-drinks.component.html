@@ -1,7 +1,8 @@
 <!-- Getränkelisten -->
 <div class="row">
     <div class="col text-center">
-      <button type="button" class="btn btn-primary" (click)="openCreateTemplateDrinklist()">Trinkliste erstellen</button>
+      <button type="button" class="btn btn-primary" (click)="openCreateTemplateDrinklist()">Vorlage bearbeiten</button>
+      <button type="button" class="btn btn-primary" (click)="openCreateDrinklist()">Getränkeliste erstellen</button>
     </div>
   </div>
   <div class="row">
@@ -9,7 +10,7 @@
       <h1>Getränkelisten</h1>
     </div>
   </div>
-  <table class="table">
+  <!-- <table class="table">
     <thead>
       <tr>
         <th scope="col">Ersteller</th>
@@ -33,5 +34,63 @@
     </tbody>
   </table>
   <div *ngIf="!drinklistings || drinklistings.length === 0" class="text-center">
+    <h3>Liste ist leer</h3>
+  </div> -->
+
+
+  <div class="row text-center mt-5 mb-5">
+    <div class="col-12">
+      <input [(ngModel)]="searchText" placeholder="Suche" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center">
+      <h1>Mitglieder</h1>
+    </div>
+  </div>
+  <table *ngIf="drinklistings.length > 0 && !loading" class="custom-table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
+        <th scope="col">Anschrift</th>
+        <th scope="col">Telefon</th>
+      </tr>
+    </thead>
+    <!-- TODO: Wie funktioniert hier der suchfilter am besten? Vielleicht die Liste vodefinieren damit es nur primitve datentypen gibt und keine Objekte? -->
+    <tbody>
+      <tr
+        *ngFor="
+          let drinklisting of drinklistings
+            | filter
+              : {
+                  ID: searchText,
+                  Name: searchText,
+                  Zeitraum: searchText,
+                  totalCost: searchText
+                };
+          let i = index
+        "
+        class="custom-table-card"
+      >
+        <td class="pt-0 pb-0">
+          <a (click)="openEditDrinkList(drinklisting, i)"
+            ><i class="icon ion-md-create create"></i
+          ></a>
+          <a (click)="deleteDrinkList(i)"
+            ><i class="icon ion-md-close delete"></i
+          ></a>
+        </td>
+        <td data-label="ID">{{ drinklisting?.id }}</td>
+        <td data-label="Name">{{ drinklisting?.creator?.firstname }} {{ drinklisting?.creator?.lastname }}</td>
+        <td data-label="Zeitraum">{{ drinklisting?.startDate }} - {{ drinklisting?.endDate }}</td>
+        <td data-label="Kosten">
+          {{ drinklisting?.totalCost }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center" *ngIf="drinklistings.length === 0">
     <h3>Liste ist leer</h3>
   </div>

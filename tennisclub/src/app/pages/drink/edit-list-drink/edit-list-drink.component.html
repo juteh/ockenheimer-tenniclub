@@ -1,16 +1,15 @@
 <div class="card">
   <div class="card-header text-center">
     <div class="row">
-      <h3 class="col">Einstellungen Getränkelisten</h3>
+      <h3 *ngIf="!isTemplate" class="col">Einstellungen Getränkelisten</h3>
+      <h3 *ngIf="isTemplate" class="col">Einstellungen Vorlage</h3>
     </div>
   </div>
 
   <div *ngIf="!loading" class="card-body">
     <!-- Ersteller/in -->
     <div class="form-group row">
-      <label class="col-12 col-md-6 col-form-label"
-        >Ersteller/in</label
-      >
+      <label class="col-12 col-md-6 col-form-label">Ersteller/in</label>
       <div *ngIf="!selectedCreator" class="col-12 col-md-6">
         <ng-select
           [items]="selectableCreators"
@@ -21,24 +20,75 @@
         >
         </ng-select>
       </div>
-      <div *ngIf="selectedCreator" class="col-12 col-md-6 card-select col-form-label">
-          <span>{{ selectedCreator.fullname }}</span>
-              <a (click)="deleteCreator()"
-                ><i class="icon ion-md-close close"></i
-              ></a>
+      <div
+        *ngIf="selectedCreator"
+        class="col-12 col-md-6 card-select col-form-label"
+      >
+        <span>{{ selectedCreator.fullname }}</span>
+        <a (click)="deleteCreator()"><i class="icon ion-md-close close"></i></a>
       </div>
     </div>
 
     <!-- Von-Datum -->
-    <mat-form-field>
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+    <div class="form-group row">
+      <label class="col-12 col-md-6 col-form-label">Von</label>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <div class="input-group" style="width: 150px;">
+            <input
+              class="form-control"
+              placeholder="dd-mm-yyyy"
+              name="dp"
+              [(ngModel)]="startDate"
+              ngbDatepicker
+              #d1="ngbDatepicker"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                (click)="d1.toggle()"
+                type="button"
+              >
+                <i class="icon ion-md-calendar"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bis-Datum -->
+    <div class="form-group row">
+      <label class="col-12 col-md-6 col-form-label">Bis</label>
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <div class="input-group" style="width: 150px;">
+            <input
+              class="form-control"
+              placeholder="dd-mm-yyyy"
+              name="dp"
+              [(ngModel)]="endDate"
+              ngbDatepicker
+              #d2="ngbDatepicker"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary calendar"
+                (click)="d2.toggle()"
+                type="button"
+              >
+                <i class="icon ion-md-calendar"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="row">
       <!-- Personen -->
       <div class="col-12 col-md-6">
+        <label>Personen</label>
         <div *ngIf="selectablePersons.length > 0" class="row form-group">
           <div class="col-12">
             <ng-select
@@ -70,6 +120,7 @@
 
       <!-- Drinks -->
       <div class="col-12 col-md-6">
+        <label>Getränke</label>
         <div class="row form-group">
           <div class="col-12">
             <ng-select
@@ -113,7 +164,10 @@
         </button>
       </div>
       <div class="col-6 text-right">
-        <button (click)="save()" type="submit" class="btn btn-primary">
+        <button *ngIf="!isTemplate" (click)="saveDrinkList()" type="submit" class="btn btn-primary">
+          Speichern
+        </button>
+        <button *ngIf="isTemplate" (click)="saveTemplate()" type="submit" class="btn btn-primary">
           Speichern
         </button>
       </div>
