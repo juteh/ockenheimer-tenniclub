@@ -1,96 +1,82 @@
 <!-- Getränkelisten -->
 <div class="row">
-    <div class="col text-center">
-      <button type="button" class="btn btn-primary" (click)="openCreateTemplateDrinklist()">Vorlage bearbeiten</button>
-      <button type="button" class="btn btn-primary" (click)="openCreateDrinklist()">Getränkeliste erstellen</button>
-    </div>
+  <div class="col text-center">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="openCreateTemplateDrinklist()"
+    >
+      Vorlage bearbeiten
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="openCreateDrinklist()"
+    >
+      Getränkeliste erstellen
+    </button>
   </div>
-  <div class="row">
-    <div class="col text-center">
-      <h1>Getränkelisten</h1>
-    </div>
+</div>
+<div class="row">
+  <div class="col text-center">
+    <h1>Getränkelisten</h1>
   </div>
-  <!-- <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Ersteller</th>
-        <th scope="col">Start</th>
-        <th scope="col">Ende</th>
-        <th scope="col">Ausgaben</th>
-        <th style="width: 100px;" scope="col"></th>
-      </tr>
-    </thead>
-    <tbody *ngIf="drinklistings && drinklistings.length > 0">
-        <tr *ngFor="let drinklist of drinklistings; let i = index">
-            <th>{{drinklist.creator}}</th>
-            <td>{{drinklist.startDate}}</td>
-            <td>{{drinklist.endDate}}</td>
-            <td style="width: 100px;" class="text-center">
-              <button (click)="openEditDrinkList(drinklist, i)" class="btn btn-outline-secondary"><i
-                  class="icon ion-md-create"></i></button>
-              <button (click)="deleteDrinkList(i)" class="btn btn-outline-secondary"><i class="icon ion-md-trash"></i></button>
-            </td>
-          </tr>
-    </tbody>
-  </table>
-  <div *ngIf="!drinklistings || drinklistings.length === 0" class="text-center">
-    <h3>Liste ist leer</h3>
-  </div> -->
-
-
-  <div class="row text-center mt-5 mb-5">
-    <div class="col-12">
-      <input [(ngModel)]="searchText" placeholder="Suche" />
-    </div>
+</div>
+<div class="row text-center mt-5 mb-5">
+  <div class="col-12">
+    <input [(ngModel)]="searchText" placeholder="Suche" />
   </div>
-  <div class="row">
-    <div class="col text-center">
-      <h1>Mitglieder</h1>
-    </div>
+</div>
+<div class="row">
+  <div class="col text-center">
+    <h1>Mitglieder</h1>
   </div>
-  <table *ngIf="drinklistings.length > 0 && !loading" class="custom-table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Vorname</th>
-        <th scope="col">Nachname</th>
-        <th scope="col">Anschrift</th>
-        <th scope="col">Telefon</th>
-      </tr>
-    </thead>
-    <!-- TODO: Wie funktioniert hier der suchfilter am besten? Vielleicht die Liste vodefinieren damit es nur primitve datentypen gibt und keine Objekte? -->
-    <tbody>
-      <tr
-        *ngFor="
-          let drinklisting of drinklistings
-            | filter
-              : {
-                  ID: searchText,
-                  Name: searchText,
-                  Zeitraum: searchText,
-                  totalCost: searchText
-                };
-          let i = index
-        "
-        class="custom-table-card"
-      >
-        <td class="pt-0 pb-0">
-          <a (click)="openEditDrinkList(drinklisting, i)"
-            ><i class="icon ion-md-create create"></i
-          ></a>
-          <a (click)="deleteDrinkList(i)"
-            ><i class="icon ion-md-close delete"></i
-          ></a>
-        </td>
-        <td data-label="ID">{{ drinklisting?.id }}</td>
-        <td data-label="Name">{{ drinklisting?.creator?.firstname }} {{ drinklisting?.creator?.lastname }}</td>
-        <td data-label="Zeitraum">{{ drinklisting?.startDate }} - {{ drinklisting?.endDate }}</td>
-        <td data-label="Kosten">
-          {{ drinklisting?.totalCost }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="text-center" *ngIf="drinklistings.length === 0">
-    <h3>Liste ist leer</h3>
-  </div>
+</div>
+<table *ngIf="drinkListViews.length > 0 && !loading" class="custom-table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Ersteller/in</th>
+      <th scope="col">Zeitraum</th>
+      <th scope="col">Gesamtkosten</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let drinkListView of drinkListViews
+          | filter
+            : {
+                id: searchText,
+                creator: searchText,
+                time: searchText,
+                cost: searchText
+              };
+        let i = index
+      "
+      class="custom-table-card"
+    >
+      <td class="pt-0 pb-0">
+        <a (click)="openEditDrinkList(i)"
+          ><i class="icon ion-md-create create"></i
+        ></a>
+        <a (click)="deleteDrinkList(i)"
+          ><i class="icon ion-md-close delete"></i
+        ></a>
+      </td>
+      <td data-label="ID">{{ drinkListView.id }}</td>
+      <td data-label="Name">
+        {{ drinkListView.creator }}
+      </td>
+      <td data-label="Zeitraum">
+        {{ drinkListView.time }}
+      </td>
+      <td data-label="Kosten">
+        {{ drinkListView.cost }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-center" *ngIf="drinkListViews.length === 0">
+  <h3>Liste ist leer</h3>
+</div>

@@ -1,10 +1,12 @@
-import { Drinklist } from './../../../models/drink/drinklist.model';
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Drink} from 'src/app/models/drink/drink.model';
 import {Member} from 'src/app/models/member/member.model';
+
 import {FileService} from '../../../file.service';
 import {DrinklistTemplate} from '../../../models/drink/drinklist-template.model';
+
+import {Drinklist} from './../../../models/drink/drinklist.model';
 
 @Component({
   selector: 'app-edit-list-drink',
@@ -36,6 +38,7 @@ export class EditListDrinkComponent implements OnInit {
   private drinklist: Drinklist = new Drinklist();
 
   @Input() isTemplate = false;
+  @Input() selectedDrinkList: Drinklist;
 
   constructor(
       private fileService: FileService, public activeModal: NgbActiveModal) {}
@@ -58,13 +61,43 @@ export class EditListDrinkComponent implements OnInit {
         })
         .then((drinklistTemplate) => {
           // if (drinklistTemplate) {
-            // this.drinklistSettings = JSON.parse(drinklistTemplate);
+          // this.drinklistSettings = JSON.parse(drinklistTemplate);
           // }
           // this.selectedCreator = this.drinklistSettings.creator;
 
           // this.startDate = this.drinklistSettings.startDate;
 
           // this.endDate = this.drinklistSettings.endDate;
+
+          console.log(this.selectedDrinkList);
+          // Daten der zuvor ausgewählten Getränkeliste übernehmen
+          if (this.selectedDrinkList) {
+            this.startDate = this.selectedDrinkList.startDate;
+            this.endDate = this.selectedDrinkList.endDate;
+            if (this.selectedDrinkList.creator) {
+              const name = this.selectedDrinkList.creator.firstname + " " + this.selectedDrinkList.creator.lastname;
+              this.selectedCreator = {person: this.selectedDrinkList.creator, fullname: name};
+            }
+
+            // Vorausgewählte Getränke hinzufügen
+            if (this.selectedDrinkList.drinks) {
+              this.selectedDrinkList.drinks.forEach(drink => {
+                this.addedDrinks.push({
+                  drink: drink,
+                  fullname: drink.name + ' ' + drink.litres + ' ' + drink.price
+                });
+              });
+            }
+
+            if (this.selectedDrinkList.users) {
+              this.selectedDrinkList.users.forEach(user => {
+                this.addedPersons.push({
+                  person: user,
+                  fullname: user.firstname + " " + user.lastname
+                });
+              });
+            }
+          }
           this.createSelectableLists();
           this.loading = false;
         })
@@ -110,22 +143,32 @@ export class EditListDrinkComponent implements OnInit {
 
     // console.log(this.drinklistTemplate);
     // if (this.drinklistTemplate && !this.isTemplate) {
-      // this.drinklist.creator = this.drinklistTemplate.creator;
-      // this.drinklist.startDate = this.drinklistTemplate.startDate;
-      // this.drinklist.endDate = this.drinklistTemplate.endDate;
-      // if (this.drinklist.users && this.drinklist.users.length > 0) {
-        // this.drinklist.users = this.drinklistTemplate.users;
-      // }
-      // if (this.drinklist.drinks && this.drinklist.drinks.length > 0) {
-        // this.drinklist.drinks = this.drinklistTemplate.drinks;
-      // }
+    // this.drinklist.creator = this.drinklistTemplate.creator;
+    // this.drinklist.startDate = this.drinklistTemplate.startDate;
+    // this.drinklist.endDate = this.drinklistTemplate.endDate;
+    // if (this.drinklist.users && this.drinklist.users.length > 0) {
+    // this.drinklist.users = this.drinklistTemplate.users;
+    // }
+    // if (this.drinklist.drinks && this.drinklist.drinks.length > 0) {
+    // this.drinklist.drinks = this.drinklistTemplate.drinks;
+    // }
     // }
   }
 
+  // Wenn nichts ausgewählt wird, sind sie null.
+  // Deswegen hat jeder selector hat eine null-abfrage
   saveDrinkList(): void {
-    this.drinklist.creator = this.selectedCreator.person;
-    this.drinklist.startDate = this.startDate;
-    this.drinklist.endDate = this.endDate;
+    if (this.selectedCreator) {
+      this.drinklist.creator = this.selectedCreator.person;
+    }
+
+    if (this.startDate) {
+      this.drinklist.startDate = this.startDate;
+    }
+
+    if (this.endDate) {
+      this.drinklist.endDate = this.endDate;
+    }
     const selectedPerson = [];
     this.addedPersons.forEach(person => {
       selectedPerson.push(person.person);
@@ -136,6 +179,7 @@ export class EditListDrinkComponent implements OnInit {
       selectedDrinks.push(drink.drink);
     });
     this.drinklist.drinks = selectedDrinks;
+    console.log("save: ", this.drinklist);
     this.activeModal.close(this.drinklist);
   }
 

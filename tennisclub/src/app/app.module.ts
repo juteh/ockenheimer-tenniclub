@@ -29,7 +29,7 @@ const routes: Routes = [{path: 'user', component: ListUsersComponent}];
     BrowserModule, RouterModule.forRoot(routes), PapaParseModule, NgbModule,
     ReactiveFormsModule, FormsModule, NgSelectModule
   ],
-  providers: [],
+  providers: [EditListDrinkComponent],
   bootstrap: [AppComponent],
   entryComponents: [
     EditUserComponent, ListDrinksComponent, EditDrinkComponent,
