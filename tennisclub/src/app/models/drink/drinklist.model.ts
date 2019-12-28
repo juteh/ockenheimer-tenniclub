@@ -1,12 +1,12 @@
-import {Member} from './../member/member.model';
+import {Person} from '../person/person.model';
 import {Drink} from './drink.model';
 
 export class Drinklist {
   public id: number;
-  public creator: Member;
+  public creator: Person;
   public startDate: Date;
   public endDate: Date;
-  public users: Member[];
+  public users: Person[];
   public drinks: Drink[];
   public totalCost: number;
 

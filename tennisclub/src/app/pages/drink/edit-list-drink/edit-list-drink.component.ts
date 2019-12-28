@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Drink} from 'src/app/models/drink/drink.model';
-import {Member} from 'src/app/models/member/member.model';
 
 import {FileService} from '../../../file.service';
 import {DrinklistTemplate} from '../../../models/drink/drinklist-template.model';
+import {Person} from '../../../models/person/person.model';
 
 import {Drinklist} from './../../../models/drink/drinklist.model';
 
@@ -17,34 +17,32 @@ export class EditListDrinkComponent implements OnInit {
   public startDate: Date;
   public endDate: Date;
   public drinks: Drink[];
-  public members: Member[];
-  public guests: Member[];
+  public members: Person[];
+  public guests: Person[];
   // Beinhaltet Mitglieder und Gäste und den vollen Namen der Person. Notwendig
   // für ng-select
-  public selectableCreators: Array<{person: Member, fullname: string}> = [];
-  public selectedCreator: {person: Member, fullname: string};
-  public selectablePersons: Array<{person: Member, fullname: string}> = [];
-  public selectedPerson: {person: Member, fullname: string};
-  public addedPersons: Array<{person: Member, fullname: string}> = [];
+  public selectableCreators: Array<{personObject: Person, fullname: string}> =
+      [];
+  public selectedCreator: {personObject: Person, fullname: string};
+  public selectablePersons: Array<{personObject: Person, fullname: string}> =
+      [];
+  public selectedPerson: {personObject: Person, fullname: string};
+  public addedPersons: Array<{personObject: Person, fullname: string}> = [];
 
   // Bei Getränken besteht der volle Name zusätzlich aus Liter und Preis
-  public selectableDrinks: Array<{drink: Drink, fullname: string}> = [];
-  public selectedDrink: {drink: Drink, fullname: string};
-  public addedDrinks: Array<{drink: Drink, fullname: string}> = [];
-  public loading = true;
-  // private drinklistTemplate: DrinklistTemplate = new DrinklistTemplate();
-  // Enthält die vom voreingestellten Einstellungen des Templates
-  // private drinklistSettings: DrinklistTemplate = new DrinklistTemplate();
+  public selectableDrinks: Array<{drinkObject: Drink, fullname: string}> = [];
+  public selectedDrink: {drinkObject: Drink, fullname: string};
+  public addedDrinks: Array<{drinkObject: Drink, fullname: string}> = [];
+  private currentDrinklistTemplate: DrinklistTemplate = new DrinklistTemplate();
   private drinklist: Drinklist = new Drinklist();
 
-  @Input() isTemplate = false;
+  @Input() isTemplateEdit = false;
   @Input() selectedDrinkList: Drinklist;
+  @Input() drinkListTemplate: Drinklist;
 
   constructor(
       private fileService: FileService, public activeModal: NgbActiveModal) {}
 
-  // TODO: Daten in Zwischenspeicher legen, damit beim ausversehen schließen die
-  // daten noch da sind
   ngOnInit(): void {
     this.fileService.getFile('/mitglieder.json')
         .then((memberList) => {
@@ -57,52 +55,55 @@ export class EditListDrinkComponent implements OnInit {
         })
         .then((drinks) => {
           this.drinks = JSON.parse(drinks);
-          return this.fileService.getFile('/getraenkeliste-template.json');
-        })
-        .then((drinklistTemplate) => {
-          // if (drinklistTemplate) {
-          // this.drinklistSettings = JSON.parse(drinklistTemplate);
-          // }
-          // this.selectedCreator = this.drinklistSettings.creator;
 
-          // this.startDate = this.drinklistSettings.startDate;
-
-          // this.endDate = this.drinklistSettings.endDate;
-
-          console.log(this.selectedDrinkList);
-          // Daten der zuvor ausgewählten Getränkeliste übernehmen
-          if (this.selectedDrinkList) {
-            this.startDate = this.selectedDrinkList.startDate;
-            this.endDate = this.selectedDrinkList.endDate;
-            if (this.selectedDrinkList.creator) {
-              const name = this.selectedDrinkList.creator.firstname + " " + this.selectedDrinkList.creator.lastname;
-              this.selectedCreator = {person: this.selectedDrinkList.creator, fullname: name};
+          // Falls es ein Template übergeben wurde, wird eine neue Getränkeliste
+          // erstellte -> Ersteller-Modus. Fall ein vorhandenes Template
+          // übergeben wird, wir die aktuelle Getränkeliste angepasst ->
+          // Bearbeitungs-Modus.
+          if (this.selectedDrinkList || this.drinkListTemplate) {
+            let updatingTemplate = null;
+            if (this.selectedDrinkList) {
+              updatingTemplate = this.selectedDrinkList;
+            } else if (this.drinkListTemplate) {
+              updatingTemplate = this.drinkListTemplate;
             }
+            if (updatingTemplate) {
+              this.startDate = updatingTemplate.startDate;
+              this.endDate = updatingTemplate.endDate;
+              if (updatingTemplate.creator) {
+                const name = updatingTemplate.creator.firstname + ' ' +
+                updatingTemplate.creator.lastname;
+                this.selectedCreator = {
+                  personObject: updatingTemplate.creator,
+                  fullname: name
+                };
+              }
 
-            // Vorausgewählte Getränke hinzufügen
-            if (this.selectedDrinkList.drinks) {
-              this.selectedDrinkList.drinks.forEach(drink => {
-                this.addedDrinks.push({
-                  drink: drink,
-                  fullname: drink.name + ' ' + drink.litres + ' ' + drink.price
+              // Vorausgewählte Getränke hinzufügen
+              if (updatingTemplate.drinks) {
+                updatingTemplate.drinks.forEach(drink => {
+                  this.addedDrinks.push({
+                    drinkObject: drink,
+                    fullname:
+                        drink.name + ' ' + drink.litres + ' ' + drink.price
+                  });
                 });
-              });
-            }
+              }
 
-            if (this.selectedDrinkList.users) {
-              this.selectedDrinkList.users.forEach(user => {
-                this.addedPersons.push({
-                  person: user,
-                  fullname: user.firstname + " " + user.lastname
+              // Vorausgewählt Personen hinzufügen
+              if (updatingTemplate.users) {
+                updatingTemplate.users.forEach(user => {
+                  this.addedPersons.push({
+                    personObject: user,
+                    fullname: user.firstname + ' ' + user.lastname
+                  });
                 });
-              });
+              }
             }
           }
           this.createSelectableLists();
-          this.loading = false;
         })
         .catch((err) => {
-          this.loading = false;
           console.log(err);
         });
   }
@@ -110,7 +111,17 @@ export class EditListDrinkComponent implements OnInit {
   // Erstellt Liste aus Mitglieder und Gästen mit ihren vollem Namen sowie für
   // Getränke
   createSelectableLists(): void {
-    this.members.forEach((member: Member) => {
+    this.members.forEach((member: Person) => {
+      // Beim Editieren einer Personenliste kann die addedPersons-Liste schon
+      // gefüllt sein. Falls schon vorhanden, darf das Element nicht mehr in
+      // selecablePersons hinzugefügt werden.
+      let isSelected = false;
+      this.addedPersons.forEach(addedPerson => {
+        if (!addedPerson.personObject.isGuest &&
+            addedPerson.personObject.id === member.id) {
+          isSelected = true;
+        }
+      });
       let fullname = '';
       if (member.firstname && !member.lastname) {
         fullname = member.firstname;
@@ -119,9 +130,19 @@ export class EditListDrinkComponent implements OnInit {
       } else if (member.firstname && member.lastname) {
         fullname = member.firstname + ' ' + member.lastname;
       }
-      this.selectablePersons.push({person: member, fullname: fullname});
+      if (!isSelected) {
+        this.selectablePersons.push({personObject: member, fullname: fullname});
+      }
+      this.selectableCreators.push({personObject: member, fullname: fullname});
     });
-    this.guests.forEach((guest: Member) => {
+    this.guests.forEach((guest: Person) => {
+      let isSelected = false;
+      this.addedPersons.forEach(addedPerson => {
+        if (!addedPerson.personObject.isGuest &&
+            addedPerson.personObject.id === guest.id) {
+          isSelected = true;
+        }
+      });
       let fullname = '';
       if (guest.firstname && !guest.lastname) {
         fullname = guest.firstname;
@@ -130,36 +151,48 @@ export class EditListDrinkComponent implements OnInit {
       } else if (guest.firstname && guest.lastname) {
         fullname = guest.firstname + ' ' + guest.lastname;
       }
-      this.selectablePersons.push(
-          {person: guest, fullname: fullname + ' (Gast)'});
+      if (!isSelected) {
+        this.selectablePersons.push(
+            {personObject: guest, fullname: fullname + ' (Gast)'});
+      }
+      this.selectableCreators.push(
+          {personObject: guest, fullname: fullname + ' (Gast)'});
     });
-    this.drinks.forEach((drink: Drink) => {
-      this.selectableDrinks.push({
-        drink: drink,
-        fullname: drink.name + ' ' + drink.litres + ' ' + drink.price
-      });
-    });
-    this.selectableCreators = this.selectablePersons;
 
-    // console.log(this.drinklistTemplate);
-    // if (this.drinklistTemplate && !this.isTemplate) {
-    // this.drinklist.creator = this.drinklistTemplate.creator;
-    // this.drinklist.startDate = this.drinklistTemplate.startDate;
-    // this.drinklist.endDate = this.drinklistTemplate.endDate;
-    // if (this.drinklist.users && this.drinklist.users.length > 0) {
-    // this.drinklist.users = this.drinklistTemplate.users;
-    // }
-    // if (this.drinklist.drinks && this.drinklist.drinks.length > 0) {
-    // this.drinklist.drinks = this.drinklistTemplate.drinks;
-    // }
-    // }
+    this.drinks.forEach((drink: Drink) => {
+      // Beim Editieren einer Getränkeliste kann die addedDrinks-Liste schon
+      // gefüllt sein. Falls schon vorhanden, darf das Element nicht mehr in
+      // selecableDrinks hinzugefügt werden.
+      let isSelected = false;
+      this.addedDrinks.forEach(addedDrink => {
+        if (addedDrink.drinkObject.id === drink.id) {
+          isSelected = true;
+        }
+      });
+      if (!isSelected) {
+        this.selectableDrinks.push({
+          drinkObject: drink,
+          fullname: drink.name + ' ' + drink.litres + ' ' + drink.price
+        });
+      }
+      this.selectableCreators =
+          JSON.parse(JSON.stringify(this.selectableCreators));
+    });
+
+    this.sort('DRINKS');
+    this.sort('PERSONS');
+    this.sort('CREATORS');
   }
 
   // Wenn nichts ausgewählt wird, sind sie null.
-  // Deswegen hat jeder selector hat eine null-abfrage
+  // Deswegen hat jeder selector eine null-abfrage
   saveDrinkList(): void {
+    if (this.selectedDrinkList) {
+      this.drinklist.id = this.selectedDrinkList.id;
+    }
+
     if (this.selectedCreator) {
-      this.drinklist.creator = this.selectedCreator.person;
+      this.drinklist.creator = this.selectedCreator.personObject;
     }
 
     if (this.startDate) {
@@ -171,87 +204,120 @@ export class EditListDrinkComponent implements OnInit {
     }
     const selectedPerson = [];
     this.addedPersons.forEach(person => {
-      selectedPerson.push(person.person);
+      selectedPerson.push(person.personObject);
     });
     this.drinklist.users = selectedPerson;
     const selectedDrinks = [];
     this.addedDrinks.forEach(drink => {
-      selectedDrinks.push(drink.drink);
+      selectedDrinks.push(drink.drinkObject);
     });
     this.drinklist.drinks = selectedDrinks;
-    console.log("save: ", this.drinklist);
     this.activeModal.close(this.drinklist);
   }
 
-  // saveTemplate(): void {
-  //   if (this.selectedCreator) {
-  //     this.drinklistTemplate.creator = this.selectedCreator.person;
-  //   }
-  //   this.drinklistTemplate.startDate = this.startDate;
-  //   this.drinklistTemplate.endDate = this.endDate;
-  //   const selectedPerson = [];
-  //   this.addedPersons.forEach(person => {
-  //     selectedPerson.push(person.person);
-  //   });
-  //   this.drinklistTemplate.users = selectedPerson;
-  //   const selectedDrinks = [];
-  //   this.addedDrinks.forEach(drink => {
-  //     selectedDrinks.push(drink.drink);
-  //   });
-  //   this.drinklistTemplate.drinks = selectedDrinks;
+  saveTemplate(): void {
+    if (this.selectedCreator) {
+      this.currentDrinklistTemplate.creator = this.selectedCreator.personObject;
+    }
+    this.currentDrinklistTemplate.startDate = this.startDate;
+    this.currentDrinklistTemplate.endDate = this.endDate;
+    const selectedPerson = [];
+    this.addedPersons.forEach(person => {
+      selectedPerson.push(person.personObject);
+    });
+    this.currentDrinklistTemplate.users = selectedPerson;
+    const selectedDrinks = [];
+    this.addedDrinks.forEach(drink => {
+      selectedDrinks.push(drink.drinkObject);
+    });
+    this.currentDrinklistTemplate.drinks = selectedDrinks;
 
-  //   this.activeModal.close(this.drinklistTemplate);
-  // }
+    this.activeModal.close(this.currentDrinklistTemplate);
+  }
 
   addDrink($event): void {
     if (this.selectedDrink) {
-      // wenn schon vorhanden, nicht hinzufügen
-      let duplicate = false;
-      this.addedDrinks.forEach(drink => {
-        if (drink.drink.id === this.selectedDrink.drink.id) {
-          duplicate = true;
+      // Entferne ausgewähltes Getränk aus der auswählbaren Liste
+      this.selectableDrinks.forEach((drink, deleteIndex) => {
+        if (drink.drinkObject.id === this.selectedDrink.drinkObject.id) {
+          this.selectableDrinks.splice(deleteIndex, 1);
         }
       });
-      if (!duplicate) {
-        this.addedDrinks.push(this.selectedDrink);
-      }
+      // Damit sich die auswählbare liste von ng-select verändert, benötigt sie
+      // eine neue Liste damit Angular eine Veränderung merkt. Deswegen wird die
+      // Liste kopiert.
+      this.selectableDrinks = JSON.parse(JSON.stringify(this.selectableDrinks));
+      this.addedDrinks.push(this.selectedDrink);
       this.selectedDrink = null;
     }
   }
 
   deleteDrink(index: number): void {
-    this.addedDrinks.splice(index, 1);
+    const deletedDrinks = this.addedDrinks.splice(index, 1);
+    deletedDrinks.forEach((drink) => {
+      this.selectableDrinks.push(drink);
+    });
+    this.sort('DRINKS');
+    this.selectableDrinks = JSON.parse(JSON.stringify(this.selectableDrinks));
+    this.selectedDrink = null;
   }
 
   addPerson($event): void {
     if (this.selectedPerson) {
-      // wenn schon vorhanden, nicht hinzufügen
-      let duplicate = false;
-      this.addedPersons.forEach(person => {
-        if (person.person.id === this.selectedPerson.person.id) {
-          duplicate = true;
+      this.selectablePersons.forEach((person, deleteIndex) => {
+        // Gäste und Mitglieder können dieselbe ID besitzen weil sie aus zwisch
+        // verschiedenen Listen kommen. Deswegen Überprüfung von isGuest.
+        if (person.personObject.isGuest ===
+            this.selectedPerson.personObject.isGuest) {
+          if (person.personObject.id === this.selectedPerson.personObject.id) {
+            this.selectablePersons.splice(deleteIndex, 1);
+          }
         }
       });
-      if (!duplicate) {
-        this.addedPersons.push(this.selectedPerson);
-      }
+      this.selectablePersons =
+          JSON.parse(JSON.stringify(this.selectablePersons));
+
+      this.addedPersons.push(this.selectedPerson);
       this.selectedPerson = null;
     }
   }
 
   deletePerson(index: number): void {
-    this.addedPersons.splice(index, 1);
-  }
-
-  addCreator($event): void {
-    console.log($event);
+    const deletedPersons = this.addedPersons.splice(index, 1);
+    deletedPersons.forEach((person) => {
+      this.selectablePersons.push(person);
+    });
+    this.sort('PERSONS');
+    this.selectablePersons = JSON.parse(JSON.stringify(this.selectablePersons));
+    this.selectedPerson = null;
   }
 
   deleteCreator(): void {
     this.selectedCreator = null;
   }
 
-  addStartDate(): void {}
-
-  addEndDate(): void {}
+  /**
+   * Sortiert Liste von Elementen nach ihren Namen.
+   * Umgesetzt für Personen, Ersteller/in und Getränke.
+   */
+  sort(key: string): void {
+    if (key === 'DRINKS') {
+      this.selectableDrinks.sort(
+          (a, b) => (a.fullname > b.fullname) ?
+              1 :
+              ((b.fullname > a.fullname) ? -1 : 0));
+    }
+    if (key === 'PERSONS') {
+      this.selectablePersons.sort(
+          (a, b) => (a.fullname > b.fullname) ?
+              1 :
+              ((b.fullname > a.fullname) ? -1 : 0));
+    }
+    if (key === 'CREATORS') {
+      this.selectableCreators.sort(
+          (a, b) => (a.fullname > b.fullname) ?
+              1 :
+              ((b.fullname > a.fullname) ? -1 : 0));
+    }
+  }
 }

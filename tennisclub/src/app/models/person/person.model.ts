@@ -1,7 +1,7 @@
 import { Salutation } from './salutation.enum';
 
 
-export class Member {
+export class Person {
   public id: number;
   public firstname: string;
   public lastname: string;
@@ -16,5 +16,5 @@ export class Member {
   public startMembership: string;
   public membershipYears: number;
   public active: boolean;
-  public guest: boolean;
+  public isGuest: boolean;
 }

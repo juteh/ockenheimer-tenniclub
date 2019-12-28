@@ -1,9 +1,10 @@
+import { Person } from './../../../../models/person/person.model';
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Member} from 'src/app/models/member/member.model';
 
-import {Salutation} from './../../../../models/member/salutation.enum';
+
+import {Salutation} from './../../../../models/person/salutation.enum';
 
 @Component({
   selector: 'app-edit-user',
@@ -15,7 +16,7 @@ export class EditUserComponent implements OnInit {
   public salutation: Salutation;
 
   @Input() createMode: boolean;
-  @Input() member: Member;
+  @Input() member: Person;
   @Input() isGuest: boolean;
 
   constructor(
@@ -57,8 +58,8 @@ export class EditUserComponent implements OnInit {
 
   save(): void {
     if (this.createMode) {
-      this.member = new Member;
-      this.member.guest = this.isGuest;
+      this.member = new Person;
+      this.member.isGuest = this.isGuest;
     }
 
     this.member.firstname = this.userForm.value.firstname;

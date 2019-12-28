@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TouchSequence} from 'selenium-webdriver';
-import {Member} from 'src/app/models/member/member.model';
-import {Salutation} from 'src/app/models/member/salutation.enum';
+import {Person} from 'src/app/models/person/person.model';
+import {Salutation} from 'src/app/models/person/salutation.enum';
 
 import {NotificationComponent} from './../../../components/notification/notification.component';
 import {FileService} from './../../../file.service';
@@ -14,63 +14,59 @@ import {EditUserComponent} from './edit-user/edit-user.component';
   styleUrls: ['./list-users.component.css']
 })
 export class ListUsersComponent implements OnInit {
-  public memberList: Member[] = new Array<Member>();
-  public guestList: Member[] = new Array<Member>();
+  public memberList: Person[] = new Array<Person>();
+  public guestList: Person[] = new Array<Person>();
 
   public searchText: string;
-  // Das Reload braucht der Filter damit er neue ergebnisse bekommt TODO: Lösung
-  // finden ohne reload
-  public loading = true;
+
 
   constructor(
       private modalService: NgbModal, private fileService: FileService) {
-    fileService.getFile('/mitglieder.json')
+    this.loadPersons();
+  }
+
+  loadPersons(): void {
+    this.fileService.getFile('/mitglieder.json')
         .then((memberList) => {
           this.memberList = JSON.parse(memberList);
-          return fileService.getFile('/gaeste.json');
+          return this.fileService.getFile('/gaeste.json');
         })
         .then((guestList) => {
           this.guestList = JSON.parse(guestList);
-          this.loading = false;
         })
-        .catch((err) => {
-          this.loading = false;
-        });
+        .catch(
+            (err) => {
+
+            });
   }
 
   ngOnInit(): void {}
 
-  openEditMember(member: Member, index: number) {
+  openEditMember(member: Person, index: number) {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.member = member;
-    this.loading = true;
 
     modalRef.result.then(
-        (updatedMember: Member) => {
+        (updatedMember: Person) => {
           this.memberList[index] = updatedMember;
           this.updateUserFile('/mitglieder.json', true);
-          this.loading = false;
         },
         (err) => {
-          this.loading = false;
         });
   }
 
-  openEditGuest(member: Member, index: number) {
+  openEditGuest(member: Person, index: number) {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.member = member;
-    this.loading = true;
 
     modalRef.result.then(
-        (updatedGuest: Member) => {
+        (updatedGuest: Person) => {
           this.guestList[index] = updatedGuest;
           this.updateUserFile('/gaeste.json', false);
-          this.loading = false;
         },
         (err) => {
-          this.loading = false;
         });
   }
 
@@ -78,10 +74,9 @@ export class ListUsersComponent implements OnInit {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = true;
     modalRef.componentInstance.isGuest = false;
-    this.loading = true;
 
     modalRef.result.then(
-        (member: Member) => {
+        (member: Person) => {
           if (this.memberList.length === 0) {
             member.id = 0;
           } else {
@@ -90,10 +85,8 @@ export class ListUsersComponent implements OnInit {
           }
           this.memberList.push(member);
           this.updateUserFile('/mitglieder.json', true);
-          this.loading = false;
         },
         (err) => {
-          this.loading = false;
         });
   }
 
@@ -101,10 +94,9 @@ export class ListUsersComponent implements OnInit {
     const modalRef = this.modalService.open(EditUserComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = true;
     modalRef.componentInstance.isGuest = true;
-    this.loading = true;
 
     modalRef.result.then(
-        (guest: Member) => {
+        (guest: Person) => {
           if (this.guestList.length === 0) {
             guest.id = 1;
           } else {
@@ -112,10 +104,8 @@ export class ListUsersComponent implements OnInit {
           }
           this.guestList.push(guest);
           this.updateUserFile('/gaeste.json', false);
-          this.loading = false;
         },
         (err) => {
-          this.loading = false;
         });
   }
 
@@ -126,16 +116,18 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.headline = 'Mitglied löschen';
     modalRef.componentInstance.description =
         'Wollen Sie wirklich dieses Mietglied löschen?';
-    this.loading = true;
+
 
     modalRef.result.then(
         (result) => {
           this.memberList.splice(index, 1);
-          this.updateUserFile('/mitglieder.json', true);
-          this.loading = false;
+          this.updateUserFile('/mitglieder.json', true).then((mitglieder: string) => {
+            // this.memberList = JSON.parse(mitglieder);
+          });
+          // this.loadPersons();
         },
         (err) => {
-          this.loading = false;
+
         });
   }
 
@@ -146,24 +138,23 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.headline = 'Gast löschen';
     modalRef.componentInstance.description =
         'Wollen Sie wirklich diesen Gast löschen?';
-    this.loading = true;
+
 
     modalRef.result.then(
         (result) => {
           this.guestList.splice(index, 1);
           this.updateUserFile('/gaeste.json', false);
-          this.loading = false;
         },
         (err) => {
-          this.loading = false;
+
         });
   }
 
-  updateUserFile(path, isMember): void {
+  updateUserFile(path, isMember): Promise<string> {
     if (isMember) {
-      this.fileService.updateFile(path, JSON.stringify(this.memberList));
+       return this.fileService.updateFile(path, JSON.stringify(this.memberList));
     } else {
-      this.fileService.updateFile(path, JSON.stringify(this.guestList));
+      return this.fileService.updateFile(path, JSON.stringify(this.guestList));
     }
   }
 
@@ -180,7 +171,7 @@ export class ListUsersComponent implements OnInit {
       if (entry && entry.length > 0) {
         if (key === 'member') {
           const newMember: string[] = entry.split(',');
-          const member: Member = new Member;
+          const member: Person = new Person;
 
           member.id = +newMember[0];
 
@@ -235,7 +226,6 @@ export class ListUsersComponent implements OnInit {
         }
       }
       this.updateUserFile('/mitglieder.json', true);
-      this.loading = false;
     });
   }
 }

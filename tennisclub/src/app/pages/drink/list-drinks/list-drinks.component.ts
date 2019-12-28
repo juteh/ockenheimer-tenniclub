@@ -20,8 +20,9 @@ export class ListDrinksComponent implements OnInit {
   // Für das Suchen muss die Drinkliste, die einzelnen Parameter zu Strings
   // zusammen gebracht werden
   public drinkListViews: DrinkListView[] = [];
-  public loading = true;
   public searchText: string;
+
+  private drinkListTemplate: Drinklist;
 
   constructor(
       private fileService: FileService, private modalService: NgbModal) {
@@ -32,24 +33,25 @@ export class ListDrinksComponent implements OnInit {
 
   // Lädt die Getränkeliste aus dem JSON und schreibt driekt ViewItems
   getDrinkListingFromJson(): void {
-    this.fileService.getFile('/getraenkeliste.json')
+    this.fileService.getFile('/getraenkelisten.json')
         .then((drinkListings) => {
           this.drinkListings = JSON.parse(drinkListings);
-
           this.drinkListingConvertToView();
-          this.loading = false;
+          return this.fileService.getFile('/getraenkeliste-template.json');
         })
-        .catch((err) => {
-          this.loading = false;
-        });
+        .then((template) => {
+          this.drinkListTemplate = JSON.parse(template);
+        })
+        .catch((err) => {});
   }
 
   drinkListingConvertToView(): void {
+    this.drinkListViews = [];
     for (const drinkListing of this.drinkListings) {
-      console.log(drinkListing);
+      let name = 'Keiner gewählt';
       if (drinkListing.creator) {
-        const name =
-            drinkListing.creator.firstname + ' ' + drinkListing.creator.lastname;
+        name = drinkListing.creator.firstname + ' ' +
+            drinkListing.creator.lastname;
       }
       let startDate = '';
 
@@ -77,20 +79,24 @@ export class ListDrinksComponent implements OnInit {
   }
 
   openCreateDrinklist(): void {
-    this.loading = true;
     const modalRef =
         this.modalService.open(EditListDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.isTemplate = false;
+    modalRef.componentInstance.drinkListTemplate = this.drinkListTemplate;
     modalRef.result.then(
         (drinklist: Drinklist) => {
+          if (this.drinkListings.length === 0) {
+            drinklist.id = 1;
+          } else {
+            drinklist.id =
+                this.drinkListings[this.drinkListings.length - 1].id + 1;
+          }
           this.drinkListings.push(drinklist);
           this.fileService.updateFile(
-              '/getraenkeliste.json', JSON.stringify(this.drinkListings));
+              '/getraenkelisten.json', JSON.stringify(this.drinkListings));
           this.drinkListingConvertToView();
-          this.loading = false;
         },
         (err) => {
-          this.loading = false;
           console.log(err);
         });
   }
@@ -98,12 +104,14 @@ export class ListDrinksComponent implements OnInit {
   openCreateTemplateDrinklist(): void {
     const modalRef =
         this.modalService.open(EditListDrinkComponent, {size: 'lg'});
-    modalRef.componentInstance.isTemplate = true;
+    modalRef.componentInstance.isTemplateEdit = true;
+    modalRef.componentInstance.drinkListTemplate = this.drinkListTemplate;
     modalRef.result.then(
-        (drinklistSetting: DrinklistTemplate) => {
+        (drinklistTemplate: Drinklist) => {
+          this.drinkListTemplate = drinklistTemplate;
           this.fileService.updateFile(
-              '/getraenkeliste-settings.json',
-              JSON.stringify(drinklistSetting));
+              '/getraenkeliste-template.json',
+              JSON.stringify(drinklistTemplate));
         },
         (err) => {
           console.log(err);
@@ -111,23 +119,17 @@ export class ListDrinksComponent implements OnInit {
   }
 
   openEditDrinkList(index: number): void {
-    this.loading = true;
     const modalRef =
         this.modalService.open(EditListDrinkComponent, {size: 'lg'});
-    modalRef.componentInstance.isTemplate = false;
+    modalRef.componentInstance.isTemplateEdit = false;
     modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
 
-    modalRef.result.then(
-        (updatedDrinklist: Drinklist) => {
-          this.drinkListings[index] = updatedDrinklist;
-          this.drinkListingConvertToView();
-          this.fileService.updateFile(
-              '/getraenkeliste.json', JSON.stringify(this.drinkListings));
-          this.loading = false;
-        },
-        (err) => {
-          this.loading = false;
-        });
+    modalRef.result.then((updatedDrinklist: Drinklist) => {
+      this.drinkListings[index] = updatedDrinklist;
+      this.drinkListingConvertToView();
+      this.fileService.updateFile(
+          '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+    }, (err) => {});
   }
 
   deleteDrinkList(index: number) {
@@ -137,18 +139,12 @@ export class ListDrinksComponent implements OnInit {
     modalRef.componentInstance.headline = 'Getränkeliste löschen';
     modalRef.componentInstance.description =
         'Wollen Sie wirklich diese Getränkeliste löschen?';
-    this.loading = true;
 
-    modalRef.result.then(
-        (result) => {
-          this.drinkListings.splice(index, 1);
-          this.drinkListViews.splice(index, 1);
-          this.fileService.updateFile(
-              '/getraenkeliste.json', JSON.stringify(this.drinkListings));
-          this.loading = false;
-        },
-        (err) => {
-          this.loading = false;
-        });
+    modalRef.result.then((result) => {
+      this.drinkListings.splice(index, 1);
+      this.drinkListViews.splice(index, 1);
+      this.fileService.updateFile(
+          '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+    }, (err) => {});
   }
 }

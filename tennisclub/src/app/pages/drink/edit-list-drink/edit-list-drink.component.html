@@ -1,12 +1,12 @@
 <div class="card">
   <div class="card-header text-center">
     <div class="row">
-      <h3 *ngIf="!isTemplate" class="col">Einstellungen Getränkelisten</h3>
-      <h3 *ngIf="isTemplate" class="col">Einstellungen Vorlage</h3>
+      <h3 *ngIf="!isTemplateEdit" class="col">Einstellungen Getränkelisten</h3>
+      <h3 *ngIf="isTemplateEdit" class="col">Einstellungen Vorlage</h3>
     </div>
   </div>
 
-  <div *ngIf="!loading" class="card-body">
+  <div class="card-body">
     <!-- Ersteller/in -->
     <div class="form-group row">
       <label class="col-12 col-md-6 col-form-label">Ersteller/in</label>
@@ -16,7 +16,6 @@
           bindLabel="fullname"
           placeholder="Wähle Ersteller/in"
           [(ngModel)]="selectedCreator"
-          (change)="addCreator($event)"
         >
         </ng-select>
       </div>
@@ -121,7 +120,7 @@
       <!-- Drinks -->
       <div class="col-12 col-md-6">
         <label>Getränke</label>
-        <div class="row form-group">
+        <div *ngIf="selectableDrinks.length > 0" class="row form-group">
           <div class="col-12">
             <ng-select
               [items]="selectableDrinks"
@@ -164,10 +163,10 @@
         </button>
       </div>
       <div class="col-6 text-right">
-        <button *ngIf="!isTemplate" (click)="saveDrinkList()" type="submit" class="btn btn-primary">
+        <button *ngIf="!isTemplateEdit" (click)="saveDrinkList()" type="submit" class="btn btn-primary">
           Speichern
         </button>
-        <button *ngIf="isTemplate" (click)="saveTemplate()" type="submit" class="btn btn-primary">
+        <button *ngIf="isTemplateEdit" (click)="saveTemplate()" type="submit" class="btn btn-primary">
           Speichern
         </button>
       </div>

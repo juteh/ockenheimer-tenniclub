@@ -1,10 +1,10 @@
-import {Member} from 'src/app/models/member/member.model';
+import {Person} from 'src/app/models/person/person.model';
 import {Drink} from './drink.model';
 export class DrinklistTemplate {
-  public creator: Member;
+  public creator: Person;
   public startDate: Date;
   public endDate: Date;
-  public users: Member[];
+  public users: Person[];
   public drinks: Drink[];
 
   constructor(
