@@ -1,29 +1,70 @@
 <div class="container">
   <div class="row">
-    <div class="col text-center">
+    <div class="col text-center mt-3 mb-3">
       <img src="assets/images/logo.jpeg" />
-      <div class="row">
-        <div class="col">
-          <button (click)="openTemplate('MEMBER')" class="btn btn-primary">
-            Mitglieder
-          </button>
-        </div>
-        <div class="col">
-          <button (click)="openTemplate('DRINKSLISTS')" class="btn btn-primary">
-            Getränkelisten
-          </button>
-        </div>
-        <div class="col">
-          <button (click)="openTemplate('DRINKS')" class="btn btn-primary">
-            Getränke
-          </button>
-        </div>
-      </div>
     </div>
   </div>
-  <app-list-users *ngIf="memberListingTemplate"></app-list-users>
-  <app-list-drinks *ngIf="drinkListingTemplate"></app-list-drinks>
-  <app-drink-editor *ngIf="drinkEditor"></app-drink-editor>
-  <app-edit-list-drink *ngIf="drinkListsEditor"></app-edit-list-drink>
-  <router-outlet></router-outlet>
 </div>
+<ngb-tabset [justify]="'fill'">
+  <ngb-tab>
+    <ng-template ngbTabTitle>Mitglieder</ng-template>
+    <ng-template ngbTabContent>
+      <div class="background-body">
+        <div class="container">
+          <app-list-users [showMember]="true"></app-list-users>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>Gäste</ng-template>
+    <ng-template ngbTabContent>
+      <div class="background-body">
+        <div class="container">
+          <app-list-users [showMember]="false"></app-list-users>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>Getränke</ng-template>
+    <ng-template ngbTabContent>
+      <div class="background-body">
+        <div class="container">
+          <app-drink-editor></app-drink-editor>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>Getränkelisten</ng-template>
+    <ng-template ngbTabContent>
+      <div class="background-body">
+        <div class="container">
+          <app-list-drinks></app-list-drinks>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>Vorlage</ng-template>
+    <ng-template ngbTabContent>
+      <div class="background-body">
+        <div class="container">
+          <app-create-list-drink-template></app-create-list-drink-template>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>Anleitung</ng-template>
+    <ng-template ngbTabContent>
+      <div class="background-body">
+        <div class="container">
+          <!-- <app-list-drinks></app-list-drinks> -->
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
+<router-outlet></router-outlet>

@@ -1,0 +1,17 @@
+.add {
+  cursor: pointer;
+  color: green;
+  font-size: 2rem;
+}
+
+.close {
+  cursor: pointer;
+  color: red;
+  font-size: 2rem;
+}
+
+.card-select {
+  background: lightgray;
+  border-radius: 1rem;
+  line-height: 2rem;
+}

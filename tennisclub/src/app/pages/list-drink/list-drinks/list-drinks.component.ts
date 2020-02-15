@@ -1,12 +1,11 @@
+import { CreateListDrinkComponent } from './../create-list-drink/create-list-drink.component';
+import { CreateListDrinkTemplateComponent } from '../create-list-drink-template/create-list-drink-template.component';
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import {DrinklistTemplate} from '../../../models/drink/drinklist-template.model';
-
-import {NotificationComponent} from './../../../components/notification/notification.component';
-import {FileService} from './../../../file.service';
-import {Drinklist} from './../../../models/drink/drinklist.model';
-import {EditListDrinkComponent} from './../edit-list-drink/edit-list-drink.component';
+import {NotificationComponent} from '../../../components/notification/notification.component';
+import {FileService} from '../../../file.service';
+import {Drinklist} from '../../../models/drink/drinklist.model';
 import {DrinkListView} from './drink-list-view';
 
 
@@ -79,9 +78,8 @@ export class ListDrinksComponent implements OnInit {
   }
 
   openCreateDrinklist(): void {
-    const modalRef =
-        this.modalService.open(EditListDrinkComponent, {size: 'lg'});
-    modalRef.componentInstance.isTemplate = false;
+    const modalRef = this.modalService.open(
+      CreateListDrinkComponent, {windowClass: 'my-custom-modal-width'});
     modalRef.componentInstance.drinkListTemplate = this.drinkListTemplate;
     modalRef.result.then(
         (drinklist: Drinklist) => {
@@ -101,26 +99,9 @@ export class ListDrinksComponent implements OnInit {
         });
   }
 
-  openCreateTemplateDrinklist(): void {
-    const modalRef =
-        this.modalService.open(EditListDrinkComponent, {size: 'lg'});
-    modalRef.componentInstance.isTemplateEdit = true;
-    modalRef.componentInstance.drinkListTemplate = this.drinkListTemplate;
-    modalRef.result.then(
-        (drinklistTemplate: Drinklist) => {
-          this.drinkListTemplate = drinklistTemplate;
-          this.fileService.updateFile(
-              '/getraenkeliste-template.json',
-              JSON.stringify(drinklistTemplate));
-        },
-        (err) => {
-          console.log(err);
-        });
-  }
-
   openEditDrinkList(index: number): void {
     const modalRef =
-        this.modalService.open(EditListDrinkComponent, {size: 'lg'});
+        this.modalService.open(CreateListDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.isTemplateEdit = false;
     modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
 

@@ -17,94 +17,131 @@ table {
 
 table caption {
   font-size: 1.5em;
-  margin: .5em 0 .75em;
+  margin: 0.5em 0 0.75em;
 }
 
 table tr {
   background-color: #f8f8f8;
   border: 1px solid #ddd;
-  padding: .35em;
+  padding: 0.35em;
 }
 
 table th,
 table td {
-  padding: .625em;
+  padding: 0.625em;
   text-align: center;
 }
 
 table th {
-  font-size: .85em;
-  letter-spacing: .1em;
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+table {
+  border: 0;
+}
 
-  table {
-    border: 0;
-  }
+table caption {
+  font-size: 1.3em;
+}
 
-  table caption {
-    font-size: 1.3em;
-  }
+table thead {
+  border: none;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
 
-  table thead {
-    border: none;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-  }
+table tr {
+  border-bottom: 3px solid #ddd;
+  display: block;
+  margin-bottom: 0.625em;
+}
 
-  table tr {
-    border-bottom: 3px solid #ddd;
-    display: block;
-    margin-bottom: .625em;
-  }
+table td {
+  border-bottom: 1px solid #ddd;
+  display: block;
+  font-size: 0.8em;
+  text-align: right;
+}
 
-  table td {
-    border-bottom: 1px solid #ddd;
-    display: block;
-    font-size: .8em;
-    text-align: right;
-  }
-
-  table td::before {
-    /*
+table td::before {
+  /*
     * aria-label has no advantage, it won't be read inside a table
     content: attr(aria-label);
     */
-    content: attr(data-label);
-    float: left;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
+  content: attr(data-label);
+  float: left;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 
-  table td:last-child {
-    border-bottom: 0;
-  }
+table td:last-child {
+  border-bottom: 0;
+}
 
-  .custom-table {
+/* .custom-table {
     margin: 2rem;
-  }
+  } */
 
-  .custom-table-card {
-    margin: 1rem;
-    width: 400px;
-    display: inline-grid !important;
-  }
+.custom-table-card {
+  margin: 1rem;
+  width: 400px;
+  display: inline-grid !important;
+}
 
-  .delete {
-    cursor: pointer;
-    color: red;
-    font-size: 2rem;
-  }
+.delete {
+  cursor: pointer;
+  color: red;
+  font-size: 2rem;
+}
 
-  .create {
-    cursor: pointer;
-    color: blue;
-    font-size: 2rem;
-    float: left;
-  }
+.create {
+  cursor: pointer;
+  color: blue;
+  font-size: 2rem;
+  float: left;
+}
+
+.my-custom-modal-width .modal-dialog {
+  max-width: 1024px;
+}
+
+/* Background */
+
+.background-body {
+  background-color: rgb(240, 244, 248, 0.4);
+}
+
+/* Navbar*/
+
+ngb-tabset ul.nav-tabs li a.nav-link.active {
+  background-color: rgb(240, 244, 248, 0.4);
+  border-bottom: 0;
+  color: #14919b;
+}
+
+ngb-tabset ul.nav-tabs li a.nav-link {
+  background-color: transparent;
+  color: #4055a8;
+}
+
+ngb-tabset .nav-tabs .nav-link {
+  border-bottom: 0;
+  font-size: larger;
+  font-family: serif;
+}
+
+.btn {
+  font-size: large;
+  font-family: serif;
+}
+
+.btn-secondary {
+  background-color: #829AB1;
+}

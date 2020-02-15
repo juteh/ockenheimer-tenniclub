@@ -1,15 +1,14 @@
 <div class="card">
   <div class="card-header text-center">
     <div class="row">
-      <h3 *ngIf="!isTemplateEdit" class="col">Einstellungen Getränkelisten</h3>
-      <h3 *ngIf="isTemplateEdit" class="col">Einstellungen Vorlage</h3>
+      <h3 class="col">Einstellungen Getränkelisten</h3>
     </div>
   </div>
 
   <div class="card-body">
     <!-- Ersteller/in -->
     <div class="form-group row">
-      <label class="col-12 col-md-6 col-form-label">Ersteller/in</label>
+      <label class="col-12 col-md-4 col-form-label">Ersteller/in</label>
       <div *ngIf="!selectedCreator" class="col-12 col-md-6">
         <ng-select
           [items]="selectableCreators"
@@ -21,7 +20,7 @@
       </div>
       <div
         *ngIf="selectedCreator"
-        class="col-12 col-md-6 card-select col-form-label"
+        class="col-12 col-md-8 card-select col-form-label"
       >
         <span>{{ selectedCreator.fullname }}</span>
         <a (click)="deleteCreator()"><i class="icon ion-md-close close"></i></a>
@@ -30,8 +29,8 @@
 
     <!-- Von-Datum -->
     <div class="form-group row">
-      <label class="col-12 col-md-6 col-form-label">Von</label>
-      <div class="col-12 col-md-6">
+      <label class="col-12 col-md-4 col-form-label">Von</label>
+      <div class="col-12 col-md-8">
         <div class="form-group">
           <div class="input-group" style="width: 150px;">
             <input
@@ -44,7 +43,7 @@
             />
             <div class="input-group-append">
               <button
-                class="btn btn-outline-secondary"
+                class="btn btn-secondary"
                 (click)="d1.toggle()"
                 type="button"
               >
@@ -58,8 +57,8 @@
 
     <!-- Bis-Datum -->
     <div class="form-group row">
-      <label class="col-12 col-md-6 col-form-label">Bis</label>
-      <div class="col-12 col-md-6">
+      <label class="col-12 col-md-4 col-form-label">Bis</label>
+      <div class="col-12 col-md-8">
         <div class="form-group">
           <div class="input-group" style="width: 150px;">
             <input
@@ -72,7 +71,7 @@
             />
             <div class="input-group-append">
               <button
-                class="btn btn-outline-secondary calendar"
+                class="btn btn-secondary calendar"
                 (click)="d2.toggle()"
                 type="button"
               >
@@ -86,7 +85,7 @@
 
     <div class="row">
       <!-- Personen -->
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-4">
         <label>Personen</label>
         <div *ngIf="selectablePersons.length > 0" class="row form-group">
           <div class="col-12">
@@ -118,7 +117,7 @@
       </div>
 
       <!-- Drinks -->
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-8">
         <label>Getränke</label>
         <div *ngIf="selectableDrinks.length > 0" class="row form-group">
           <div class="col-12">
@@ -163,10 +162,7 @@
         </button>
       </div>
       <div class="col-6 text-right">
-        <button *ngIf="!isTemplateEdit" (click)="saveDrinkList()" type="submit" class="btn btn-primary">
-          Speichern
-        </button>
-        <button *ngIf="isTemplateEdit" (click)="saveTemplate()" type="submit" class="btn btn-primary">
+        <button (click)="saveDrinkList()" type="submit" class="btn btn-primary">
           Speichern
         </button>
       </div>

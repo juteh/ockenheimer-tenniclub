@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {TouchSequence} from 'selenium-webdriver';
 import {Person} from 'src/app/models/person/person.model';
 import {Salutation} from 'src/app/models/person/salutation.enum';
 
@@ -19,6 +18,7 @@ export class ListUsersComponent implements OnInit {
 
   public searchText: string;
 
+  @Input() showMember;
 
   constructor(
       private modalService: NgbModal, private fileService: FileService) {

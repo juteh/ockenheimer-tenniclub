@@ -1,20 +1,25 @@
-<div class="row mt-5 mb-5">
-  <div class="col text-center">
-    <button type="button" class="btn btn-secondary" (click)="openCreateDrink()">
+<div class="row">
+  <div class="col text-center pt-3">
+    <button
+      type="button"
+      class="btn btn-sm btn-secondary"
+      (click)="openCreateDrink()"
+    >
       Getränk erstellen
     </button>
   </div>
 </div>
 
-<div class="row text-center mt-5 mb-5">
+<div class="row text-center mt-4 mb-4">
   <div class="col-12">
     <input
+      class="text-center"
       [(ngModel)]="searchText"
-      placeholder="Suche"
+      placeholder="Suche Getränk"
     />
   </div>
 </div>
-<table *ngIf="drinks.length > 0 && !loading" class="custom-table">
+<table *ngIf="drinks.length > 0" class="custom-table text-center">
   <thead>
     <tr>
       <th scope="col">ID</th>

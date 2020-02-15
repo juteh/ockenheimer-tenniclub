@@ -1,19 +1,17 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {Drink} from 'src/app/models/drink/drink.model';
-
-import {FileService} from '../../../file.service';
-import {DrinklistTemplate} from '../../../models/drink/drinklist-template.model';
-import {Person} from '../../../models/person/person.model';
-
-import {Drinklist} from './../../../models/drink/drinklist.model';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FileService } from './../../../file.service';
+import { DrinklistTemplate } from './../../../models/drink/drinklist-template.model';
+import { Drinklist } from './../../../models/drink/drinklist.model';
+import { Person } from 'src/app/models/person/person.model';
+import { Drink } from 'src/app/models/drink/drink.model';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-edit-list-drink',
-  templateUrl: './edit-list-drink.component.html',
-  styleUrls: ['./edit-list-drink.component.css']
+  selector: 'app-create-list-drink',
+  templateUrl: './create-list-drink.component.html',
+  styleUrls: ['./create-list-drink.component.css']
 })
-export class EditListDrinkComponent implements OnInit {
+export class CreateListDrinkComponent implements OnInit {
   public startDate: Date;
   public endDate: Date;
   public drinks: Drink[];
@@ -36,7 +34,6 @@ export class EditListDrinkComponent implements OnInit {
   private currentDrinklistTemplate: DrinklistTemplate = new DrinklistTemplate();
   private drinklist: Drinklist = new Drinklist();
 
-  @Input() isTemplateEdit = false;
   @Input() selectedDrinkList: Drinklist;
   @Input() drinkListTemplate: Drinklist;
 

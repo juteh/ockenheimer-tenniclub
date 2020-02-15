@@ -1,18 +1,9 @@
 <!-- Getränkelisten -->
-<div class="row mt-5 mb-5">
-  <div class="col-6 text-right">
+<div class="row pt-3">
+  <div class="col text-center">
     <button
       type="button"
-      class="btn btn-secondary"
-      (click)="openCreateTemplateDrinklist()"
-    >
-      Vorlage bearbeiten
-    </button>
-  </div>
-  <div class="col-6 text-left">
-    <button
-      type="button"
-      class="btn btn-secondary"
+      class="btn btn-sm btn-secondary"
       (click)="openCreateDrinklist()"
     >
       Getränkeliste erstellen
@@ -20,17 +11,12 @@
   </div>
 </div>
 
-<div class="row text-center mt-5 mb-5">
+<div class="row text-center mt-4 mb-4">
   <div class="col-12">
-    <input [(ngModel)]="searchText" placeholder="Suche" />
+    <input [(ngModel)]="searchText" class="text-center" placeholder="Suche Getränkeliste" />
   </div>
 </div>
-<div class="row">
-  <div class="col text-center">
-    <h1>Getränkelisten</h1>
-  </div>
-</div>
-<table *ngIf="drinkListViews.length > 0" class="custom-table">
+<table *ngIf="drinkListViews.length > 0" class="text-center">
   <thead>
     <tr>
       <th scope="col">ID</th>
