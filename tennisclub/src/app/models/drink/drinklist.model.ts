@@ -1,5 +1,6 @@
 import {Person} from '../person/person.model';
 import {Drink} from './drink.model';
+import { Calculation } from './calculation.model';
 
 export class Drinklist {
   public id: number;
@@ -9,6 +10,7 @@ export class Drinklist {
   public users: Person[];
   public drinks: Drink[];
   public totalCost: number;
+  public quantityOfDrinkToPerson: Array<Array<Calculation>>;
 
   constructor(
       id = null, creator = null, startDate = null, endDate = null, users = [],

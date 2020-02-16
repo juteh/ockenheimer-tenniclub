@@ -23,13 +23,13 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Liter</label>
         <div class="col-sm-10">
-          <input formControlName="litres" type="text" class="form-control">
+          <input (change)="changeLitre($event);" formControlName="litres" type="number" min="0" class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Preis</label>
         <div class="col-sm-10">
-          <input formControlName="price" type="text" class="form-control">
+          <input (change)="changePrice($event);" formControlName="price" type="number" min="0" class="form-control">
         </div>
       </div>
     </div>

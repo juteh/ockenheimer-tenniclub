@@ -27,7 +27,7 @@
       <input [(ngModel)]="searchText" class="text-center" placeholder="Suche Mitglieder" />
     </div>
   </div>
-  <table *ngIf="memberList.length > 0" class=" text-center">
+  <table *ngIf="memberList.length > 0" class="custom-table text-center">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -84,7 +84,7 @@
       <input [(ngModel)]="searchText" class="text-center" placeholder="Suche Gäste" />
     </div>
   </div>
-  <table class=" text-center" *ngIf="guestList.length > 0">
+  <table class="custom-table text-center" *ngIf="guestList.length > 0">
     <thead>
       <tr>
         <th scope="col">ID</th>

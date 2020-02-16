@@ -1,11 +1,13 @@
-import { CreateListDrinkComponent } from './../create-list-drink/create-list-drink.component';
-import { CreateListDrinkTemplateComponent } from '../create-list-drink-template/create-list-drink-template.component';
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {NotificationComponent} from '../../../components/notification/notification.component';
 import {FileService} from '../../../file.service';
 import {Drinklist} from '../../../models/drink/drinklist.model';
+import {CreateListDrinkTemplateComponent} from '../create-list-drink-template/create-list-drink-template.component';
+
+import {CreateListDrinkComponent} from './../create-list-drink/create-list-drink.component';
+import {ListDrinkCalculaterComponent} from './../list-drink-calculater/list-drink-calculater.component';
 import {DrinkListView} from './drink-list-view';
 
 
@@ -79,7 +81,7 @@ export class ListDrinksComponent implements OnInit {
 
   openCreateDrinklist(): void {
     const modalRef = this.modalService.open(
-      CreateListDrinkComponent, {windowClass: 'my-custom-modal-width'});
+        CreateListDrinkComponent, {windowClass: 'my-custom-modal-width'});
     modalRef.componentInstance.drinkListTemplate = this.drinkListTemplate;
     modalRef.result.then(
         (drinklist: Drinklist) => {
@@ -126,6 +128,15 @@ export class ListDrinksComponent implements OnInit {
       this.drinkListViews.splice(index, 1);
       this.fileService.updateFile(
           '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+    }, (err) => {});
+  }
+
+  openDrinklistCalculater(index: number) {
+    const modalRef = this.modalService.open(
+        ListDrinkCalculaterComponent, {windowClass: 'my-custom-modal-width'});
+    modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
+    modalRef.result.then((result) => {
+      console.log(result);
     }, (err) => {});
   }
 }

@@ -16,7 +16,7 @@
     <input [(ngModel)]="searchText" class="text-center" placeholder="Suche Getränkeliste" />
   </div>
 </div>
-<table *ngIf="drinkListViews.length > 0" class="text-center">
+<table *ngIf="drinkListViews.length > 0" class="custom-table text-center">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -43,6 +43,9 @@
       <td class="pt-0 pb-0">
         <a (click)="openEditDrinkList(i)"
           ><i class="icon ion-md-create create"></i
+        ></a>
+        <a (click)="openDrinklistCalculater(i)"
+          ><i class="icon ion-md-calculator calculate"></i
         ></a>
         <a (click)="deleteDrinkList(i)"
           ><i class="icon ion-md-close delete"></i

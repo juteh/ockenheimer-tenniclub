@@ -6,7 +6,7 @@ body {
   line-height: 1.25;
 }
 
-table {
+table.custom-table {
   border: 1px solid #ccc;
   border-collapse: collapse;
   margin: 0;
@@ -15,38 +15,38 @@ table {
   table-layout: fixed;
 }
 
-table caption {
+table.custom-table caption {
   font-size: 1.5em;
   margin: 0.5em 0 0.75em;
 }
 
-table tr {
+table.custom-table tr {
   background-color: #f8f8f8;
   border: 1px solid #ddd;
   padding: 0.35em;
 }
 
-table th,
-table td {
+table.custom-table th,
+table.custom-table td {
   padding: 0.625em;
   text-align: center;
 }
 
-table th {
+table.custom-table th {
   font-size: 0.85em;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-table {
+table.custom-table {
   border: 0;
 }
 
-table caption {
+table.custom-table caption {
   font-size: 1.3em;
 }
 
-table thead {
+table.custom-table thead {
   border: none;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -57,20 +57,20 @@ table thead {
   width: 1px;
 }
 
-table tr {
+table.custom-table tr {
   border-bottom: 3px solid #ddd;
   display: block;
   margin-bottom: 0.625em;
 }
 
-table td {
+table.custom-table td {
   border-bottom: 1px solid #ddd;
   display: block;
   font-size: 0.8em;
   text-align: right;
 }
 
-table td::before {
+table.custom-table td::before {
   /*
     * aria-label has no advantage, it won't be read inside a table
     content: attr(aria-label);
@@ -81,7 +81,7 @@ table td::before {
   text-transform: uppercase;
 }
 
-table td:last-child {
+table.custom-table td:last-child {
   border-bottom: 0;
 }
 
@@ -106,6 +106,14 @@ table td:last-child {
   color: blue;
   font-size: 2rem;
   float: left;
+}
+
+.calculate {
+  cursor: pointer;
+  color: green;
+  font-size: 2rem;
+  float: left;
+  margin-left: 0.5rem;
 }
 
 .my-custom-modal-width .modal-dialog {

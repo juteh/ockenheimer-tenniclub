@@ -1,4 +1,3 @@
-import {THIS_EXPR} from '@angular/compiler/src/output/output_ast';
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -28,8 +27,6 @@ export class EditDrinkComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.drink);
-    console.log(this.createMode);
     if (!this.createMode && this.drink) {
       this.drinkForm.patchValue({
         name: this.drink.name,
@@ -51,5 +48,21 @@ export class EditDrinkComponent implements OnInit {
 
       this.activeModal.close(this.drink);
     }
+  }
+
+  public changeLitre(event): void {
+    if (event.target.value < 0) {
+      event.target.value = 0;
+    }
+    const value: number = +event.target.value;
+    event.target.value = value.toFixed(3) + '';
+  }
+
+  public changePrice(event): void {
+    if (event.target.value < 0) {
+      event.target.value = 0;
+    }
+    const value: number = +event.target.value;
+    event.target.value = value.toFixed(2) + '';
   }
 }
