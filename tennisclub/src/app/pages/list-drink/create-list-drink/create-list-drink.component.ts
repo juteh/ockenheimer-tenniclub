@@ -212,26 +212,6 @@ export class CreateListDrinkComponent implements OnInit {
     this.activeModal.close(this.drinklist);
   }
 
-  saveTemplate(): void {
-    if (this.selectedCreator) {
-      this.currentDrinklistTemplate.creator = this.selectedCreator.personObject;
-    }
-    this.currentDrinklistTemplate.startDate = this.startDate;
-    this.currentDrinklistTemplate.endDate = this.endDate;
-    const selectedPerson = [];
-    this.addedPersons.forEach(person => {
-      selectedPerson.push(person.personObject);
-    });
-    this.currentDrinklistTemplate.users = selectedPerson;
-    const selectedDrinks = [];
-    this.addedDrinks.forEach(drink => {
-      selectedDrinks.push(drink.drinkObject);
-    });
-    this.currentDrinklistTemplate.drinks = selectedDrinks;
-
-    this.activeModal.close(this.currentDrinklistTemplate);
-  }
-
   addDrink($event): void {
     if (this.selectedDrink) {
       // Entferne ausgewähltes Getränk aus der auswählbaren Liste

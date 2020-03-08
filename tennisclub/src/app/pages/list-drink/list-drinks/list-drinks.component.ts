@@ -135,8 +135,11 @@ export class ListDrinksComponent implements OnInit {
     const modalRef = this.modalService.open(
         ListDrinkCalculaterComponent, {windowClass: 'my-custom-modal-width'});
     modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
-    modalRef.result.then((result) => {
-      console.log(result);
+    modalRef.result.then((result: Drinklist) => {
+      this.drinkListings[index] = result;
+      this.fileService.updateFile(
+        '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+        this.getDrinkListingFromJson();
     }, (err) => {});
   }
 }

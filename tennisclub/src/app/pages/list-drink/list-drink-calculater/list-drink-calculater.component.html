@@ -7,20 +7,60 @@
           {{ drink.name + " " + drink.litres + " " + drink.price }}
         </th>
       </ng-container>
+      <th scope="col">Summe</th>
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let user of selectedDrinkList.users; let i = index;">
+    <ng-container *ngFor="let user of selectedDrinkList.users; let i = index">
       <tr>
         <th scope="row">{{ user.firstname + " " + user.lastname }}</th>
         <!-- Es muss so viele Eingabefelder geben, wie es Getränke gibt pro Zeile -->
-        <ng-container *ngFor="let drink of selectedDrinkList.drinks; let j = index;">
+        <ng-container
+          *ngFor="let drink of selectedDrinkList.drinks; let j = index"
+        >
           <td>
-            <input (change)="change($event, i, j)" type="number" min="0" class="form-control" id="person-{{i}}-to-drink-{{j}}" value="{{calculations[i][j].quantity}}">
+            <input
+              (change)="change($event, i, j)"
+              type="number"
+              min="0"
+              class="form-control"
+              id="person-{{ i }}-to-drink-{{ j }}"
+              value="{{ calculations[i][j].quantity }}"
+            />
           </td>
         </ng-container>
+        <td>{{ sumY[i] }} €</td>
       </tr>
     </ng-container>
+    <tr>
+      <th>Summe</th>
+      <ng-container *ngFor="let x of sumX">
+        <td>{{ x }} €</td>
+      </ng-container>
+      <td>
+        <label>{{ currentTotalCost }} €</label>
+      </td>
+    </tr>
   </tbody>
 </table>
-<label>Summe: {{currentTotalCost}}</label>
+
+<!-- Footer -->
+<div class="card-footer">
+  <div class="row">
+    <div class="col-6 text-left">
+      <button
+        (click)="activeModal.dismiss('cancel')"
+        type="button"
+        class="btn btn-secondary"
+      >
+        Abbrechen
+      </button>
+    </div>
+    <div class="col-6 text-right">
+      <button (click)="saveCalculation()" type="submit" class="btn btn-primary">
+        Speichern
+      </button>
+    </div>
+  </div>
+</div>
+
