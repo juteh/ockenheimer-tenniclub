@@ -10,11 +10,12 @@ export class Drinklist {
   public users: Person[];
   public drinks: Drink[];
   public totalCost: number;
+  // Drink x- und Person y-Achse
   public quantityOfDrinkToPerson: Array<Array<Calculation>>;
 
   constructor(
       id = null, creator = null, startDate = null, endDate = null, users = [],
-      drinks = [], totalcost = 0) {
+      drinks = [], totalcost = 0, quantityOfDrinkToPerson = null) {
     this.id = id;
     this.creator = creator;
     this.startDate = startDate;
@@ -22,5 +23,6 @@ export class Drinklist {
     this.users = users;
     this.drinks = drinks;
     this.totalCost = totalcost;
+    this.quantityOfDrinkToPerson = quantityOfDrinkToPerson;
   }
 }

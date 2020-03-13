@@ -19,6 +19,7 @@ import {ListDrinksComponent} from './pages/list-drink/list-drinks/list-drinks.co
 import {EditUserComponent} from './pages/user/list-users/edit-user/edit-user.component';
 import {ListUsersComponent} from './pages/user/list-users/list-users.component';
 import {FilterPipe} from './pipes/filter.pipe';
+import {NumberPickerModule} from 'ng-number-picker';
 
 const routes: Routes = [{path: 'user', component: ListUsersComponent}];
 
@@ -31,7 +32,7 @@ const routes: Routes = [{path: 'user', component: ListUsersComponent}];
   ],
   imports: [
     BrowserModule, RouterModule.forRoot(routes), PapaParseModule, NgbModule,
-    ReactiveFormsModule, FormsModule, NgSelectModule
+    ReactiveFormsModule, FormsModule, NgSelectModule, NumberPickerModule
   ],
   providers: [
     CreateListDrinkTemplateComponent, CreateListDrinkComponent,

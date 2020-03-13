@@ -19,14 +19,7 @@
           *ngFor="let drink of selectedDrinkList.drinks; let j = index"
         >
           <td>
-            <input
-              (change)="change($event, i, j)"
-              type="number"
-              min="0"
-              class="form-control"
-              id="person-{{ i }}-to-drink-{{ j }}"
-              value="{{ calculations[i][j].quantity }}"
-            />
+            <ng-number-picker [(value)]="calculations[i][j].quantity" (valueChange)="change($event, i ,j)"></ng-number-picker>
           </td>
         </ng-container>
         <td>{{ sumY[i] }} €</td>

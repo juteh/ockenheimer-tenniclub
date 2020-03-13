@@ -1,7 +1,7 @@
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Drink } from './../../../models/drink/drink.model';
 import { Person } from './../../../models/person/person.model';
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 
 import {Calculation} from './../../../models/drink/calculation.model';
 import {Drinklist} from './../../../models/drink/drinklist.model';
@@ -48,12 +48,7 @@ export class ListDrinkCalculaterComponent implements OnInit {
     this.calculateCost();
   }
 
-  public change(event, i, j) {
-    console.log("event: ", event);
-    if (!this.isNaturalNumber(event.target.value + '')) {
-      event.target.value = 0;
-    }
-    this.calculations[i][j].quantity = event.target.value;
+  public change(event) {
     this.calculateCost();
   }
 

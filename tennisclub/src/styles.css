@@ -85,15 +85,18 @@ table.custom-table td:last-child {
   border-bottom: 0;
 }
 
-/* .custom-table {
-    margin: 2rem;
-  } */
-
 .custom-table-card {
   margin: 1rem;
   width: 400px;
   display: inline-grid !important;
 }
+
+.selected-card {
+  border: solid 3px #4c63b6 !important;
+  background-color: #e0e8f9 !important;
+}
+
+/* Icons */
 
 .delete {
   cursor: pointer;
@@ -111,6 +114,14 @@ table.custom-table td:last-child {
 .calculate {
   cursor: pointer;
   color: green;
+  font-size: 2rem;
+  float: left;
+  margin-left: 0.5rem;
+}
+
+.add {
+  cursor: pointer;
+  color: black;
   font-size: 2rem;
   float: left;
   margin-left: 0.5rem;
@@ -151,5 +162,5 @@ ngb-tabset .nav-tabs .nav-link {
 }
 
 .btn-secondary {
-  background-color: #829AB1;
+  background-color: #829ab1;
 }

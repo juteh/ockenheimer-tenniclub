@@ -8,12 +8,34 @@
     >
       Getränkeliste erstellen
     </button>
+    <button
+      *ngIf="bindingList.length < 2"
+      type="button"
+      class="btn btn-sm btn-secondary disabled ml-2"
+      placement="top"
+      ngbTooltip="Mindestens zwei Listen auswählen um eine Gesamtliste zu erstellen"
+    >
+      Gesamtliste erstellen
+    </button>
+    <button
+      (click)="createSummaryList()"
+      *ngIf="bindingList.length > 1"
+      type="button"
+      class="btn btn-sm btn-secondary ml-2"
+      ngbTooltip="Kombiniert ausgewälhte Liste zu einer Gesamtliste"
+    >
+      Gesamtliste erstellen
+    </button>
   </div>
 </div>
 
 <div class="row text-center mt-4 mb-4">
   <div class="col-12">
-    <input [(ngModel)]="searchText" class="text-center" placeholder="Suche Getränkeliste" />
+    <input
+      [(ngModel)]="searchText"
+      class="text-center"
+      placeholder="Suche Getränkeliste"
+    />
   </div>
 </div>
 <table *ngIf="drinkListViews.length > 0" class="custom-table text-center">
@@ -26,42 +48,71 @@
     </tr>
   </thead>
   <tbody>
-    <tr
-      *ngFor="
-        let drinkListView of drinkListViews
-          | filter
-            : {
-                id: searchText,
-                creator: searchText,
-                time: searchText,
-                cost: searchText
-              };
-        let i = index
-      "
-      class="custom-table-card"
-    >
-      <td class="pt-0 pb-0">
-        <a (click)="openEditDrinkList(i)"
-          ><i class="icon ion-md-create create"></i
-        ></a>
-        <a (click)="openDrinklistCalculater(i)"
-          ><i class="icon ion-md-calculator calculate"></i
-        ></a>
-        <a (click)="deleteDrinkList(i)"
-          ><i class="icon ion-md-close delete"></i
-        ></a>
-      </td>
-      <td data-label="ID">{{ drinkListView.id }}</td>
-      <td data-label="Ersteller/in">
-        {{ drinkListView.creator }}
-      </td>
-      <td data-label="Zeitraum">
-        {{ drinkListView.time }}
-      </td>
-      <td data-label="Gesamtkosten">
-        {{ drinkListView.cost }}
-      </td>
-    </tr>
+    <ng-container>
+      <tr
+        *ngFor="
+          let drinkListView of drinkListViews
+            | filter
+              : {
+                  id: searchText,
+                  creator: searchText,
+                  time: searchText,
+                  cost: searchText
+                };
+          let i = index
+        "
+        class="custom-table-card"
+        [ngClass]="{ 'selected-card': bindingList.indexOf(i) !== -1 }"
+      >
+        <td class="pt-0 pb-0">
+          <a (click)="openEditDrinkList(i)"
+            ><i
+              class="icon ion-md-create create"
+              placement="top"
+              ngbTooltip="Bearbeite Liste"
+            ></i
+          ></a>
+          <a (click)="openDrinklistCalculater(i)"
+            ><i
+              class="icon ion-md-calculator calculate"
+              placement="top"
+              ngbTooltip="Berechne Liste"
+            ></i
+          ></a>
+          <a *ngIf="bindingList.indexOf(i) === -1" (click)="addToList(i)"
+            ><i
+              class="icon ion-md-add-circle add"
+              placement="top"
+              ngbTooltip="Auswählen für Gesamtliste erstellen"
+            ></i
+          ></a>
+          <a *ngIf="bindingList.indexOf(i) !== -1" (click)="removeFromList(i)"
+            ><i
+              class="icon ion-md-remove-circle add"
+              placement="top"
+              ngbTooltip="Abwählen für Gesamtliste erstellen"
+            ></i
+          ></a>
+          <a (click)="deleteDrinkList(i)"
+            ><i
+              class="icon ion-md-close delete"
+              placement="top"
+              ngbTooltip="Lösche Liste"
+            ></i
+          ></a>
+        </td>
+        <td data-label="ID">{{ drinkListView.id }}</td>
+        <td data-label="Ersteller/in">
+          {{ drinkListView.creator }}
+        </td>
+        <td data-label="Zeitraum">
+          {{ drinkListView.time }}
+        </td>
+        <td data-label="Gesamtkosten">
+          {{ drinkListView.cost }}
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>
 <div class="text-center" *ngIf="drinkListViews.length === 0">
