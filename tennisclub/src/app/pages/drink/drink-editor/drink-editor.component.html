@@ -33,20 +33,20 @@
     <tr
       class="custom-table-card"
       *ngFor="
-        let drink of drinks
+        let drink of drinkViews
           | filter
             : {
                 id: searchText,
                 name: searchText,
                 description: searchText,
-                litres: searchText,
+                liter: searchText,
                 price: searchText
               };
         let i = index
       "
     >
       <td class="pt-0 pb-0">
-        <a (click)="openEditDrink(drink, i)"
+        <a (click)="openEditDrink(i)"
           ><i class="icon ion-md-create create"></i
         ></a>
         <a (click)="deleteDrink(i)"><i class="icon ion-md-close delete"></i></a>
@@ -54,7 +54,7 @@
       <td data-label="ID">{{ drink.id }}</td>
       <td data-label="Name">{{ drink.name }}</td>
       <td data-label="Beschreibung">{{ drink.description }}</td>
-      <td data-label="Liter">{{ drink.litres }}</td>
+      <td data-label="Liter">{{ drink.liter }}</td>
       <td data-label="Preis">{{ drink.price }}</td>
     </tr>
   </tbody>

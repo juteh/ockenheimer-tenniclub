@@ -163,14 +163,14 @@ export class CreateListDrinkTemplateComponent implements OnInit {
         if (drink.id === drinkOfTemplate.id) {
           this.addedDrinks.push({
             drinkObject: drink,
-            fullname: drink.name + ' ' + drink.litres + ' ' + drink.price
+            fullname: drink.name + ' ' + drink.liter + ' ' + drink.price
           });
           isSelected = true;
         }
       });
       this.selectableDrinks.push({
         drinkObject: drink,
-        fullname: drink.name + ' ' + drink.litres + ' ' + drink.price,
+        fullname: drink.name + ' ' + drink.liter + ' ' + drink.price,
         checked: isSelected
       });
     });

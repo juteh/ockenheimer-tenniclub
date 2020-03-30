@@ -11,7 +11,7 @@
         <label class="col-sm-2 col-form-label">Name</label>
         <div class="col-sm-10">
           <input formControlName="name" type="text" class="form-control" required>
-          <label *ngIf="drinkForm.valid && submit">Bitte Namen angeben</label>
+          <label class="text-danger" *ngIf="!drinkForm.valid && submit">Bitte Namen angeben</label>
         </div>
       </div>
       <div class="form-group row">
@@ -22,14 +22,14 @@
       </div>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Liter</label>
-        <div class="col-sm-10">
-          <input (change)="changeLitre($event);" formControlName="litres" type="number" min="0" class="form-control">
+        <div class="col-sm-10" style="max-width: 300px;">
+          <ng-number-picker [postfix]="'Liter'" min="0" step="0.1" [(value)]="liter" (valueChange)="changeLitre($event);"></ng-number-picker>
         </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Preis</label>
-        <div class="col-sm-10">
-          <input (change)="changePrice($event);" formControlName="price" type="number" min="0" class="form-control">
+        <div class="col-sm-10" style="max-width: 300px;">
+          <ng-number-picker [postfix]="'€'" min="0" step="0.1" [(value)]="price" (valueChange)="changePrice($event);"></ng-number-picker>
         </div>
       </div>
     </div>

@@ -1,9 +1,8 @@
-import { Person } from './../../../../models/person/person.model';
 import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
-
+import {Person} from './../../../../models/person/person.model';
 import {Salutation} from './../../../../models/person/salutation.enum';
 
 @Component({
@@ -14,6 +13,7 @@ import {Salutation} from './../../../../models/person/salutation.enum';
 export class EditUserComponent implements OnInit {
   public userForm: FormGroup;
   public salutation: Salutation;
+  public invalid = false;
 
   @Input() createMode: boolean;
   @Input() member: Person;
@@ -22,8 +22,8 @@ export class EditUserComponent implements OnInit {
   constructor(
       public activeModal: NgbActiveModal, private formBuilder: FormBuilder) {
     this.userForm = this.formBuilder.group({
-      firstname: '',
-      lastname: '',
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
       street: '',
       housenumber: '',
       city: '',
@@ -57,6 +57,11 @@ export class EditUserComponent implements OnInit {
   }
 
   save(): void {
+    if (this.userForm.controls['firstname'].hasError('required')  && this.userForm.controls['lastname'].hasError('required')) {
+      this.invalid = true;
+      return;
+    }
+
     if (this.createMode) {
       this.member = new Person;
       this.member.isGuest = this.isGuest;

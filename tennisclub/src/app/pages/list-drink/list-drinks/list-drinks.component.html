@@ -32,7 +32,7 @@
 <div class="row text-center mt-4 mb-4">
   <div class="col-12">
     <input
-      [(ngModel)]="searchText"
+      [(ngModel)]="searchTextDrinkList"
       class="text-center"
       placeholder="Suche Getränkeliste"
     />
@@ -48,31 +48,31 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container>
-      <tr
-        *ngFor="
-          let drinkListView of drinkListViews
-            | filter
-              : {
-                  id: searchText,
-                  creator: searchText,
-                  time: searchText,
-                  cost: searchText
-                };
-          let i = index
-        "
-        class="custom-table-card"
-        [ngClass]="{ 'selected-card': bindingList.indexOf(i) !== -1 }"
-      >
+    <tr
+      *ngFor="
+        let drinkListView of drinkListViews
+          | filter
+            : {
+                id: searchTextDrinkList,
+                creator: searchTextDrinkList,
+                time: searchTextDrinkList,
+                cost: searchTextDrinkList
+              };
+        let i = index
+      "
+      class="custom-table-card"
+      [ngClass]="{ 'selected-card': bindingList.indexOf(i) !== -1 }"
+    >
+      <ng-container *ngIf="!drinkListView.isSummaryList">
         <td class="pt-0 pb-0">
-          <a (click)="openEditDrinkList(i)"
+          <a (click)="openEditDrinkList(i, false)"
             ><i
               class="icon ion-md-create create"
               placement="top"
               ngbTooltip="Bearbeite Liste"
             ></i
           ></a>
-          <a (click)="openDrinklistCalculater(i)"
+          <a (click)="openDrinklistCalculater(i, false)"
             ><i
               class="icon ion-md-calculator calculate"
               placement="top"
@@ -93,7 +93,7 @@
               ngbTooltip="Abwählen für Gesamtliste erstellen"
             ></i
           ></a>
-          <a (click)="deleteDrinkList(i)"
+          <a (click)="deleteDrinkList(i, false)"
             ><i
               class="icon ion-md-close delete"
               placement="top"
@@ -111,10 +111,92 @@
         <td data-label="Gesamtkosten">
           {{ drinkListView.cost }}
         </td>
-      </tr>
-    </ng-container>
+      </ng-container>
+    </tr>
   </tbody>
 </table>
 <div class="text-center" *ngIf="drinkListViews.length === 0">
+  <h3>Liste ist leer</h3>
+</div>
+
+<!-- Gesamtlisten -->
+<div class="row pt-3">
+  <div class="col text-center">
+    <h3>Gesamtlisten</h3>
+  </div>
+</div>
+
+<div class="row text-center mt-4 mb-4">
+  <div class="col-12">
+    <input
+      [(ngModel)]="searchTextSummaryList"
+      class="text-center"
+      placeholder="Suche Getränkeliste"
+    />
+  </div>
+</div>
+
+<table *ngIf="summaryListViews.length > 0" class="custom-table text-center">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Ersteller/in</th>
+      <th scope="col">Zeitraum</th>
+      <th scope="col">Gesamtkosten</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let summaryListView of summaryListViews
+          | filter
+            : {
+                id: searchTextSummaryList,
+                creator: searchTextSummaryList,
+                time: searchTextSummaryList,
+                cost: searchTextSummaryList
+              };
+        let i = index
+      "
+      class="custom-table-card"
+    >
+      <td class="pt-0 pb-0">
+        <a (click)="openEditDrinkList(i, true)"
+          ><i
+            class="icon ion-md-create create"
+            placement="top"
+            ngbTooltip="Bearbeite Liste"
+          ></i
+        ></a>
+        <a (click)="openDrinklistCalculater(i, true)"
+          ><i
+            class="icon ion-md-calculator calculate"
+            placement="top"
+            ngbTooltip="Berechne Liste"
+          ></i
+        ></a>
+        <a (click)="deleteDrinkList(i, true)"
+          ><i
+            class="icon ion-md-close delete"
+            placement="top"
+            ngbTooltip="Lösche Liste"
+          ></i
+        ></a>
+      </td>
+      <td data-label="ID">{{ summaryListView.id }}</td>
+      <td data-label="Ersteller/in">
+        {{ summaryListView.creator }}
+      </td>
+      <td data-label="Zeitraum">
+        {{ summaryListView.time }}
+      </td>
+      <td data-label="Gesamtkosten">
+        {{ summaryListView.cost }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="text-center" *ngIf="summaryListViews.length === 0">
   <h3>Liste ist leer</h3>
 </div>

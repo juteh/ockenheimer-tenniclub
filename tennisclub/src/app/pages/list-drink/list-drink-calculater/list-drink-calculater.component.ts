@@ -1,10 +1,11 @@
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Drink } from './../../../models/drink/drink.model';
-import { Person } from './../../../models/person/person.model';
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
+import {FileService} from './../../../file.service';
 import {Calculation} from './../../../models/drink/calculation.model';
+import {Drink} from './../../../models/drink/drink.model';
 import {Drinklist} from './../../../models/drink/drinklist.model';
+import {Person} from './../../../models/person/person.model';
 
 @Component({
   selector: 'app-list-drink-calculater',
@@ -12,16 +13,16 @@ import {Drinklist} from './../../../models/drink/drinklist.model';
   styleUrls: ['./list-drink-calculater.component.css']
 })
 export class ListDrinkCalculaterComponent implements OnInit {
-  @Input() selectedDrinkList: Drinklist;
+  selectedDrinkList: Drinklist;
 
   public calculations: Array<Array<Calculation>>;
   public currentTotalCost: number;
   public sumX: number[];
   public sumY: number[];
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(
+      public activeModal: NgbActiveModal, private fileService: FileService) {}
 
   ngOnInit() {
-    this.calculations = this.selectedDrinkList.quantityOfDrinkToPerson;
     this.buildCalculations();
   }
 
@@ -41,7 +42,11 @@ export class ListDrinkCalculaterComponent implements OnInit {
                 JSON.stringify(user) ||
             JSON.stringify(this.calculations[i][j].drink) !==
                 JSON.stringify(drink)) {
-          this.calculations[i][j] = {quantity: 0, person: user, drink: drink};
+          this.calculations[i][j] = {
+            quantity: this.selectedDrinkList.quantityOfDrinkToPerson[i][j].quantity,
+            person: user,
+            drink: drink
+          };
         }
       });
     });

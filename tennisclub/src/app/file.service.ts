@@ -36,8 +36,6 @@ export class FileService {
   }
 
   async updateFile(path: string, fileAsText: string) {
-    // console.log(path);
-    // console.log(fileAsText);
     return new Promise<string>((resolve, reject) => {
       this.ipc.once('updateFileResponse', (event, arg) => {
         resolve(arg);

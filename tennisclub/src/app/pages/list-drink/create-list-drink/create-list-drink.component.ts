@@ -169,7 +169,7 @@ export class CreateListDrinkComponent implements OnInit {
       if (!isSelected) {
         this.selectableDrinks.push({
           drinkObject: drink,
-          fullname: drink.name + ' ' + drink.litres + ' ' + drink.price
+          fullname: drink.name + ' ' + drink.liter + ' ' + drink.price
         });
       }
       this.selectableCreators =

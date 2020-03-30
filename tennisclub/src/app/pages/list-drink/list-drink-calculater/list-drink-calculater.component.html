@@ -1,10 +1,13 @@
-<table class="table table-striped table-bordered">
+<table
+  *ngIf="calculations && calculations.length > 0"
+  class="table table-striped table-bordered"
+>
   <thead>
     <tr>
       <th scope="col">#</th>
       <ng-container *ngFor="let drink of selectedDrinkList.drinks">
         <th scope="col">
-          {{ drink.name + " " + drink.litres + " " + drink.price }}
+          {{ drink.name + " " + drink.liter + " " + drink.price }}
         </th>
       </ng-container>
       <th scope="col">Summe</th>
@@ -19,7 +22,11 @@
           *ngFor="let drink of selectedDrinkList.drinks; let j = index"
         >
           <td>
-            <ng-number-picker [(value)]="calculations[i][j].quantity" (valueChange)="change($event, i ,j)"></ng-number-picker>
+            <ng-number-picker
+              [max]="100000"
+              [(value)]="calculations[i][j].quantity"
+              (valueChange)="change($event, i, j)"
+            ></ng-number-picker>
           </td>
         </ng-container>
         <td>{{ sumY[i] }} €</td>
@@ -56,4 +63,3 @@
     </div>
   </div>
 </div>
-

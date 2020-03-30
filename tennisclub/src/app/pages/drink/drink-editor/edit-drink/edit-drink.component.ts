@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,11 +9,16 @@ import {Drink} from './../../../../models/drink/drink.model';
   templateUrl: './edit-drink.component.html',
   styleUrls: ['./edit-drink.component.css']
 })
-export class EditDrinkComponent implements OnInit {
+export class EditDrinkComponent implements OnInit, AfterViewInit {
   @Input() createMode: boolean;
   @Input() drink: Drink;
 
   public drinkForm: FormGroup;
+  public invalid = false;
+  public price = '0';
+  private currentPrice = 0;
+  public liter = '0';
+  private currentLiter = 0;
   public submit = false;
 
   constructor(
@@ -21,21 +26,24 @@ export class EditDrinkComponent implements OnInit {
     this.drinkForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: '',
-      litres: '',
-      price: '',
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ngAfterViewInit() {
     if (!this.createMode && this.drink) {
       this.drinkForm.patchValue({
         name: this.drink.name,
         description: this.drink.description,
-        litres: this.drink.litres,
-        price: this.drink.price,
       });
+      this.price = this.drink.price.toFixed(2);
+      this.currentPrice = this.drink.price;
+      this.liter = this.drink.liter.toFixed(3);
+      this.currentLiter = this.drink.liter;
     }
   }
+
 
   save(): void {
     this.submit = true;
@@ -43,26 +51,33 @@ export class EditDrinkComponent implements OnInit {
       this.drink = new Drink();
       this.drink.name = this.drinkForm.value.name;
       this.drink.description = this.drinkForm.value.description;
-      this.drink.litres = this.drinkForm.value.litres;
-      this.drink.price = this.drinkForm.value.price;
-
+      this.drink.liter = this.currentLiter;
+      this.drink.price = this.currentPrice;
       this.activeModal.close(this.drink);
     }
   }
 
+  // ng-number-picker hat einen bug beim addieren und muss händisch gelöst
+  // werden
   public changeLitre(event): void {
-    if (event.target.value < 0) {
-      event.target.value = 0;
+    if (isNaN(event)) {
+      this.currentLiter += 0.1;
+      this.liter = this.currentLiter.toFixed(3);
+    } else {
+      this.currentLiter = +this.liter;
+      this.liter = this.currentLiter.toFixed(3);
     }
-    const value: number = +event.target.value;
-    event.target.value = value.toFixed(3) + '';
   }
 
+  // ng-number-picker hat einen bug beim addieren und muss händisch gelöst
+  // werden
   public changePrice(event): void {
-    if (event.target.value < 0) {
-      event.target.value = 0;
+    if (isNaN(event)) {
+      this.currentPrice += +0.1;
+      this.price = this.currentPrice.toFixed(2);
+    } else {
+      this.currentPrice = +this.price;
+      this.price = this.currentPrice.toFixed(2);
     }
-    const value: number = +event.target.value;
-    event.target.value = value.toFixed(2) + '';
   }
 }

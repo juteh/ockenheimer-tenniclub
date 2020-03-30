@@ -3,5 +3,5 @@ export class Drink {
   public name: string;
   public description: string;
   public price: number;
-  public litres: number;
+  public liter: number;
 }

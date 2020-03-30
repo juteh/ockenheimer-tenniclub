@@ -14,6 +14,7 @@ import {EditDrinkComponent} from './edit-drink/edit-drink.component';
 })
 export class DrinkEditorComponent implements OnInit {
   public drinks: Drink[] = [];
+  public drinkViews: any[] = [];
 
   public searchText: string;
 
@@ -22,6 +23,15 @@ export class DrinkEditorComponent implements OnInit {
     this.fileService.getFile('/getraenke.json')
         .then((drinks) => {
           this.drinks = JSON.parse(drinks);
+          this.drinks.forEach((drink: Drink) => {
+            this.drinkViews.push({
+              id: drink.id,
+              name: drink.name,
+              description: drink.description,
+              liter: drink.liter.toFixed(3),
+              price: drink.price.toFixed(2)
+            });
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -49,15 +59,15 @@ export class DrinkEditorComponent implements OnInit {
         });
   }
 
-  openEditDrink(drink: Drink, index: number): void {
+  openEditDrink(index: number): void {
     const modalRef = this.modalService.open(EditDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = false;
-    modalRef.componentInstance.drink = drink;
+    modalRef.componentInstance.drink = this.drinks[index];
     modalRef.result.then(
         (editDrink: Drink) => {
           this.drinks[index].name = editDrink.name;
           this.drinks[index].description = editDrink.description;
-          this.drinks[index].litres = editDrink.litres;
+          this.drinks[index].liter = editDrink.liter;
           this.drinks[index].price = editDrink.price;
           this.fileService.updateFile(
               '/getraenke.json', JSON.stringify(this.drinks));

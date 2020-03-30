@@ -5,7 +5,6 @@ import {Drink} from 'src/app/models/drink/drink.model';
 import {NotificationComponent} from '../../../components/notification/notification.component';
 import {FileService} from '../../../file.service';
 import {Drinklist} from '../../../models/drink/drinklist.model';
-import {CreateListDrinkTemplateComponent} from '../create-list-drink-template/create-list-drink-template.component';
 
 import {Calculation} from './../../../models/drink/calculation.model';
 import {Person} from './../../../models/person/person.model';
@@ -21,14 +20,16 @@ import {DrinkListView} from './drink-list-view';
 })
 export class ListDrinksComponent implements OnInit {
   private drinkListings: Drinklist[] = [];
+  private summaryListings: Drinklist[] = [];
   // Für das Suchen muss die Drinkliste, die einzelnen Parameter zu Strings
   // zusammen gebracht werden
   public drinkListViews: DrinkListView[] = [];
-  public searchText: string;
+  public summaryListViews: DrinkListView[] = [];
+  public searchTextSummaryList: string;
+  public searchTextDrinkList: string;
   // Liste aus Indexen von Getränkelisten zum erstellen einer Gesamtliste
   public bindingList: number[] = [];
   private drinkListTemplate: Drinklist;
-
   constructor(
       private fileService: FileService, private modalService: NgbModal) {
     this.getDrinkListingFromJson();
@@ -40,7 +41,10 @@ export class ListDrinksComponent implements OnInit {
   getDrinkListingFromJson(): void {
     this.fileService.getFile('/getraenkelisten.json')
         .then((drinkListings) => {
-          this.drinkListings = JSON.parse(drinkListings);
+          this.drinkListings =
+              JSON.parse(drinkListings).filter(dl => !dl.isSummaryList);
+          this.summaryListings =
+              JSON.parse(drinkListings).filter(dl => dl.isSummaryList);
           this.drinkListingConvertToView();
           return this.fileService.getFile('/getraenkeliste-template.json');
         })
@@ -52,6 +56,7 @@ export class ListDrinksComponent implements OnInit {
 
   drinkListingConvertToView(): void {
     this.drinkListViews = [];
+    this.summaryListViews = [];
     for (const drinkListing of this.drinkListings) {
       let name = 'Keiner gewählt';
       if (drinkListing.creator) {
@@ -78,8 +83,42 @@ export class ListDrinksComponent implements OnInit {
       if (drinkListing.totalCost) {
         totalCost = drinkListing.totalCost + ' €';
       }
-      this.drinkListViews.push(
-          new DrinkListView(drinkListing.id + '', name, time, totalCost));
+
+      this.drinkListViews.push(new DrinkListView(
+          drinkListing.id + '', name, time, totalCost,
+          drinkListing.isSummaryList));
+    }
+
+    for (const summaryListing of this.summaryListings) {
+      let name = 'Keiner gewählt';
+      if (summaryListing.creator) {
+        name = summaryListing.creator.firstname + ' ' +
+            summaryListing.creator.lastname;
+      }
+      let startDate = '';
+
+      if (summaryListing.startDate) {
+        startDate = summaryListing.startDate['day'] + '.' +
+            summaryListing.startDate['month'] + '.' +
+            summaryListing.startDate['year'];
+      }
+
+      let endDate = '';
+      if (summaryListing.endDate) {
+        endDate = summaryListing.endDate['day'] + '.' +
+            summaryListing.endDate['month'] + '.' +
+            summaryListing.endDate['year'];
+      }
+
+      const time = startDate + ' - ' + endDate;
+
+      let totalCost = '';
+      if (summaryListing.totalCost) {
+        totalCost = summaryListing.totalCost + ' €';
+      }
+      this.summaryListViews.push(new DrinkListView(
+          summaryListing.id + '', name, time, totalCost,
+          summaryListing.isSummaryList));
     }
   }
 
@@ -105,21 +144,34 @@ export class ListDrinksComponent implements OnInit {
         });
   }
 
-  openEditDrinkList(index: number): void {
+  openEditDrinkList(index: number, isSummaryList: boolean): void {
     const modalRef =
         this.modalService.open(CreateListDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.isTemplateEdit = false;
-    modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
+    if (isSummaryList) {
+      modalRef.componentInstance.selectedDrinkList =
+          this.summaryListings[index];
+    } else {
+      modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
+    }
 
     modalRef.result.then((updatedDrinklist: Drinklist) => {
-      this.drinkListings[index] = updatedDrinklist;
-      this.drinkListingConvertToView();
+      if (isSummaryList) {
+        this.summaryListings[index] = updatedDrinklist;
+      } else {
+        this.drinkListings[index] = updatedDrinklist;
+      }
+
+      const currentDrinkListing = this.drinkListings;
+      currentDrinkListing.push(...this.summaryListings);
+
       this.fileService.updateFile(
-          '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+          '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
+      this.getDrinkListingFromJson();
     }, (err) => {});
   }
 
-  deleteDrinkList(index: number) {
+  deleteDrinkList(index: number, isSummaryList: boolean) {
     const modalRef =
         this.modalService.open(NotificationComponent, {size: 'lg'});
 
@@ -128,23 +180,55 @@ export class ListDrinksComponent implements OnInit {
         'Wollen Sie wirklich diese Getränkeliste löschen?';
 
     modalRef.result.then((result) => {
-      this.drinkListings.splice(index, 1);
-      this.drinkListViews.splice(index, 1);
+      if (isSummaryList) {
+        this.summaryListings.splice(index, 1);
+        this.summaryListViews.splice(index, 1);
+      } else {
+        this.drinkListings.splice(index, 1);
+        this.drinkListViews.splice(index, 1);
+      }
+
+      const currentDrinkListing = this.drinkListings;
+      currentDrinkListing.push(...this.summaryListings);
+
       this.fileService.updateFile(
-          '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+          '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
+      this.getDrinkListingFromJson();
     }, (err) => {});
   }
 
-  openDrinklistCalculater(index: number) {
-    const modalRef = this.modalService.open(
+  openDrinklistCalculater(index: number, isSummaryList: boolean) {
+    if (!isSummaryList) {
+      const modalRef = this.modalService.open(
+          ListDrinkCalculaterComponent, {windowClass: 'my-custom-modal-width'});
+      modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
+
+      modalRef.result.then((result: Drinklist) => {
+        this.drinkListings[index] = result;
+
+        const currentDrinkListing = this.drinkListings;
+        currentDrinkListing.push(...this.summaryListings);
+
+        this.fileService.updateFile(
+            '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
+        this.getDrinkListingFromJson();
+      }, (err) => {});
+    } else {
+      const modalRef = this.modalService.open(
         ListDrinkCalculaterComponent, {windowClass: 'my-custom-modal-width'});
-    modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
+    modalRef.componentInstance.selectedDrinkList = this.summaryListings[index];
+
     modalRef.result.then((result: Drinklist) => {
-      this.drinkListings[index] = result;
+      this.summaryListings[index] = result;
+
+      const currentDrinkListing = this.drinkListings;
+      currentDrinkListing.push(...this.summaryListings);
+
       this.fileService.updateFile(
-          '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+          '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
       this.getDrinkListingFromJson();
     }, (err) => {});
+    }
   }
 
   addToList(index: number) {
@@ -229,9 +313,14 @@ export class ListDrinksComponent implements OnInit {
                                           calculationSummaryList.person) ===
                                           JSON.stringify(
                                               calculationDrinkList.person)) {
+                                    let quantity =
+                                        +summaryList
+                                             .quantityOfDrinkToPerson[i][j]
+                                             .quantity;
+                                    quantity += +calculationDrinkList.quantity;
+
                                     summaryList.quantityOfDrinkToPerson[i][j]
-                                        .quantity +=
-                                        +calculationDrinkList.quantity;
+                                        .quantity = +quantity;
                                   }
                                 });
                           });
@@ -239,10 +328,15 @@ export class ListDrinksComponent implements OnInit {
           });
     });
 
-    console.log('BINDRESULT: ', summaryList);
-    this.drinkListings.push(summaryList);
+    summaryList.isSummaryList = true;
+    this.summaryListings.push(summaryList);
+
+    const currentDrinkListing = this.drinkListings;
+    summaryList.id = currentDrinkListing[currentDrinkListing.length - 1].id + 1;
+    currentDrinkListing.push(...this.summaryListings);
+    this.bindingList = [];
     this.fileService.updateFile(
-        '/getraenkelisten.json', JSON.stringify(this.drinkListings));
+        '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
     this.getDrinkListingFromJson();
   }
 }
