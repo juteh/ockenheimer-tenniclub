@@ -20,6 +20,7 @@ import {EditUserComponent} from './pages/user/list-users/edit-user/edit-user.com
 import {ListUsersComponent} from './pages/user/list-users/list-users.component';
 import {FilterPipe} from './pipes/filter.pipe';
 import {NumberPickerModule} from 'ng-number-picker';
+import { InstructionComponent } from './pages/instruction/instruction.component';
 
 const routes: Routes = [{path: 'user', component: ListUsersComponent}];
 
@@ -28,7 +29,8 @@ const routes: Routes = [{path: 'user', component: ListUsersComponent}];
     AppComponent, ListUsersComponent, EditUserComponent, ListDrinksComponent,
     CreateListDrinkTemplateComponent, DrinkEditorComponent, EditDrinkComponent,
     NotificationComponent, FilterPipe, CreateListDrinkComponent,
-    ListDrinkCalculaterComponent
+    ListDrinkCalculaterComponent,
+    InstructionComponent
   ],
   imports: [
     BrowserModule, RouterModule.forRoot(routes), PapaParseModule, NgbModule,
