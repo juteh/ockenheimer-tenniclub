@@ -82,7 +82,7 @@ export class CreateListDrinkComponent implements OnInit {
                   this.addedDrinks.push({
                     drinkObject: drink,
                     fullname:
-                        drink.name + ' ' + drink.litres + ' ' + drink.price
+                        ' ' + drink.name + ' ' + drink.liter.toFixed(3) + ' ' + drink.price.toFixed(2)
                   });
                 });
               }
@@ -169,7 +169,7 @@ export class CreateListDrinkComponent implements OnInit {
       if (!isSelected) {
         this.selectableDrinks.push({
           drinkObject: drink,
-          fullname: drink.name + ' ' + drink.liter + ' ' + drink.price
+          fullname: drink.name + ' ' + drink.liter.toFixed(3) + ' ' + drink.price.toFixed(2)
         });
       }
       this.selectableCreators =

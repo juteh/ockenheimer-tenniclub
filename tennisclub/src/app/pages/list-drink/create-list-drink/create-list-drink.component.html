@@ -18,12 +18,15 @@
         >
         </ng-select>
       </div>
-      <div
-        *ngIf="selectedCreator"
-        class="col-12 col-md-8 card-select col-form-label"
-      >
-        <span>{{ selectedCreator.fullname }}</span>
-        <a (click)="deleteCreator()"><i class="icon ion-md-close close"></i></a>
+      <div class="col-12 col-md-8 col-form-label">
+        <ul *ngIf="selectedCreator" class="list-group">
+          <li class="list-group-item">
+            Name: {{ selectedCreator.fullname }}
+            <a (click)="deleteCreator()"
+              ><i class="icon ion-md-close close"></i
+            ></a>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -104,16 +107,16 @@
             <span>Es gibt keine Personen zum Auswählen</span>
           </div>
         </div>
-        <ng-container *ngFor="let person of addedPersons; let i = index">
-          <div class="row p-2 form-group">
-            <div class="col-12 card-select">
-              <span>{{ person.fullname }}</span>
+        <ul class="list-group">
+          <ng-container *ngFor="let person of addedPersons; let i = index">
+            <li class="list-group-item">
+              Name: {{ person.fullname }}
               <a (click)="deletePerson(i)"
                 ><i class="icon ion-md-close close"></i
               ></a>
-            </div>
-          </div>
-        </ng-container>
+            </li>
+          </ng-container>
+        </ul>
       </div>
 
       <!-- Drinks -->
@@ -136,16 +139,18 @@
             <span>Es gibt keine Getränke zum Auswählen</span>
           </div>
         </div>
-        <ng-container *ngFor="let drink of addedDrinks; let i = index">
-          <div class="row p-2 form-group">
-            <div class="col-12 card-select">
-              <span>{{ drink.fullname }}</span>
+        <ul class="list-group">
+          <ng-container *ngFor="let drink of addedDrinks; let i = index">
+            <li class="list-group-item">
+              Name: {{ drink.fullname.split(" ")[0] }}<br />
+              Liter: {{ drink.fullname.split(" ")[1] }} L<br />
+              Preis: {{ drink.fullname.split(" ")[2] }} €
               <a (click)="deleteDrink(i)"
                 ><i class="icon ion-md-close close"></i
               ></a>
-            </div>
-          </div>
-        </ng-container>
+            </li>
+          </ng-container>
+        </ul>
       </div>
     </div>
   </div>

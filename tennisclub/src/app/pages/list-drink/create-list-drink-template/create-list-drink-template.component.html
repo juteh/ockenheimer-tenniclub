@@ -4,42 +4,99 @@
   <div class="card-body">
     <div class="row">
       <div class="col-6">
-        <label>Personen</label>
-        <div
-          *ngFor="let selectablePerson of selectablePersons; let i = index;"
-          class="form-check"
-        >
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="person-{{i}}"
-            (change)="onCheckboxChangePersons($event, i)"
-            [checked]=selectablePerson.checked
-          />
-          <label class="form-check-label" for="person-{{i}}">
-            {{ selectablePerson.fullname }}
-          </label>
-        </div>
+        <ul class="list-group">
+          <li class="list-group-item active">Personen</li>
+          <li *ngIf="persons.length === 0" class="list-group-item">
+            Keine Personen vorhanden
+          </li>
+          <ng-container
+            *ngFor="let person of persons; let i = index"
+            class="form-check"
+          >
+            <li
+              *ngIf="!checkFormPerson[i]"
+              class="list-group-item"
+              style="cursor: pointer;"
+              (click)="checkPerson(i, true)"
+            >
+              <label
+                class="form-check-label pt-2"
+                style="cursor: pointer;"
+                for="person-{{ i }}"
+              >
+                Name: {{ person.firstname + " " + person.lastname }}
+                <ng-container *ngIf="person.isGuest"> (Gast) </ng-container>
+              </label>
+              <a><i class="icon ion-md-square-outline checkbox"></i></a>
+            </li>
+            <li
+              *ngIf="checkFormPerson[i]"
+              class="list-group-item"
+              style="cursor: pointer;"
+              (click)="checkPerson(i, false)"
+              style="background-color: rgb(240, 244, 248, 0.4);"
+            >
+              <label
+                class="form-check-label pt-2"
+                style="cursor: pointer;"
+                for="person-{{ i }}"
+              >
+                Name: {{ person.firstname + " " + person.lastname }}
+                <ng-container *ngIf="person.isGuest"> (Gast) </ng-container>
+              </label>
+              <a><i class="icon ion-md-checkbox-outline checkbox"></i></a>
+            </li>
+          </ng-container>
+        </ul>
       </div>
       <div class="col-6">
-        <label>Getränke</label>
-        <div
-          *ngFor="let selectableDrink of selectableDrinks; let i = index;"
-          class="form-check"
-        >
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value=""
-            id="drink-{{i}}"
-            (change)="onCheckboxChangeDrinks($event, i)"
-            [checked]=selectableDrink.checked
-          />
-          <label class="form-check-label" for="drink-{{i}}">
-            {{ selectableDrink.fullname }}
-          </label>
-        </div>
+        <ul class="list-group">
+          <li class="list-group-item active">Getränke</li>
+          <li *ngIf="drinks.length === 0" class="list-group-item">
+            Keine Getränke vorhanden
+          </li>
+
+          <ng-container
+            *ngFor="let drink of drinks; let i = index"
+            class="form-check"
+          >
+            <li
+              *ngIf="!checkFormDrink[i]"
+              class="list-group-item"
+              style="cursor: pointer;"
+              (click)="checkDrink(i, true)"
+            >
+              <label
+                class="form-check-label pt-2"
+                style="cursor: pointer;"
+                for="drink-{{ i }}"
+              >
+                Name: {{ drink.name }}<br />
+                Liter: {{ drink.liter.toFixed(3) }} L<br />
+                Preis: {{ drink.price.toFixed(2) }} €<br />
+              </label>
+              <a><i class="icon ion-md-square-outline checkbox"></i></a>
+            </li>
+            <li
+              *ngIf="checkFormDrink[i]"
+              class="list-group-item"
+              style="cursor: pointer;"
+              (click)="checkDrink(i, false)"
+              style="background-color: rgb(240, 244, 248, 0.4);"
+            >
+              <label
+                class="form-check-label pt-2"
+                style="cursor: pointer;"
+                for="drink-{{ i }}"
+              >
+                Name: {{ drink.name }}<br />
+                Liter: {{ drink.liter.toFixed(3) }} L<br />
+                Preis: {{ drink.price.toFixed(2) }} €<br />
+              </label>
+              <a><i class="icon ion-md-checkbox-outline checkbox"></i></a>
+            </li>
+          </ng-container>
+        </ul>
       </div>
     </div>
   </div>

@@ -10,6 +10,13 @@
   font-size: 2rem;
 }
 
+.checkbox {
+  cursor: pointer;
+  color: black;
+  font-size: 2rem;
+  float: right;
+}
+
 .card-select {
   background: lightgray;
   border-radius: 1rem;

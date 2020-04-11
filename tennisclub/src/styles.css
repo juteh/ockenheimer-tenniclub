@@ -164,3 +164,12 @@ ngb-tabset .nav-tabs .nav-link {
 .btn-secondary {
   background-color: #829ab1;
 }
+
+.list-group-item {
+  font-size: large;
+  font-family: serif;
+}
+
+.list-group-item.active {
+  background-color: #829ab1;
+}
