@@ -103,7 +103,7 @@
           </div>
         </div>
         <div *ngIf="selectablePersons.length === 0" class="row">
-          <div class="col-12 text-center">
+          <div class="col-12 text-center mb-2">
             <span>Es gibt keine Personen zum Auswählen</span>
           </div>
         </div>
@@ -111,6 +111,7 @@
           <ng-container *ngFor="let person of addedPersons; let i = index">
             <li class="list-group-item">
               Name: {{ person.fullname }}
+              <ng-container *ngIf="person.personObject.isGuest"> (Gast)</ng-container>
               <a (click)="deletePerson(i)"
                 ><i class="icon ion-md-close close"></i
               ></a>
@@ -135,16 +136,16 @@
           </div>
         </div>
         <div *ngIf="selectableDrinks.length === 0" class="row">
-          <div class="col-12 text-center">
+          <div class="col-12 text-center mb-2">
             <span>Es gibt keine Getränke zum Auswählen</span>
           </div>
         </div>
         <ul class="list-group">
           <ng-container *ngFor="let drink of addedDrinks; let i = index">
             <li class="list-group-item">
-              Name: {{ drink.fullname.split(" ")[0] }}<br />
-              Liter: {{ drink.fullname.split(" ")[1] }} L<br />
-              Preis: {{ drink.fullname.split(" ")[2] }} €
+              Name: {{ drink.fullname.split(" ")[1] }}<br />
+              Liter: {{ drink.fullname.split(" ")[2] }} L<br />
+              Preis: {{ drink.fullname.split(" ")[3] }} €
               <a (click)="deleteDrink(i)"
                 ><i class="icon ion-md-close close"></i
               ></a>

@@ -5,6 +5,7 @@ import {BrowserWindow} from 'electron';
 import {NotificationComponent} from './../../../components/notification/notification.component';
 import {FileService} from './../../../file.service';
 import {Drink} from './../../../models/drink/drink.model';
+import {Drinklist} from './../../../models/drink/drinklist.model';
 import {EditDrinkComponent} from './edit-drink/edit-drink.component';
 
 @Component({
@@ -16,13 +17,23 @@ export class DrinkEditorComponent implements OnInit {
   public drinks: Drink[] = [];
   public drinkViews: any[] = [];
 
+
   public searchText: string;
 
   constructor(
       private fileService: FileService, private modalService: NgbModal) {
+    this.getDrinks();
+  }
+
+  ngOnInit() {}
+
+  getDrinks() {
+    this.drinks = [];
+    this.drinkViews = [];
     this.fileService.getFile('/getraenke.json')
         .then((drinks) => {
           this.drinks = JSON.parse(drinks);
+          console.log('drinks: ', drinks);
           this.drinks.forEach((drink: Drink) => {
             this.drinkViews.push({
               id: drink.id,
@@ -38,8 +49,6 @@ export class DrinkEditorComponent implements OnInit {
         });
   }
 
-  ngOnInit() {}
-
   openCreateDrink(): void {
     const modalRef = this.modalService.open(EditDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.createMode = true;
@@ -51,8 +60,13 @@ export class DrinkEditorComponent implements OnInit {
             drink.id = this.drinks[this.drinks.length - 1].id + 1;
           }
           this.drinks.push(drink);
-          this.fileService.updateFile(
-              '/getraenke.json', JSON.stringify(this.drinks));
+          this.fileService
+              .updateFile('/getraenke.json', JSON.stringify(this.drinks))
+              .then((result) => {
+                this.getDrinks();
+                this.changeTemplate();
+              })
+              .catch(err => {});
         },
         (err) => {
           console.log(err);
@@ -65,12 +79,18 @@ export class DrinkEditorComponent implements OnInit {
     modalRef.componentInstance.drink = this.drinks[index];
     modalRef.result.then(
         (editDrink: Drink) => {
+          console.log(editDrink);
           this.drinks[index].name = editDrink.name;
           this.drinks[index].description = editDrink.description;
           this.drinks[index].liter = editDrink.liter;
           this.drinks[index].price = editDrink.price;
-          this.fileService.updateFile(
-              '/getraenke.json', JSON.stringify(this.drinks));
+          this.fileService
+              .updateFile('/getraenke.json', JSON.stringify(this.drinks))
+              .then((result) => {
+                this.getDrinks();
+                this.changeTemplate();
+              })
+              .catch((err) => {});
         },
         (err) => {
           console.log(err);
@@ -89,9 +109,38 @@ export class DrinkEditorComponent implements OnInit {
           this.drinks.splice(index, 1);
           this.fileService.updateFile(
               '/getraenke.json', JSON.stringify(this.drinks));
+          this.getDrinks();
         },
         (err) => {
           console.log(err);
+        });
+  }
+
+  /**
+   * Die Vorlage muss immer wieder angepasst werden, wenn es Änderungen bei den
+   * Getränken gibt
+   */
+  changeTemplate(): void {
+    let drinklistTemplate: Drinklist;
+    const newDrinks: Drink[] = [];
+    this.fileService.getFile('/getraenkeliste-template.json')
+        .then((template) => {
+          drinklistTemplate = JSON.parse(template);
+          if (drinklistTemplate && drinklistTemplate.drinks) {
+            this.drinks.forEach((drink: Drink) => {
+              if (drinklistTemplate.drinks.filter(d => drink.id === d.id)
+                      .length === 1) {
+                newDrinks.push(drink);
+              }
+            });
+            drinklistTemplate.drinks = newDrinks;
+            this.fileService.updateFile(
+                '/getraenkeliste-template.json',
+                JSON.stringify(drinklistTemplate));
+          }
+        })
+        .catch((error) => {
+          console.log(error);
         });
   }
 }

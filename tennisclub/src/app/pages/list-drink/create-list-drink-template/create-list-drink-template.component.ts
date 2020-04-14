@@ -49,8 +49,6 @@ export class CreateListDrinkTemplateComponent implements OnInit {
   }
 
   createSelectableLists(): void {
-    console.log("persons: ", this.persons);
-    console.log("drinklistTemplate: ", this.drinklistTemplate);
     this.persons.forEach((person: Person) => {
       if (this.drinklistTemplate.users
               .filter(
@@ -99,7 +97,6 @@ export class CreateListDrinkTemplateComponent implements OnInit {
     template.users = currentPersons;
     template.drinks = currentDrinks;
 
-    console.log('Save Template: ', template);
     this.fileService.updateFile(
         '/getraenkeliste-template.json', JSON.stringify(template));
   }

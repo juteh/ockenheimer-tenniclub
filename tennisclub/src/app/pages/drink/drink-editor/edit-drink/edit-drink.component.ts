@@ -9,7 +9,7 @@ import {Drink} from './../../../../models/drink/drink.model';
   templateUrl: './edit-drink.component.html',
   styleUrls: ['./edit-drink.component.css']
 })
-export class EditDrinkComponent implements OnInit, AfterViewInit {
+export class EditDrinkComponent implements OnInit {
   @Input() createMode: boolean;
   @Input() drink: Drink;
 
@@ -29,9 +29,7 @@ export class EditDrinkComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit() {
+  ngOnInit(): void {
     if (!this.createMode && this.drink) {
       this.drinkForm.patchValue({
         name: this.drink.name,
@@ -43,7 +41,6 @@ export class EditDrinkComponent implements OnInit, AfterViewInit {
       this.currentLiter = this.drink.liter;
     }
   }
-
 
   save(): void {
     this.submit = true;
@@ -59,7 +56,7 @@ export class EditDrinkComponent implements OnInit, AfterViewInit {
 
   // ng-number-picker hat einen bug beim addieren und muss händisch gelöst
   // werden
-  public changeLitre(event): void {
+  public changeLiter(event): void {
     if (isNaN(event)) {
       this.currentLiter += 0.1;
       this.liter = this.currentLiter.toFixed(3);

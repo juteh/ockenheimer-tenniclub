@@ -1,10 +1,11 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Person} from 'src/app/models/person/person.model';
 import {Salutation} from 'src/app/models/person/salutation.enum';
 
 import {NotificationComponent} from './../../../components/notification/notification.component';
 import {FileService} from './../../../file.service';
+import {Drinklist} from './../../../models/drink/drinklist.model';
 import {EditUserComponent} from './edit-user/edit-user.component';
 
 @Component({
@@ -47,13 +48,11 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.member = member;
 
-    modalRef.result.then(
-        (updatedMember: Person) => {
-          this.memberList[index] = updatedMember;
-          this.updateUserFile('/mitglieder.json', true);
-        },
-        (err) => {
-        });
+    modalRef.result.then((updatedMember: Person) => {
+      this.memberList[index] = updatedMember;
+      this.updateUserFile('/mitglieder.json', true);
+      this.changeTemplate();
+    }, (err) => {});
   }
 
   openEditGuest(member: Person, index: number) {
@@ -61,13 +60,11 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.createMode = false;
     modalRef.componentInstance.member = member;
 
-    modalRef.result.then(
-        (updatedGuest: Person) => {
-          this.guestList[index] = updatedGuest;
-          this.updateUserFile('/gaeste.json', false);
-        },
-        (err) => {
-        });
+    modalRef.result.then((updatedGuest: Person) => {
+      this.guestList[index] = updatedGuest;
+      this.updateUserFile('/gaeste.json', false);
+      this.changeTemplate();
+    }, (err) => {});
   }
 
   openCreateMember(): void {
@@ -75,19 +72,17 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.createMode = true;
     modalRef.componentInstance.isGuest = false;
 
-    modalRef.result.then(
-        (member: Person) => {
-          if (this.memberList.length === 0) {
-            member.id = 0;
-          } else {
-            // Hat immer die nächste höhere ID zum letzten User
-            member.id = this.memberList[this.memberList.length - 1].id + 1;
-          }
-          this.memberList.push(member);
-          this.updateUserFile('/mitglieder.json', true);
-        },
-        (err) => {
-        });
+    modalRef.result.then((member: Person) => {
+      if (this.memberList.length === 0) {
+        member.id = 0;
+      } else {
+        // Hat immer die nächste höhere ID zum letzten User
+        member.id = this.memberList[this.memberList.length - 1].id + 1;
+      }
+      this.memberList.push(member);
+      this.updateUserFile('/mitglieder.json', true);
+      this.changeTemplate();
+    }, (err) => {});
   }
 
   openCreateGuest(): void {
@@ -95,18 +90,16 @@ export class ListUsersComponent implements OnInit {
     modalRef.componentInstance.createMode = true;
     modalRef.componentInstance.isGuest = true;
 
-    modalRef.result.then(
-        (guest: Person) => {
-          if (this.guestList.length === 0) {
-            guest.id = 1;
-          } else {
-            guest.id = this.guestList[this.guestList.length - 1].id + 1;
-          }
-          this.guestList.push(guest);
-          this.updateUserFile('/gaeste.json', false);
-        },
-        (err) => {
-        });
+    modalRef.result.then((guest: Person) => {
+      if (this.guestList.length === 0) {
+        guest.id = 1;
+      } else {
+        guest.id = this.guestList[this.guestList.length - 1].id + 1;
+      }
+      this.guestList.push(guest);
+      this.updateUserFile('/gaeste.json', false);
+      this.changeTemplate();
+    }, (err) => {});
   }
 
   deleteMember(index: number): void {
@@ -121,10 +114,8 @@ export class ListUsersComponent implements OnInit {
     modalRef.result.then(
         (result) => {
           this.memberList.splice(index, 1);
-          this.updateUserFile('/mitglieder.json', true).then((mitglieder: string) => {
-            // this.memberList = JSON.parse(mitglieder);
-          });
-          // this.loadPersons();
+          this.updateUserFile('/mitglieder.json', true);
+          this.changeTemplate();
         },
         (err) => {
 
@@ -144,6 +135,7 @@ export class ListUsersComponent implements OnInit {
         (result) => {
           this.guestList.splice(index, 1);
           this.updateUserFile('/gaeste.json', false);
+          this.changeTemplate();
         },
         (err) => {
 
@@ -152,7 +144,7 @@ export class ListUsersComponent implements OnInit {
 
   updateUserFile(path, isMember): Promise<string> {
     if (isMember) {
-       return this.fileService.updateFile(path, JSON.stringify(this.memberList));
+      return this.fileService.updateFile(path, JSON.stringify(this.memberList));
     } else {
       return this.fileService.updateFile(path, JSON.stringify(this.guestList));
     }
@@ -227,5 +219,41 @@ export class ListUsersComponent implements OnInit {
       }
       this.updateUserFile('/mitglieder.json', true);
     });
+  }
+
+  /**
+   * Die Vorlage muss immer wieder angepasst werden, wenn es Änderungen bei den
+   * Personen gibt
+   */
+  changeTemplate(): void {
+    let drinklistTemplate: Drinklist;
+    const newPersons: Person[] = [];
+    this.fileService.getFile('/getraenkeliste-template.json')
+        .then((template) => {
+          drinklistTemplate = JSON.parse(template);
+          if (drinklistTemplate && drinklistTemplate.users) {
+            this.memberList.forEach((member: Person) => {
+              if (drinklistTemplate.users.filter(p => member.id === p.id)
+                      .length === 1) {
+                newPersons.push(member);
+              }
+            });
+
+            this.guestList.forEach((guest: Person) => {
+              if (drinklistTemplate.users.filter(p => guest.id === p.id)
+                      .length === 1) {
+                newPersons.push(guest);
+              }
+            });
+
+            drinklistTemplate.users = newPersons;
+            this.fileService.updateFile(
+                '/getraenkeliste-template.json',
+                JSON.stringify(drinklistTemplate));
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   }
 }

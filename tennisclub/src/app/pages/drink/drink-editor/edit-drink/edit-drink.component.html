@@ -1,5 +1,5 @@
 <div class="card text-center">
-  <form [formGroup]="drinkForm" >
+  <form [formGroup]="drinkForm" (ngSubmit)="save()" >
 
     <div class="card-header">
       <h3 *ngIf="createMode">Getränk erstellen</h3>
@@ -23,7 +23,7 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label">Liter</label>
         <div class="col-sm-10" style="max-width: 300px;">
-          <ng-number-picker [postfix]="'Liter'" min="0" step="0.1" [(value)]="liter" (valueChange)="changeLitre($event);"></ng-number-picker>
+          <ng-number-picker [postfix]="'Liter'" min="0" step="0.1" [(value)]="liter" (valueChange)="changeLiter($event);"></ng-number-picker>
         </div>
       </div>
       <div class="form-group row">
@@ -40,7 +40,7 @@
           <button (click)="activeModal.dismiss('cancel');" type="button" class="btn btn-secondary">Abbrechen</button>
         </div>
         <div class="col-6 text-right">
-          <button (click)="save();" type="submit" class="btn btn-primary">Speichern</button>
+          <button type="submit" class="btn btn-primary">Speichern</button>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { Calculation } from './../../../models/drink/calculation.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileService } from './../../../file.service';
 import { DrinklistTemplate } from './../../../models/drink/drinklist-template.model';
@@ -31,7 +32,6 @@ export class CreateListDrinkComponent implements OnInit {
   public selectableDrinks: Array<{drinkObject: Drink, fullname: string}> = [];
   public selectedDrink: {drinkObject: Drink, fullname: string};
   public addedDrinks: Array<{drinkObject: Drink, fullname: string}> = [];
-  private currentDrinklistTemplate: DrinklistTemplate = new DrinklistTemplate();
   private drinklist: Drinklist = new Drinklist();
 
   @Input() selectedDrinkList: Drinklist;
@@ -135,7 +135,7 @@ export class CreateListDrinkComponent implements OnInit {
     this.guests.forEach((guest: Person) => {
       let isSelected = false;
       this.addedPersons.forEach(addedPerson => {
-        if (!addedPerson.personObject.isGuest &&
+        if (addedPerson.personObject.isGuest &&
             addedPerson.personObject.id === guest.id) {
           isSelected = true;
         }
@@ -209,6 +209,18 @@ export class CreateListDrinkComponent implements OnInit {
       selectedDrinks.push(drink.drinkObject);
     });
     this.drinklist.drinks = selectedDrinks;
+    const newCalculations: Array<Array<Calculation>> = [];
+    this.addedPersons.forEach((person, i) => {
+      newCalculations[i] = [];
+      this.addedDrinks.forEach((drink, j) => {
+        newCalculations[i][j] = new Calculation(0, person.personObject, drink.drinkObject);
+      });
+    });
+
+    this.drinklist.quantityOfDrinkToPerson = newCalculations;
+    this.drinklist.totalCost = 0;
+
+
     this.activeModal.close(this.drinklist);
   }
 

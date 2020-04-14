@@ -23,35 +23,38 @@ export class ListDrinkCalculaterComponent implements OnInit {
       public activeModal: NgbActiveModal, private fileService: FileService) {}
 
   ngOnInit() {
-    this.buildCalculations();
-  }
-
-  private buildCalculations(): void {
-    if (!this.calculations) {
-      this.calculations = [];
-    }
-
-    this.selectedDrinkList.users.forEach((user, i) => {
-      if (!this.calculations[i]) {
-        this.calculations[i] = [];
-      }
-
-      this.selectedDrinkList.drinks.forEach((drink, j) => {
-        if (!this.calculations[i][j] ||
-            JSON.stringify(this.calculations[i][j].person) !==
-                JSON.stringify(user) ||
-            JSON.stringify(this.calculations[i][j].drink) !==
-                JSON.stringify(drink)) {
-          this.calculations[i][j] = {
-            quantity: this.selectedDrinkList.quantityOfDrinkToPerson[i][j].quantity,
-            person: user,
-            drink: drink
-          };
-        }
-      });
-    });
+    // this.buildCalculations();
+    this.calculations = this.selectedDrinkList.quantityOfDrinkToPerson;
+    console.log("this.calculations:", this.calculations);
     this.calculateCost();
   }
+
+  // private buildCalculations(): void {
+  //   if (!this.calculations) {
+  //     this.calculations = [];
+  //   }
+
+  //   this.selectedDrinkList.users.forEach((user, i) => {
+  //     if (!this.calculations[i]) {
+  //       this.calculations[i] = [];
+  //     }
+
+  //     this.selectedDrinkList.drinks.forEach((drink, j) => {
+  //       if (!this.calculations[i][j] ||
+  //           JSON.stringify(this.calculations[i][j].person) !==
+  //               JSON.stringify(user) ||
+  //           JSON.stringify(this.calculations[i][j].drink) !==
+  //               JSON.stringify(drink)) {
+  //         this.calculations[i][j] = {
+  //           quantity: this.selectedDrinkList.quantityOfDrinkToPerson[i][j].quantity,
+  //           person: user,
+  //           drink: drink
+  //         };
+  //       }
+  //     });
+  //   });
+  //   this.calculateCost();
+  // }
 
   public change(event) {
     this.calculateCost();
@@ -64,12 +67,12 @@ export class ListDrinkCalculaterComponent implements OnInit {
     this.calculations.forEach((row, i) => {
       let y = 0;
       row.forEach((calculation: Calculation, j) => {
-        this.currentTotalCost += calculation.drink.price * calculation.quantity;
-        y += calculation.quantity * calculation.drink.price;
+        this.currentTotalCost += +calculation.drink.price.toFixed(2) * calculation.quantity;
+        y += calculation.quantity * +calculation.drink.price.toFixed(2);
         if (!this.sumX[j]) {
           this.sumX[j] = 0;
         }
-        this.sumX[j] += calculation.quantity * calculation.drink.price;
+        this.sumX[j] += calculation.quantity * +calculation.drink.price.toFixed(2);
       });
       this.sumY.push(y);
     });

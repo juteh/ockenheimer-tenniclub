@@ -11,6 +11,7 @@ import {Person} from './../../../models/person/person.model';
 import {CreateListDrinkComponent} from './../create-list-drink/create-list-drink.component';
 import {ListDrinkCalculaterComponent} from './../list-drink-calculater/list-drink-calculater.component';
 import {DrinkListView} from './drink-list-view';
+import { summaryFileName } from '@angular/compiler/src/aot/util';
 
 
 @Component({
@@ -57,7 +58,10 @@ export class ListDrinksComponent implements OnInit {
   drinkListingConvertToView(): void {
     this.drinkListViews = [];
     this.summaryListViews = [];
+    console.log(this.drinkListings);
+    console.log(this.summaryListings);
     for (const drinkListing of this.drinkListings) {
+
       let name = 'Keiner gewählt';
       if (drinkListing.creator) {
         name = drinkListing.creator.firstname + ' ' +
@@ -79,10 +83,7 @@ export class ListDrinksComponent implements OnInit {
 
       const time = startDate + ' - ' + endDate;
 
-      let totalCost = '';
-      if (drinkListing.totalCost) {
-        totalCost = drinkListing.totalCost + ' €';
-      }
+      const totalCost = drinkListing.totalCost.toFixed(2) + ' €';
 
       this.drinkListViews.push(new DrinkListView(
           drinkListing.id + '', name, time, totalCost,
@@ -112,10 +113,8 @@ export class ListDrinksComponent implements OnInit {
 
       const time = startDate + ' - ' + endDate;
 
-      let totalCost = '';
-      if (summaryListing.totalCost) {
-        totalCost = summaryListing.totalCost + ' €';
-      }
+      const  totalCost = summaryListing.totalCost.toFixed(2) + ' €';
+
       this.summaryListViews.push(new DrinkListView(
           summaryListing.id + '', name, time, totalCost,
           summaryListing.isSummaryList));
@@ -134,6 +133,7 @@ export class ListDrinksComponent implements OnInit {
             drinklist.id =
                 this.drinkListings[this.drinkListings.length - 1].id + 1;
           }
+
           this.drinkListings.push(drinklist);
           this.fileService.updateFile(
               '/getraenkelisten.json', JSON.stringify(this.drinkListings));
@@ -215,19 +215,20 @@ export class ListDrinksComponent implements OnInit {
       }, (err) => {});
     } else {
       const modalRef = this.modalService.open(
-        ListDrinkCalculaterComponent, {windowClass: 'my-custom-modal-width'});
-    modalRef.componentInstance.selectedDrinkList = this.summaryListings[index];
+          ListDrinkCalculaterComponent, {windowClass: 'my-custom-modal-width'});
+      modalRef.componentInstance.selectedDrinkList =
+          this.summaryListings[index];
 
-    modalRef.result.then((result: Drinklist) => {
-      this.summaryListings[index] = result;
+      modalRef.result.then((result: Drinklist) => {
+        this.summaryListings[index] = result;
 
-      const currentDrinkListing = this.drinkListings;
-      currentDrinkListing.push(...this.summaryListings);
+        const currentDrinkListing = this.drinkListings;
+        currentDrinkListing.push(...this.summaryListings);
 
-      this.fileService.updateFile(
-          '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
-      this.getDrinkListingFromJson();
-    }, (err) => {});
+        this.fileService.updateFile(
+            '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
+        this.getDrinkListingFromJson();
+      }, (err) => {});
     }
   }
 
@@ -246,8 +247,10 @@ export class ListDrinksComponent implements OnInit {
     summaryList.creator = this.drinkListings[this.bindingList[0]].creator;
     summaryList.startDate = this.drinkListings[this.bindingList[0]].startDate;
     summaryList.endDate = this.drinkListings[this.bindingList[0]].endDate;
-
+    let totalCost = 0;
     this.bindingList.forEach((listNumber: number, index: number) => {
+      // Gesamtsumme festlegen
+      totalCost += this.drinkListings[listNumber].totalCost;
       // Startdatum und Enddatum festlegen
       if (summaryList.startDate['year'] >=
               this.drinkListings[listNumber].startDate['year'] &&
@@ -285,9 +288,9 @@ export class ListDrinksComponent implements OnInit {
     });
 
     summaryList.quantityOfDrinkToPerson = [];
-    summaryList.drinks.forEach((drink: Drink) => {
-      const currentList: Calculation[] = [];
-      summaryList.users.forEach((person: Person) => {
+    summaryList.users.forEach((person: Person) => {
+    const currentList: Calculation[] = [];
+      summaryList.drinks.forEach((drink: Drink) => {
         currentList.push(new Calculation(0, person, drink));
       });
       summaryList.quantityOfDrinkToPerson.push(currentList);
@@ -327,7 +330,7 @@ export class ListDrinksComponent implements OnInit {
                 });
           });
     });
-
+    summaryList.totalCost = totalCost;
     summaryList.isSummaryList = true;
     this.summaryListings.push(summaryList);
 

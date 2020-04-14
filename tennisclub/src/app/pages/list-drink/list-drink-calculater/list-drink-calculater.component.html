@@ -7,7 +7,9 @@
       <th scope="col">#</th>
       <ng-container *ngFor="let drink of selectedDrinkList.drinks">
         <th scope="col">
-          {{ drink.name + " " + drink.liter + " " + drink.price }}
+          Name: {{ drink.name }}<br/>
+          Liter: {{drink.liter.toFixed(3)}}<br/>
+          Preis: {{ drink.price.toFixed(2) }}<br/>
         </th>
       </ng-container>
       <th scope="col">Summe</th>
@@ -16,7 +18,9 @@
   <tbody>
     <ng-container *ngFor="let user of selectedDrinkList.users; let i = index">
       <tr>
-        <th scope="row">{{ user.firstname + " " + user.lastname }}</th>
+        <th scope="row">Name: {{ user.firstname + " " + user.lastname }}<br/>
+          <ng-container *ngIf="user.isGuest">(Gast)</ng-container>
+        </th>
         <!-- Es muss so viele Eingabefelder geben, wie es Getränke gibt pro Zeile -->
         <ng-container
           *ngFor="let drink of selectedDrinkList.drinks; let j = index"
@@ -29,16 +33,16 @@
             ></ng-number-picker>
           </td>
         </ng-container>
-        <td>{{ sumY[i] }} €</td>
+        <td>{{ sumY[i].toFixed(2) }} €</td>
       </tr>
     </ng-container>
     <tr>
       <th>Summe</th>
       <ng-container *ngFor="let x of sumX">
-        <td>{{ x }} €</td>
+        <td>{{ x.toFixed(2) }} €</td>
       </ng-container>
       <td>
-        <label>{{ currentTotalCost }} €</label>
+        <label>{{ currentTotalCost.toFixed(2) }} €</label>
       </td>
     </tr>
   </tbody>
