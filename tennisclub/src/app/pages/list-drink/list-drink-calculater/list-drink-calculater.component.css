@@ -5,3 +5,33 @@ td {
 th {
   min-width: 200px;
 }
+
+table {
+  text-align: left;
+  position: relative;
+  border-collapse: collapse;
+  max-height: 80vh;
+}
+
+thead th {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 101 !important;
+}
+
+div.container {
+  overflow: scroll;
+}
+
+tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 100 !important;
+  background: white;
+}
+
+thead th:first-child {
+  left: 0;
+  z-index: 1;
+}

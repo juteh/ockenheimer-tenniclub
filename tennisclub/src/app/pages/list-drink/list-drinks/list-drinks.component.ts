@@ -1,3 +1,4 @@
+import {summaryFileName} from '@angular/compiler/src/aot/util';
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Drink} from 'src/app/models/drink/drink.model';
@@ -11,7 +12,6 @@ import {Person} from './../../../models/person/person.model';
 import {CreateListDrinkComponent} from './../create-list-drink/create-list-drink.component';
 import {ListDrinkCalculaterComponent} from './../list-drink-calculater/list-drink-calculater.component';
 import {DrinkListView} from './drink-list-view';
-import { summaryFileName } from '@angular/compiler/src/aot/util';
 
 
 @Component({
@@ -61,7 +61,6 @@ export class ListDrinksComponent implements OnInit {
     console.log(this.drinkListings);
     console.log(this.summaryListings);
     for (const drinkListing of this.drinkListings) {
-
       let name = 'Keiner gewählt';
       if (drinkListing.creator) {
         name = drinkListing.creator.firstname + ' ' +
@@ -113,7 +112,7 @@ export class ListDrinksComponent implements OnInit {
 
       const time = startDate + ' - ' + endDate;
 
-      const  totalCost = summaryListing.totalCost.toFixed(2) + ' €';
+      const totalCost = summaryListing.totalCost.toFixed(2) + ' €';
 
       this.summaryListViews.push(new DrinkListView(
           summaryListing.id + '', name, time, totalCost,
@@ -200,7 +199,8 @@ export class ListDrinksComponent implements OnInit {
   openDrinklistCalculater(index: number, isSummaryList: boolean) {
     if (!isSummaryList) {
       const modalRef = this.modalService.open(
-          ListDrinkCalculaterComponent, {windowClass: 'my-custom-modal-width'});
+          ListDrinkCalculaterComponent,
+          {windowClass: 'my-custom-modal-calculater'});
       modalRef.componentInstance.selectedDrinkList = this.drinkListings[index];
 
       modalRef.result.then((result: Drinklist) => {
@@ -289,7 +289,7 @@ export class ListDrinksComponent implements OnInit {
 
     summaryList.quantityOfDrinkToPerson = [];
     summaryList.users.forEach((person: Person) => {
-    const currentList: Calculation[] = [];
+      const currentList: Calculation[] = [];
       summaryList.drinks.forEach((drink: Drink) => {
         currentList.push(new Calculation(0, person, drink));
       });
@@ -341,5 +341,18 @@ export class ListDrinksComponent implements OnInit {
     this.fileService.updateFile(
         '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
     this.getDrinkListingFromJson();
+  }
+
+  exportPDF(index: number): void {
+  //   var parser = new DOMParser();
+	// var doc = parser.parseFromString('<div id="myDiv">Test</div>', 'text/html');
+  // console.log('EXPORTPDF: ', doc.body);
+  //   this.fileService.exportPDF(doc.body)
+  //       .then((result) => {
+  //         console.log('result: ', result);
+  //       })
+  //       .catch((error) => {
+  //         console.log('error: ', error);
+  //       });
   }
 }

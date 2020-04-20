@@ -43,4 +43,13 @@ export class FileService {
       this.ipc.send('updateFile', path, fileAsText);
     });
   }
+
+  async exportPDF(fileAsText: any) {
+    return new Promise<string>((resolve, reject) => {
+      this.ipc.once('exportPDFResponse', (event, arg) => {
+        resolve(arg);
+      });
+      this.ipc.send('exportPDF', fileAsText);
+    });
+  }
 }

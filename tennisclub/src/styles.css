@@ -131,6 +131,10 @@ table.custom-table td:last-child {
   max-width: 1024px;
 }
 
+.my-custom-modal-calculater .modal-dialog {
+  max-width: 85%;
+}
+
 /* Background */
 
 .background-body {
