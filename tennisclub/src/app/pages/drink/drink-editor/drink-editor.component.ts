@@ -7,6 +7,7 @@ import {FileService} from './../../../file.service';
 import {Drink} from './../../../models/drink/drink.model';
 import {Drinklist} from './../../../models/drink/drinklist.model';
 import {EditDrinkComponent} from './edit-drink/edit-drink.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-drink-editor',
@@ -21,7 +22,7 @@ export class DrinkEditorComponent implements OnInit {
   public searchText: string;
 
   constructor(
-      private fileService: FileService, private modalService: NgbModal) {
+      private fileService: FileService, private modalService: NgbModal, private toastr: ToastrService) {
     this.getDrinks();
   }
 
@@ -44,7 +45,7 @@ export class DrinkEditorComponent implements OnInit {
           });
         })
         .catch((err) => {
-          console.log(err);
+          this.toastr.error("Fehler beim Laden von Daten");
         });
   }
 
@@ -64,12 +65,11 @@ export class DrinkEditorComponent implements OnInit {
               .then((result) => {
                 this.getDrinks();
                 this.changeTemplate();
+                this.toastr.success("Getränk erstellt");
               })
-              .catch(err => {});
+              .catch((err) => {this.toastr.error("Fehler beim Laden von Daten");});
         },
-        (err) => {
-          console.log(err);
-        });
+        (err) => {});
   }
 
   openEditDrink(index: number): void {
@@ -87,12 +87,11 @@ export class DrinkEditorComponent implements OnInit {
               .then((result) => {
                 this.getDrinks();
                 this.changeTemplate();
+                this.toastr.success("Änderungen gespeichert");
               })
-              .catch((err) => {});
+              .catch((err) => {this.toastr.error("Fehler beim Laden von Daten");});
         },
-        (err) => {
-          console.log(err);
-        });
+        (err) => {});
   }
 
   deleteDrink(index: number): void {
@@ -106,12 +105,14 @@ export class DrinkEditorComponent implements OnInit {
         (result: any) => {
           this.drinks.splice(index, 1);
           this.fileService.updateFile(
-              '/getraenke.json', JSON.stringify(this.drinks));
-          this.getDrinks();
+              '/getraenke.json', JSON.stringify(this.drinks)).then(() => {
+                this.getDrinks();
+                this.toastr.success("Getränk gelöscht");
+              }).catch((err) => {
+                this.toastr.error("Fehler beim Laden von Daten");
+              });
         },
-        (err) => {
-          console.log(err);
-        });
+        (err) => {});
   }
 
   /**
@@ -134,11 +135,13 @@ export class DrinkEditorComponent implements OnInit {
             drinklistTemplate.drinks = newDrinks;
             this.fileService.updateFile(
                 '/getraenkeliste-template.json',
-                JSON.stringify(drinklistTemplate));
+                JSON.stringify(drinklistTemplate)).then(() => {}).catch((err) => {
+                  this.toastr.error("Fehler beim Laden von Daten");
+                });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          this.toastr.error("Fehler beim Laden von Daten");
         });
   }
 }

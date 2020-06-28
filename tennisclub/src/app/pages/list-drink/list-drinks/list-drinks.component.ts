@@ -16,6 +16,7 @@ import {CreateListDrinkComponent} from './../create-list-drink/create-list-drink
 import {ListDrinkCalculaterComponent} from './../list-drink-calculater/list-drink-calculater.component';
 import {DrinkListView} from './drink-list-view';
 import {ExportModalComponent} from './export-modal/export-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class ListDrinksComponent implements OnInit {
   public bindingList: number[] = [];
   private drinkListTemplate: Drinklist;
   constructor(
-      private fileService: FileService, private modalService: NgbModal) {
+      private fileService: FileService, private modalService: NgbModal, private toastr: ToastrService) {
     this.getDrinkListingFromJson();
   }
 
@@ -56,7 +57,9 @@ export class ListDrinksComponent implements OnInit {
         .then((template) => {
           this.drinkListTemplate = JSON.parse(template);
         })
-        .catch((err) => {});
+        .catch((err) => {
+          this.toastr.error("Fehler beim Laden der Listen");
+        });
   }
 
   drinkListingConvertToView(): void {
@@ -139,15 +142,12 @@ export class ListDrinksComponent implements OnInit {
           this.fileService.updateFile(
               '/getraenkelisten.json', JSON.stringify(this.drinkListings));
           this.drinkListingConvertToView();
+          this.toastr.success("Liste erstellt");
         },
-        (err) => {
-          console.log(err);
-        });
+        (err) => {});
   }
 
   openEditDrinkList(index: number, isSummaryList: boolean): void {
-    console.log("isSummaryList: ", isSummaryList);
-    console.log("index: ", index);
     const modalRef =
         this.modalService.open(CreateListDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.isTemplateEdit = false;
@@ -173,6 +173,7 @@ export class ListDrinksComponent implements OnInit {
       this.fileService.updateFile(
           '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
       this.getDrinkListingFromJson();
+      this.toastr.success("Änderungen gespeichert");
     }, (err) => {});
   }
 
@@ -199,6 +200,7 @@ export class ListDrinksComponent implements OnInit {
       this.fileService.updateFile(
           '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
       this.getDrinkListingFromJson();
+      this.toastr.success("Liste gelöscht");
     }, (err) => {});
   }
 
@@ -289,23 +291,6 @@ export class ListDrinksComponent implements OnInit {
         }
       }
 
-      // if (!summaryList.startDate || !summaryList.startDate['year'] ||
-      //     !summaryList.startDate['month'] || !summaryList.startDate['day']) {
-      //   summaryList.startDate = this.drinkListings[listNumber].startDate;
-      // } else if (
-      //     this.drinkListings[listNumber].startDate &&
-      //     this.drinkListings[listNumber].startDate['year'] &&
-      //     this.drinkListings[listNumber].startDate['month'] &&
-      //     this.drinkListings[listNumber].startDate['day'] &&
-      //     (summaryList.startDate['year'] >=
-      //          this.drinkListings[listNumber].startDate['year'] &&
-      //      summaryList.startDate['month'] >=
-      //          this.drinkListings[listNumber].startDate['month'] &&
-      //      summaryList.startDate['day'] >
-      //          this.drinkListings[listNumber].startDate['day'])) {
-      //   summaryList.startDate = this.drinkListings[listNumber].startDate;
-      // }
-
       let summaryListEndDate = null;
       if (summaryList.endDate && summaryList.endDate['year'] &&
           summaryList.endDate['month'] && summaryList.endDate['day']) {
@@ -330,25 +315,6 @@ export class ListDrinksComponent implements OnInit {
           summaryList.endDate = this.drinkListings[listNumber].endDate;
         }
       }
-
-      // if (!summaryList.endDate || !summaryList.endDate['year'] ||
-      //     !summaryList.endDate['month'] || !summaryList.endDate['day']) {
-      //   summaryList.endDate = this.drinkListings[listNumber].endDate;
-      // } else if (
-      //     summaryList.endDate && summaryList.endDate['year'] &&
-      //     summaryList.endDate['month'] && summaryList.endDate['day'] &&
-      //     this.drinkListings[listNumber].endDate &&
-      //     this.drinkListings[listNumber].endDate['year'] &&
-      //     this.drinkListings[listNumber].endDate['month'] &&
-      //     this.drinkListings[listNumber].endDate['day'] &&
-      //     (summaryList.endDate['year'] <=
-      //          this.drinkListings[listNumber].endDate['year'] &&
-      //      summaryList.endDate['month'] <=
-      //          this.drinkListings[listNumber].endDate['month'] &&
-      //      summaryList.endDate['day'] <
-      //          this.drinkListings[listNumber].endDate['day'])) {
-      //   summaryList.endDate = this.drinkListings[listNumber].endDate;
-      // }
 
       // Füge alle Getränke zusammen
       summaryList.drinks.push(...this.drinkListings[listNumber].drinks);
@@ -421,6 +387,7 @@ export class ListDrinksComponent implements OnInit {
     this.fileService.updateFile(
         '/getraenkelisten.json', JSON.stringify(currentDrinkListing));
     this.getDrinkListingFromJson();
+    this.toastr.success("Gesamtliste erstellt");
   }
 
   exportPDF(index: number, isSummaryList: boolean): void {
@@ -442,9 +409,7 @@ export class ListDrinksComponent implements OnInit {
             this.createDetailListExport(currentDrinkList);
           }
         },
-        (err) => {
-          console.log(err);
-        });
+        (err) => {});
   }
 
   createSummaryListExport(currentDrinkList: Drinklist) {

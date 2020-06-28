@@ -21,7 +21,7 @@
       <div class="col-12 col-md-8 col-form-label">
         <ul *ngIf="selectedCreator" class="list-group">
           <li class="list-group-item">
-            Name: {{ selectedCreator.fullname }}
+            {{ selectedCreator.fullname }}
             <a (click)="deleteCreator()"
               ><i class="icon ion-md-close close"></i
             ></a>
@@ -85,23 +85,11 @@
         </div>
       </div>
     </div>
-    <ng-container *ngIf="!isValid">
-      <div class="row">
-        <div class="col-12 col-md-4"></div>
-        <div class="col-12 col-md-8">
-          <label class="text-danger">Das Bis-Datum muss nachdem Von-Datum liegen</label>
-        </div>
-      </div>
-      <ngb-toast header="Notification header">
-        Content of the notification
-      </ngb-toast>
-    </ng-container>
 
     <div class="row">
       <!-- Personen -->
       <div class="col-12 col-md-4">
-        <label>Personen</label>
-        <div *ngIf="selectablePersons.length > 0" class="row form-group">
+        <div  class="row form-group">
           <div class="col-12">
             <ng-select
               [items]="selectablePersons"
@@ -113,18 +101,17 @@
             </ng-select>
           </div>
         </div>
-        <div *ngIf="selectablePersons.length === 0" class="row">
-          <div class="col-12 text-center mb-2">
-            <span>Es gibt keine Personen zum Auswählen</span>
-          </div>
-        </div>
         <ul class="list-group">
+          <li class="list-group-item active">Personen</li>
+          <li *ngIf="addedPersons.length === 0" class="list-group-item">
+            Noch keine Personen hinzugefügt
+          </li>
           <ng-container *ngFor="let person of addedPersons; let i = index">
             <li class="list-group-item">
-              Name: {{ person.fullname }}
+              {{ person.fullname }}
               <ng-container *ngIf="person.personObject.isGuest"> (Gast)</ng-container>
               <a (click)="deletePerson(i)"
-                ><i class="icon ion-md-close close"></i
+                ><i class="icon ion-md-close close" style="position: absolute;top: 0.5rem;right: 1rem;"></i
               ></a>
             </li>
           </ng-container>
@@ -133,8 +120,7 @@
 
       <!-- Drinks -->
       <div class="col-12 col-md-8">
-        <label>Getränke</label>
-        <div *ngIf="selectableDrinks.length > 0" class="row form-group">
+        <div class="row form-group">
           <div class="col-12">
             <ng-select
               [items]="selectableDrinks"
@@ -146,23 +132,22 @@
             </ng-select>
           </div>
         </div>
-        <div *ngIf="selectableDrinks.length === 0" class="row">
-          <div class="col-12 text-center mb-2">
-            <span>Es gibt keine Getränke zum Auswählen</span>
-          </div>
-        </div>
         <ul class="list-group">
+          <li class="list-group-item active">Getränke</li>
+          <li *ngIf="addedDrinks.length === 0" class="list-group-item">
+            Noch kein Getränk hinzugefügt
+          </li>
           <ng-container *ngFor="let drink of addedDrinks; let i = index">
             <li class="list-group-item">
               Name: {{ drink.fullname.split(" ")[1] }}<br />
               Liter: {{ drink.fullname.split(" ")[2] }} L<br />
               Preis: {{ drink.fullname.split(" ")[3] }} €
               <a (click)="deleteDrink(i)"
-                ><i class="icon ion-md-close close"></i
+                ><i class="icon ion-md-close close" style="position: absolute;top: 0.5rem;right: 1rem;"></i
               ></a>
             </li>
           </ng-container>
-        </ul>
+          </ul>
       </div>
     </div>
   </div>

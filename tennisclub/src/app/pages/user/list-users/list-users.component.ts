@@ -7,6 +7,7 @@ import {NotificationComponent} from './../../../components/notification/notifica
 import {FileService} from './../../../file.service';
 import {Drinklist} from './../../../models/drink/drinklist.model';
 import {EditUserComponent} from './edit-user/edit-user.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list-users',
@@ -22,7 +23,7 @@ export class ListUsersComponent implements OnInit {
   @Input() showMember;
 
   constructor(
-      private modalService: NgbModal, private fileService: FileService) {
+      private modalService: NgbModal, private fileService: FileService, private toastr: ToastrService) {
     this.loadPersons();
   }
 
@@ -37,7 +38,7 @@ export class ListUsersComponent implements OnInit {
         })
         .catch(
             (err) => {
-
+              this.toastr.error("Fehler beim Laden der Personen");
             });
   }
 
@@ -52,6 +53,7 @@ export class ListUsersComponent implements OnInit {
       this.memberList[index] = updatedMember;
       this.updateUserFile('/mitglieder.json', true);
       this.changeTemplate();
+      this.toastr.success("Änderungen gespeichert");
     }, (err) => {});
   }
 
@@ -64,6 +66,7 @@ export class ListUsersComponent implements OnInit {
       this.guestList[index] = updatedGuest;
       this.updateUserFile('/gaeste.json', false);
       this.changeTemplate();
+      this.toastr.success("Änderungen gespeichert");
     }, (err) => {});
   }
 
@@ -82,6 +85,7 @@ export class ListUsersComponent implements OnInit {
       this.memberList.push(member);
       this.updateUserFile('/mitglieder.json', true);
       this.changeTemplate();
+      this.toastr.success("Mitlgied erstellt");
     }, (err) => {});
   }
 
@@ -99,6 +103,7 @@ export class ListUsersComponent implements OnInit {
       this.guestList.push(guest);
       this.updateUserFile('/gaeste.json', false);
       this.changeTemplate();
+      this.toastr.success("Gast erstellt");
     }, (err) => {});
   }
 
@@ -116,6 +121,7 @@ export class ListUsersComponent implements OnInit {
           this.memberList.splice(index, 1);
           this.updateUserFile('/mitglieder.json', true);
           this.changeTemplate();
+          this.toastr.success("Mitglied gelöscht");
         },
         (err) => {
 
@@ -136,6 +142,7 @@ export class ListUsersComponent implements OnInit {
           this.guestList.splice(index, 1);
           this.updateUserFile('/gaeste.json', false);
           this.changeTemplate();
+          this.toastr.success("Gast gelöscht");
         },
         (err) => {
 
@@ -253,7 +260,7 @@ export class ListUsersComponent implements OnInit {
           }
         })
         .catch((error) => {
-          console.log(error);
+          this.toastr.error("Fehler beim Laden von Daten");
         });
   }
 }
