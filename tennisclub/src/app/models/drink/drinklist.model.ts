@@ -6,8 +6,8 @@ import {Drink} from './drink.model';
 export class Drinklist {
   public id: number;
   public creator: Person;
-  public startDate: Date;
-  public endDate: Date;
+  public startDate: any;
+  public endDate: any;
   public users: Person[];
   public drinks: Drink[];
   public totalCost: number;

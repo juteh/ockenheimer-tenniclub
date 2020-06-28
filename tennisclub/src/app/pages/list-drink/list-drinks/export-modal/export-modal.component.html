@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header text-center">Liste exportieren</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <label class="text-secondary"
+          ><b>Gesamtübersicht:</b> Zeigt Gestaugaben von Getränken jeder Person
+          an in einem Zeitraum an.</label
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label class="text-secondary"
+          ><b>Detailierte Übersicht:</b> Zeigt von jeder Person die Anzahl der
+          verschiedenen Getränke an sowie die Kosten der einzelnen Getränke
+          an.</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <button
+        (click)="activeModal.dismiss('cancel')"
+        class="btn btn-secondary btn-sm mr-auto"
+      >
+        Abbrechen
+      </button>
+
+      <button (click)="export(true)" class="btn btn-primary btn-sm mr-1">
+        Gesamtübersicht
+      </button>
+      <button (click)="export(false)" class="btn btn-primary btn-sm">
+        Detailierte Übersicht
+      </button>
+    </div>
+  </div>
+</div>

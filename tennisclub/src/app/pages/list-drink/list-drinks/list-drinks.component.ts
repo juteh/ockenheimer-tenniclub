@@ -1,6 +1,9 @@
+import 'jspdf-autotable';
+
 import {summaryFileName} from '@angular/compiler/src/aot/util';
 import {Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import * as jsPDF from 'jspdf';
 import {Drink} from 'src/app/models/drink/drink.model';
 
 import {NotificationComponent} from '../../../components/notification/notification.component';
@@ -12,6 +15,7 @@ import {Person} from './../../../models/person/person.model';
 import {CreateListDrinkComponent} from './../create-list-drink/create-list-drink.component';
 import {ListDrinkCalculaterComponent} from './../list-drink-calculater/list-drink-calculater.component';
 import {DrinkListView} from './drink-list-view';
+import {ExportModalComponent} from './export-modal/export-modal.component';
 
 
 @Component({
@@ -58,8 +62,6 @@ export class ListDrinksComponent implements OnInit {
   drinkListingConvertToView(): void {
     this.drinkListViews = [];
     this.summaryListViews = [];
-    console.log(this.drinkListings);
-    console.log(this.summaryListings);
     for (const drinkListing of this.drinkListings) {
       let name = 'Keiner gewählt';
       if (drinkListing.creator) {
@@ -144,6 +146,8 @@ export class ListDrinksComponent implements OnInit {
   }
 
   openEditDrinkList(index: number, isSummaryList: boolean): void {
+    console.log("isSummaryList: ", isSummaryList);
+    console.log("index: ", index);
     const modalRef =
         this.modalService.open(CreateListDrinkComponent, {size: 'lg'});
     modalRef.componentInstance.isTemplateEdit = false;
@@ -157,8 +161,10 @@ export class ListDrinksComponent implements OnInit {
     modalRef.result.then((updatedDrinklist: Drinklist) => {
       if (isSummaryList) {
         this.summaryListings[index] = updatedDrinklist;
+        this.summaryListings[index].isSummaryList = true;
       } else {
         this.drinkListings[index] = updatedDrinklist;
+        this.drinkListings[index].isSummaryList = false;
       }
 
       const currentDrinkListing = this.drinkListings;
@@ -243,32 +249,106 @@ export class ListDrinksComponent implements OnInit {
   createSummaryList() {
     const summaryList: Drinklist = new Drinklist();
 
-    // Initial werden die Daten aus dem erstem gewählten Liste genommen
-    summaryList.creator = this.drinkListings[this.bindingList[0]].creator;
-    summaryList.startDate = this.drinkListings[this.bindingList[0]].startDate;
-    summaryList.endDate = this.drinkListings[this.bindingList[0]].endDate;
     let totalCost = 0;
     this.bindingList.forEach((listNumber: number, index: number) => {
+      // Initial werden die Daten aus dem erstem gewählten Liste genommen
+      if (!summaryList.creator) {
+        summaryList.creator = this.drinkListings[listNumber].creator;
+      }
+      if (!summaryList.startDate) {
+      summaryList.startDate = this.drinkListings[listNumber].startDate;
+      }
+      if (!summaryList.endDate) {
+      summaryList.endDate = this.drinkListings[listNumber].endDate;
+      }
       // Gesamtsumme festlegen
       totalCost += this.drinkListings[listNumber].totalCost;
       // Startdatum und Enddatum festlegen
-      if (summaryList.startDate['year'] >=
-              this.drinkListings[listNumber].startDate['year'] &&
-          summaryList.startDate['month'] >=
-              this.drinkListings[listNumber].startDate['month'] &&
-          summaryList.startDate['day'] >
-              this.drinkListings[listNumber].startDate['day']) {
-        summaryList.startDate = this.drinkListings[listNumber].startDate;
+      let summaryListStartDate = null;
+      if (summaryList.startDate && summaryList.startDate['year'] &&
+          summaryList.startDate['month'] && summaryList.startDate['day']) {
+        summaryListStartDate = new Date(
+            summaryList.startDate['year'], summaryList.startDate['month'],
+            summaryList.startDate['day']);
       }
 
-      if (summaryList.endDate['year'] <=
-              this.drinkListings[listNumber].endDate['year'] &&
-          summaryList.endDate['month'] <=
-              this.drinkListings[listNumber].endDate['month'] &&
-          summaryList.endDate['day'] <
-              this.drinkListings[listNumber].endDate['day']) {
-        summaryList.endDate = this.drinkListings[listNumber].endDate;
+      let drinkListStartDate = null;
+      if (this.drinkListings[listNumber].startDate &&
+          this.drinkListings[listNumber].startDate['year'] &&
+          this.drinkListings[listNumber].startDate['month'] &&
+          this.drinkListings[listNumber].startDate['day']) {
+        drinkListStartDate = new Date(
+            this.drinkListings[listNumber].startDate['year'],
+            this.drinkListings[listNumber].startDate['month'],
+            this.drinkListings[listNumber].startDate['day']);
       }
+
+      if (summaryListStartDate && drinkListStartDate) {
+        if (summaryListStartDate > drinkListStartDate) {
+          summaryList.startDate = this.drinkListings[listNumber].startDate;
+        }
+      }
+
+      // if (!summaryList.startDate || !summaryList.startDate['year'] ||
+      //     !summaryList.startDate['month'] || !summaryList.startDate['day']) {
+      //   summaryList.startDate = this.drinkListings[listNumber].startDate;
+      // } else if (
+      //     this.drinkListings[listNumber].startDate &&
+      //     this.drinkListings[listNumber].startDate['year'] &&
+      //     this.drinkListings[listNumber].startDate['month'] &&
+      //     this.drinkListings[listNumber].startDate['day'] &&
+      //     (summaryList.startDate['year'] >=
+      //          this.drinkListings[listNumber].startDate['year'] &&
+      //      summaryList.startDate['month'] >=
+      //          this.drinkListings[listNumber].startDate['month'] &&
+      //      summaryList.startDate['day'] >
+      //          this.drinkListings[listNumber].startDate['day'])) {
+      //   summaryList.startDate = this.drinkListings[listNumber].startDate;
+      // }
+
+      let summaryListEndDate = null;
+      if (summaryList.endDate && summaryList.endDate['year'] &&
+          summaryList.endDate['month'] && summaryList.endDate['day']) {
+        summaryListEndDate = new Date(
+            summaryList.endDate['year'], summaryList.endDate['month'],
+            summaryList.endDate['day']);
+      }
+
+      let drinkListEndDate = null;
+      if (this.drinkListings[listNumber].endDate &&
+          this.drinkListings[listNumber].endDate['year'] &&
+          this.drinkListings[listNumber].endDate['month'] &&
+          this.drinkListings[listNumber].endDate['day']) {
+        drinkListEndDate = new Date(
+            this.drinkListings[listNumber].endDate['year'],
+            this.drinkListings[listNumber].endDate['month'],
+            this.drinkListings[listNumber].endDate['day']);
+      }
+
+      if (summaryListEndDate && drinkListEndDate) {
+        if (summaryListEndDate < drinkListEndDate) {
+          summaryList.endDate = this.drinkListings[listNumber].endDate;
+        }
+      }
+
+      // if (!summaryList.endDate || !summaryList.endDate['year'] ||
+      //     !summaryList.endDate['month'] || !summaryList.endDate['day']) {
+      //   summaryList.endDate = this.drinkListings[listNumber].endDate;
+      // } else if (
+      //     summaryList.endDate && summaryList.endDate['year'] &&
+      //     summaryList.endDate['month'] && summaryList.endDate['day'] &&
+      //     this.drinkListings[listNumber].endDate &&
+      //     this.drinkListings[listNumber].endDate['year'] &&
+      //     this.drinkListings[listNumber].endDate['month'] &&
+      //     this.drinkListings[listNumber].endDate['day'] &&
+      //     (summaryList.endDate['year'] <=
+      //          this.drinkListings[listNumber].endDate['year'] &&
+      //      summaryList.endDate['month'] <=
+      //          this.drinkListings[listNumber].endDate['month'] &&
+      //      summaryList.endDate['day'] <
+      //          this.drinkListings[listNumber].endDate['day'])) {
+      //   summaryList.endDate = this.drinkListings[listNumber].endDate;
+      // }
 
       // Füge alle Getränke zusammen
       summaryList.drinks.push(...this.drinkListings[listNumber].drinks);
@@ -343,16 +423,180 @@ export class ListDrinksComponent implements OnInit {
     this.getDrinkListingFromJson();
   }
 
-  exportPDF(index: number): void {
-  //   var parser = new DOMParser();
-	// var doc = parser.parseFromString('<div id="myDiv">Test</div>', 'text/html');
-  // console.log('EXPORTPDF: ', doc.body);
-  //   this.fileService.exportPDF(doc.body)
-  //       .then((result) => {
-  //         console.log('result: ', result);
-  //       })
-  //       .catch((error) => {
-  //         console.log('error: ', error);
-  //       });
+  exportPDF(index: number, isSummaryList: boolean): void {
+    let currentDrinkList = null;
+    if (!isSummaryList) {
+      currentDrinkList = this.drinkListings[index];
+    } else {
+      currentDrinkList = this.summaryListings[index];
+    }
+    const modalRef = this.modalService.open(ExportModalComponent);
+
+    modalRef.componentInstance.drinkListTemplate = this.drinkListTemplate;
+    modalRef.result.then(
+        (isSummary: boolean) => {
+          if (isSummary) {
+            this.createSummaryListExport(currentDrinkList);
+
+          } else {
+            this.createDetailListExport(currentDrinkList);
+          }
+        },
+        (err) => {
+          console.log(err);
+        });
+  }
+
+  createSummaryListExport(currentDrinkList: Drinklist) {
+    const doc = new jsPDF('l');
+
+    const head = [[], []];
+    const body = [];
+
+    // Erstelle Head der Tabelle
+    if (currentDrinkList.startDate) {
+      head[0].push(`von: ${
+          currentDrinkList.startDate['day'] + '.' +
+          currentDrinkList.startDate['month'] + '.' +
+          currentDrinkList.startDate['year']}`);
+    } else {
+      head[0].push(``);
+    }
+
+    if (currentDrinkList.endDate) {
+      head[1].push(`bis: ${
+          currentDrinkList.endDate['day'] + '.' +
+          currentDrinkList.endDate['month'] + '.' +
+          currentDrinkList.endDate['year']}`);
+    } else {
+      head[1].push(``);
+    }
+
+    head[0].push(`Summe`);
+
+    // Erstelle Body der Tabelle
+    currentDrinkList.users.forEach((person: Person, index: number) => {
+      body.push([]);
+      if (person.isGuest) {
+        body[index].push(`${person.firstname} ${person.lastname} (Gast)`);
+      } else {
+        body[index].push(`${person.firstname} ${person.lastname}`);
+      }
+    });
+
+    // Summe pro Person erstellen
+    currentDrinkList.quantityOfDrinkToPerson.forEach(
+        (calculations: Calculation[], i: number) => {
+          let valueRow = 0;
+          calculations.forEach((calculation: Calculation, j: number) => {
+            valueRow += calculation.quantity * calculation.drink.price;
+          });
+          body[i].push(`${valueRow.toFixed(2)}€`);
+        });
+
+    // Summe definieren
+    body.push([]);
+    body[body.length - 1].push('Summe');
+    body[body.length - 1].push(`${currentDrinkList.totalCost.toFixed(2)}€`);
+
+
+    doc.autoTable({
+      head: head,
+      body: body,
+    });
+
+    doc.save('table.pdf');
+  }
+
+  createDetailListExport(currentDrinkList: Drinklist) {
+    const doc = new jsPDF('l');
+
+    const head = [[], [], []];
+    const body = [];
+    // Erstelle Head der Tabelle
+    if (currentDrinkList.creator) {
+    if (currentDrinkList.creator.isGuest) {
+      head[0].push(`${currentDrinkList.creator.firstname} ${currentDrinkList.creator.lastname} (Gast)`);
+    } else {
+      head[0].push(`${currentDrinkList.creator.firstname} ${currentDrinkList.creator.lastname}`);
+    }
+  } else {
+    head[0].push(``);
+  }
+
+    if (currentDrinkList.startDate) {
+      head[1].push(`von: ${
+          currentDrinkList.startDate['day'] + '.' +
+          currentDrinkList.startDate['month'] + '.' +
+          currentDrinkList.startDate['year']}`);
+    } else {
+      head[1].push(``);
+    }
+
+    if (currentDrinkList.endDate) {
+      head[2].push(`bis: ${
+          currentDrinkList.endDate['day'] + '.' +
+          currentDrinkList.endDate['month'] + '.' +
+          currentDrinkList.endDate['year']}`);
+    } else {
+      head[2].push(``);
+    }
+
+    currentDrinkList.drinks.forEach((drink: Drink) => {
+      head[0].push(``);
+      head[1].push(`${drink.name}`);
+      head[2].push(`${drink.price.toFixed(2)}€`);
+    });
+
+    head[0].push(``);
+    head[1].push(``);
+    head[2].push(`Summe`);
+
+
+    // Erstelle Body der Tabelle
+    currentDrinkList.users.forEach((person: Person, index: number) => {
+      body.push([]);
+      if (person.isGuest) {
+        body[index].push(`${person.firstname} ${person.lastname} (Gast)`);
+      } else {
+        body[index].push(`${person.firstname} ${person.lastname}`);
+      }
+    });
+
+    currentDrinkList.quantityOfDrinkToPerson.forEach(
+        (calculations: Calculation[], i: number) => {
+          calculations.forEach((calculation: Calculation, j: number) => {
+            body[i].push(calculation.quantity);
+          });
+        });
+
+    currentDrinkList.quantityOfDrinkToPerson.forEach(
+        (calculations: Calculation[], i: number) => {
+          let valueRow = 0;
+          calculations.forEach((calculation: Calculation, j: number) => {
+            valueRow += calculation.quantity * calculation.drink.price;
+          });
+          body[i].push(`${valueRow.toFixed(2)}€`);
+        });
+
+    // Summe definieren
+    body.push([]);
+    body[body.length - 1].push('Summe');
+    currentDrinkList.drinks.forEach((drink: Drink, i: number) => {
+      let valueCol = 0;
+      currentDrinkList.users.forEach((person: Person, j: number) => {
+        valueCol += drink.price *
+            currentDrinkList.quantityOfDrinkToPerson[j][i].quantity;
+      });
+      body[body.length - 1].push(`${valueCol.toFixed(2)}€`);
+    });
+    body[body.length - 1].push(`${currentDrinkList.totalCost.toFixed(2)}€`);
+
+    doc.autoTable({
+      head: head,
+      body: body,
+    });
+
+    doc.save('table.pdf');
   }
 }

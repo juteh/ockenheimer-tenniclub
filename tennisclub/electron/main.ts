@@ -52,5 +52,3 @@ ipcMain.on('updateFile', (event, path: string, fileText: string) => {
     win.webContents.send('updateFileResponse', 'Failed to save the file !');
   }
 });
-
-

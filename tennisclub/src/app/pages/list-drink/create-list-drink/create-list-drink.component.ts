@@ -33,6 +33,7 @@ export class CreateListDrinkComponent implements OnInit {
   public selectedDrink: {drinkObject: Drink, fullname: string};
   public addedDrinks: Array<{drinkObject: Drink, fullname: string}> = [];
   private drinklist: Drinklist = new Drinklist();
+  public isValid = true;
 
   @Input() selectedDrinkList: Drinklist;
   @Input() drinkListTemplate: Drinklist;
@@ -184,44 +185,58 @@ export class CreateListDrinkComponent implements OnInit {
   // Wenn nichts ausgewählt wird, sind sie null.
   // Deswegen hat jeder selector eine null-abfrage
   saveDrinkList(): void {
-    if (this.selectedDrinkList) {
-      this.drinklist.id = this.selectedDrinkList.id;
+  
+    if (this.selectedDrinkList.startDate && this.selectedDrinkList.endDate && new Date(this.selectedDrinkList.startDate.year, this.selectedDrinkList.startDate.month, this.selectedDrinkList.startDate.day) <=
+        new Date(this.selectedDrinkList.endDate.year, this.selectedDrinkList.endDate.month, this.selectedDrinkList.endDate.day)) {
+          this.isValid = false;
+    } else {
+      this.isValid = true;
     }
 
-    if (this.selectedCreator) {
-      this.drinklist.creator = this.selectedCreator.personObject;
-    }
+    if (this.isValid) {
 
-    if (this.startDate) {
-      this.drinklist.startDate = this.startDate;
-    }
-
-    if (this.endDate) {
-      this.drinklist.endDate = this.endDate;
-    }
-    const selectedPerson = [];
-    this.addedPersons.forEach(person => {
-      selectedPerson.push(person.personObject);
-    });
-    this.drinklist.users = selectedPerson;
-    const selectedDrinks = [];
-    this.addedDrinks.forEach(drink => {
-      selectedDrinks.push(drink.drinkObject);
-    });
-    this.drinklist.drinks = selectedDrinks;
-    const newCalculations: Array<Array<Calculation>> = [];
-    this.addedPersons.forEach((person, i) => {
-      newCalculations[i] = [];
-      this.addedDrinks.forEach((drink, j) => {
-        newCalculations[i][j] = new Calculation(0, person.personObject, drink.drinkObject);
+      if (this.selectedDrinkList) {
+        this.drinklist.id = this.selectedDrinkList.id;
+      }
+  
+      if (this.selectedCreator) {
+        this.drinklist.creator = this.selectedCreator.personObject;
+      }
+  
+      if (this.startDate) {
+        this.drinklist.startDate = this.startDate;
+      }
+  
+      if (this.endDate) {
+        this.drinklist.endDate = this.endDate;
+      }
+  
+      const selectedPerson = [];
+      this.addedPersons.forEach(person => {
+        selectedPerson.push(person.personObject);
       });
-    });
-
-    this.drinklist.quantityOfDrinkToPerson = newCalculations;
-    this.drinklist.totalCost = 0;
-
-
-    this.activeModal.close(this.drinklist);
+      this.drinklist.users = selectedPerson;
+      const selectedDrinks = [];
+      this.addedDrinks.forEach(drink => {
+        selectedDrinks.push(drink.drinkObject);
+      });
+      this.drinklist.drinks = selectedDrinks;
+      const newCalculations: Array<Array<Calculation>> = [];
+      this.addedPersons.forEach((person, i) => {
+        newCalculations[i] = [];
+        this.addedDrinks.forEach((drink, j) => {
+          newCalculations[i][j] = new Calculation(0, person.personObject, drink.drinkObject);
+        });
+      });
+  
+      this.drinklist.quantityOfDrinkToPerson = newCalculations;
+      if (!this.drinklist.totalCost) {
+        this.drinklist.totalCost = 0;
+      }
+  
+  
+      this.activeModal.close(this.drinklist);
+    }
   }
 
   addDrink($event): void {

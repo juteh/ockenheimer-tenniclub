@@ -44,7 +44,4 @@ electron_1.ipcMain.on('updateFile', function (event, path, fileText) {
         win.webContents.send('updateFileResponse', 'Failed to save the file !');
     }
 });
-electron_1.ipcMain.on('exportPDF', function (event, fileText) {
-    console.log('fileText: ', fileText);
-});
 //# sourceMappingURL=main.js.map

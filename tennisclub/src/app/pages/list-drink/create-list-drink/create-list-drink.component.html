@@ -85,6 +85,17 @@
         </div>
       </div>
     </div>
+    <ng-container *ngIf="!isValid">
+      <div class="row">
+        <div class="col-12 col-md-4"></div>
+        <div class="col-12 col-md-8">
+          <label class="text-danger">Das Bis-Datum muss nachdem Von-Datum liegen</label>
+        </div>
+      </div>
+      <ngb-toast header="Notification header">
+        Content of the notification
+      </ngb-toast>
+    </ng-container>
 
     <div class="row">
       <!-- Personen -->

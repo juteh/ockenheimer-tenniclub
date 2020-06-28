@@ -23,38 +23,9 @@ export class ListDrinkCalculaterComponent implements OnInit {
       public activeModal: NgbActiveModal, private fileService: FileService) {}
 
   ngOnInit() {
-    // this.buildCalculations();
     this.calculations = this.selectedDrinkList.quantityOfDrinkToPerson;
-    console.log("this.calculations:", this.calculations);
     this.calculateCost();
   }
-
-  // private buildCalculations(): void {
-  //   if (!this.calculations) {
-  //     this.calculations = [];
-  //   }
-
-  //   this.selectedDrinkList.users.forEach((user, i) => {
-  //     if (!this.calculations[i]) {
-  //       this.calculations[i] = [];
-  //     }
-
-  //     this.selectedDrinkList.drinks.forEach((drink, j) => {
-  //       if (!this.calculations[i][j] ||
-  //           JSON.stringify(this.calculations[i][j].person) !==
-  //               JSON.stringify(user) ||
-  //           JSON.stringify(this.calculations[i][j].drink) !==
-  //               JSON.stringify(drink)) {
-  //         this.calculations[i][j] = {
-  //           quantity: this.selectedDrinkList.quantityOfDrinkToPerson[i][j].quantity,
-  //           person: user,
-  //           drink: drink
-  //         };
-  //       }
-  //     });
-  //   });
-  //   this.calculateCost();
-  // }
 
   public change(event) {
     this.calculateCost();

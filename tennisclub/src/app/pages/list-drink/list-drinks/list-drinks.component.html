@@ -93,11 +93,11 @@
               ngbTooltip="Abwählen für Gesamtliste erstellen"
             ></i
           ></a>
-          <a (click)="exportPDF(i)"
+          <a (click)="exportPDF(i, false)"
           ><i
             class="icon ion-md-download add"
             placement="top"
-            ngbTooltip="Liste ecportieren"
+            ngbTooltip="Liste exportieren"
           ></i
         ></a>
           <a (click)="deleteDrinkList(i, false)"
@@ -182,7 +182,7 @@
             ngbTooltip="Berechne Liste"
           ></i
         ></a>
-        <a
+        <a (click)="exportPDF(i, true)"
           ><i
             class="icon ion-md-download add"
             placement="top"

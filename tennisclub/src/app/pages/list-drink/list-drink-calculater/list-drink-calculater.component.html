@@ -20,8 +20,8 @@
       <ng-container *ngFor="let user of selectedDrinkList.users; let i = index">
         <tr>
           <th scope="row">
-            Name: {{ user.firstname + " " + user.lastname }}<br />
-            <ng-container *ngIf="user.isGuest">(Gast)</ng-container>
+            {{ user.firstname + " " + user.lastname }} <ng-container *ngIf="user.isGuest">(Gast)</ng-container>
+            
           </th>
           <!-- Es muss so viele Eingabefelder geben, wie es Getränke gibt pro Zeile -->
           <ng-container

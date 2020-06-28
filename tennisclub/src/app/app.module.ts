@@ -21,6 +21,10 @@ import {ListUsersComponent} from './pages/user/list-users/list-users.component';
 import {FilterPipe} from './pipes/filter.pipe';
 import {NumberPickerModule} from 'ng-number-picker';
 import { InstructionComponent } from './pages/instruction/instruction.component';
+import { ExportModalComponent } from './pages/list-drink/list-drinks/export-modal/export-modal.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [{path: 'user', component: ListUsersComponent}];
 
@@ -30,11 +34,13 @@ const routes: Routes = [{path: 'user', component: ListUsersComponent}];
     CreateListDrinkTemplateComponent, DrinkEditorComponent, EditDrinkComponent,
     NotificationComponent, FilterPipe, CreateListDrinkComponent,
     ListDrinkCalculaterComponent,
-    InstructionComponent
+    InstructionComponent,
+    ExportModalComponent
   ],
   imports: [
     BrowserModule, RouterModule.forRoot(routes), PapaParseModule, NgbModule,
-    ReactiveFormsModule, FormsModule, NgSelectModule, NumberPickerModule
+    ReactiveFormsModule, FormsModule, NgSelectModule, NumberPickerModule,
+    BrowserAnimationsModule, ToastrModule.forRoot(), CommonModule
   ],
   providers: [
     CreateListDrinkTemplateComponent, CreateListDrinkComponent,
@@ -45,7 +51,7 @@ const routes: Routes = [{path: 'user', component: ListUsersComponent}];
     EditUserComponent, ListDrinksComponent, EditDrinkComponent,
     NotificationComponent, CreateListDrinkTemplateComponent,
     CreateListDrinkComponent, CreateListDrinkTemplateComponent,
-    ListDrinkCalculaterComponent
+    ListDrinkCalculaterComponent, ExportModalComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

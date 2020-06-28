@@ -33,7 +33,6 @@ export class DrinkEditorComponent implements OnInit {
     this.fileService.getFile('/getraenke.json')
         .then((drinks) => {
           this.drinks = JSON.parse(drinks);
-          console.log('drinks: ', drinks);
           this.drinks.forEach((drink: Drink) => {
             this.drinkViews.push({
               id: drink.id,
@@ -79,7 +78,6 @@ export class DrinkEditorComponent implements OnInit {
     modalRef.componentInstance.drink = this.drinks[index];
     modalRef.result.then(
         (editDrink: Drink) => {
-          console.log(editDrink);
           this.drinks[index].name = editDrink.name;
           this.drinks[index].description = editDrink.description;
           this.drinks[index].liter = editDrink.liter;
