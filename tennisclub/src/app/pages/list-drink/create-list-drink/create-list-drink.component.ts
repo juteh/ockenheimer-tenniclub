@@ -109,6 +109,7 @@ export class CreateListDrinkComponent implements OnInit {
   // Erstellt Liste aus Mitglieder und Gästen mit ihren vollem Namen sowie für
   // Getränke
   createSelectableLists(): void {
+    
     this.members.forEach((member: Person) => {
       // Beim Editieren einer Personenliste kann die addedPersons-Liste schon
       // gefüllt sein. Falls schon vorhanden, darf das Element nicht mehr in
@@ -170,7 +171,7 @@ export class CreateListDrinkComponent implements OnInit {
       if (!isSelected) {
         this.selectableDrinks.push({
           drinkObject: drink,
-          fullname: drink.name + ' ' + drink.liter.toFixed(3) + ' ' + drink.price.toFixed(2)
+          fullname: drink.name + ' ' + drink.liter.toFixed(3) + 'L ' + drink.price.toFixed(2) + '€'
         });
       }
       this.selectableCreators =
@@ -180,12 +181,15 @@ export class CreateListDrinkComponent implements OnInit {
     this.sort('DRINKS');
     this.sort('PERSONS');
     this.sort('CREATORS');
+
+    this.selectablePersons = JSON.parse(JSON.stringify(this.selectablePersons));
+    this.selectableDrinks = JSON.parse(JSON.stringify(this.selectableDrinks));
   }
 
   // Wenn nichts ausgewählt wird, sind sie null.
   // Deswegen hat jeder selector eine null-abfrage
   saveDrinkList(): void {
-    if (this.selectedDrinkList.startDate && this.selectedDrinkList.endDate) {
+    if (this.startDate && this.endDate) {
         const startDate = new Date(this.startDate.year, this.startDate.month, this.startDate.day);
         const endDate = new Date(this.endDate.year, this.endDate.month, this.endDate.day);
         if (startDate > endDate) {
