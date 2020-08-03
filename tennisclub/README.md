@@ -5,4 +5,4 @@ Lokale Webanwendung zum Verwalten von Mitgliedern, Gästen und Getränke-Rechnun
 
 Anwendung starten nach checkout
 1. npm install
-2. npm run electron
+2. npm run watch
